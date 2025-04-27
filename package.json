@@ -1,1 +1,19 @@
- 
+{
+  "name": "sistema-rad",
+  "version": "1.0.0",
+  "description": "Projeto de gerenciamento de horários",
+  "main": "src/backend/app.js",
+  "scripts": {
+    "start": "node src/backend/app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.12.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "sequelize": "^6.37.5"
+  }
+}
