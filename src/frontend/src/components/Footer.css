@@ -1,0 +1,60 @@
+/* Footer.css */
+
+.frame-55 {
+    background: var(--white, #ffffff);
+    border-style: solid;
+    border-color: var(--neutral-200, #e9ecef);
+    border-width: 1px 0px 0px 0px;
+    padding: 16px 100px 16px 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    width: 1600px;
+    height: 88px;
+    position: relative;
+  }
+  
+  .component-132 {
+    flex-shrink: 0;
+    width: 69px;
+    height: 36px;
+    position: relative;
+  }
+  
+  .footer {
+    width: 100%;
+    height: 80px; 
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    padding-right: 40px; 
+  }
+  
+  .footer-logo img {
+    height: 35px; 
+    object-fit: contain;
+  }  
+  
+  .footer-text-span {
+    color: var(--neutral-600, #6c757d);
+    text-align: left;
+    font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+    font-size: var(--body-small-font-size, 14px);
+    line-height: var(--body-small-line-height, 19px);
+    letter-spacing: var(--body-small-letter-spacing, -0.02em);
+    font-weight: var(--body-small-font-weight, 400);
+    position: relative;
+  }
+  
+  .footer-text-span2 {
+    color: var(--neutral-600, #6c757d);
+    text-align: left;
+    font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+    font-size: var(--body-small-font-size, 14px);
+    line-height: var(--body-small-line-height, 19px);
+    letter-spacing: var(--body-small-letter-spacing, -0.02em);
+    font-weight: var(--body-small-font-weight, 400);
+    position: relative;
+  }

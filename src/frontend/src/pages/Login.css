@@ -1,0 +1,282 @@
+/* Login.css */
+.frame-2304,
+.frame-2304 * {
+  box-sizing: border-box;
+}
+
+.frame-2304 {
+  background: var(--accent-600, #3a8092);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 900px;
+  position: relative;
+}
+
+.frame-2323 {
+  padding: 0px 100px 0px 100px;
+  display: flex;
+  flex-direction: row;
+  gap: 80px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: 1;
+  position: relative;
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.frame-2324 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-end;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.heading-h-1 {
+  color: var(--neutral-colors-100, #ffffff);
+  text-align: right;
+  font-family: var(--h1-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h1-font-size, 48px);
+  line-height: var(--h1-line-height, 48px);
+  letter-spacing: var(--h1-letter-spacing, -0.02em);
+  font-weight: var(--h1-font-weight, 700);
+  position: relative;
+  width: 470px;
+}
+
+.paragraph {
+  color: var(--neutral-colors-100, #ffffff);
+  text-align: right;
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+  position: relative;
+  width: 461.68px;
+}
+
+.modal {
+  background: var(--white, #ffffff);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 476px;
+  position: relative;
+  box-shadow: var(
+    --shadow-2-box-shadow,
+    0px 0px 1px 0px rgba(33, 37, 41, 0.08),
+    0px 2px 2px 0px rgba(33, 37, 41, 0.06)
+  );
+  overflow: hidden;
+}
+
+.image {
+  background: #c4c4c4;
+  border-radius: 16px 16px 0px 0px;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 281px;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-6-2 {
+  width: 668px;
+  height: 541px;
+  position: absolute;
+  left: -141px;
+  top: -260px;
+  object-fit: cover;
+}
+
+.image-6-22 {
+  width: 484px;
+  height: 509px;
+  position: absolute;
+  left: 3142px;
+  top: -1691px;
+  object-fit: cover;
+}
+
+.image-6-23 {
+  width: 484px;
+  height: 509px;
+  position: absolute;
+  left: 412px;
+  top: -1274px;
+  object-fit: cover;
+}
+
+.frame-2305 {
+  padding: 0px 16px 0px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.text-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.label {
+  color: var(--neutral-600, #6c757d);
+  text-align: left;
+  font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-small-font-size, 14px);
+  line-height: var(--body-small-line-height, 19px);
+  letter-spacing: var(--body-small-letter-spacing, -0.02em);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+}
+
+.text-input {
+  background: var(--white, #ffffff);
+  border-radius: 6px;
+  border-style: solid;
+  border-color: var(--neutral-500, #adb5bd);
+  border-width: 1px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 48px;
+  position: relative;
+}
+
+.input-text {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 16px;
+    flex: 1;
+    color: var(--neutral-600, #6c757d);
+    text-align: left;
+    font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+    font-size: var(--body-font-size, 16px);
+    line-height: var(--body-line-height, 22px);
+    letter-spacing: var(--body-letter-spacing, -0.02em);
+    font-weight: var(--body-font-weight, 400);
+    position: relative;
+  }  
+
+.user-circle {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+.text {
+  color: var(--neutral-600, #6c757d);
+  text-align: left;
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+  position: relative;
+  flex: 1;
+}
+
+.finger-print {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+.eye-off {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+.frame-29 {
+  padding: 0px 16px 16px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.button {
+  background: var(--accent-500, #49a0b6);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.button-label {
+  color: var(--white, #ffffff);
+  text-align: left;
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  line-height: var(--body-heavy-line-height, 22px);
+  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
+  font-weight: var(--body-heavy-font-weight, 600);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.button:hover {
+  background-color: #6DB3C5;
+}
+
+.arrow-sm-right {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
