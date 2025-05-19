@@ -1,4 +1,3 @@
-/* Login.css */
 .frame-2304,
 .frame-2304 * {
   box-sizing: border-box;
@@ -14,7 +13,7 @@
   position: relative;
 }
 
-.frame-2323 {
+.frame-2304 .frame-2323 {
   padding: 0px 100px 0px 100px;
   display: flex;
   flex-direction: row;
@@ -26,7 +25,7 @@
   position: relative;
 }
 
-.grid {
+.frame-2304 .grid {
   display: flex;
   flex-direction: column;
   gap: 0px;
@@ -36,7 +35,7 @@
   position: relative;
 }
 
-.frame-2324 {
+.frame-2304 .frame-2324 {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -46,7 +45,7 @@
   position: relative;
 }
 
-.heading-h-1 {
+.frame-2304 .heading-h-1 {
   color: var(--neutral-colors-100, #ffffff);
   text-align: right;
   font-family: var(--h1-font-family, "Inter-Bold", sans-serif);
@@ -58,7 +57,7 @@
   width: 470px;
 }
 
-.paragraph {
+.frame-2304 .paragraph {
   color: var(--neutral-colors-100, #ffffff);
   text-align: right;
   font-family: var(--body-font-family, "Inter-Regular", sans-serif);
@@ -70,7 +69,7 @@
   width: 461.68px;
 }
 
-.modal {
+.frame-2304 .modal {
   background: var(--white, #ffffff);
   border-radius: 16px;
   display: flex;
@@ -89,7 +88,7 @@
   overflow: hidden;
 }
 
-.image {
+.frame-2304 .image {
   background: #c4c4c4;
   border-radius: 16px 16px 0px 0px;
   align-self: stretch;
@@ -99,7 +98,7 @@
   overflow: hidden;
 }
 
-.image-6-2 {
+.frame-2304 .image-6-2 {
   width: 668px;
   height: 541px;
   position: absolute;
@@ -108,7 +107,7 @@
   object-fit: cover;
 }
 
-.image-6-22 {
+.frame-2304 .image-6-22 {
   width: 484px;
   height: 509px;
   position: absolute;
@@ -117,7 +116,7 @@
   object-fit: cover;
 }
 
-.image-6-23 {
+.frame-2304 .image-6-23 {
   width: 484px;
   height: 509px;
   position: absolute;
@@ -126,7 +125,7 @@
   object-fit: cover;
 }
 
-.frame-2305 {
+.frame-2304 .frame-2305 {
   padding: 0px 16px 0px 16px;
   display: flex;
   flex-direction: column;
@@ -138,7 +137,7 @@
   position: relative;
 }
 
-.text-input-field {
+.frame-2304 .text-input-field {
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -149,7 +148,7 @@
   position: relative;
 }
 
-.label {
+.frame-2304 .label {
   color: var(--neutral-600, #6c757d);
   text-align: left;
   font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
@@ -160,7 +159,7 @@
   position: relative;
 }
 
-.text-input {
+.frame-2304 .text-input {
   background: var(--white, #ffffff);
   border-radius: 6px;
   border-style: solid;
@@ -178,23 +177,23 @@
   position: relative;
 }
 
-.input-text {
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 16px;
-    flex: 1;
-    color: var(--neutral-600, #6c757d);
-    text-align: left;
-    font-family: var(--body-font-family, "Inter-Regular", sans-serif);
-    font-size: var(--body-font-size, 16px);
-    line-height: var(--body-line-height, 22px);
-    letter-spacing: var(--body-letter-spacing, -0.02em);
-    font-weight: var(--body-font-weight, 400);
-    position: relative;
-  }  
+.frame-2304 .input-text {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  flex: 1;
+  color: var(--neutral-600, #6c757d);
+  text-align: left;
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+  position: relative;
+}
 
-.user-circle {
+.frame-2304 .user-circle {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -202,7 +201,7 @@
   overflow: visible;
 }
 
-.text {
+.frame-2304 .text {
   color: var(--neutral-600, #6c757d);
   text-align: left;
   font-family: var(--body-font-family, "Inter-Regular", sans-serif);
@@ -214,7 +213,7 @@
   flex: 1;
 }
 
-.finger-print {
+.frame-2304 .finger-print {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -222,7 +221,7 @@
   overflow: visible;
 }
 
-.eye-off {
+.frame-2304 .eye-off {
   flex-shrink: 0;
   width: 24px;
   height: 24px;
@@ -230,7 +229,7 @@
   overflow: visible;
 }
 
-.frame-29 {
+.frame-2304 .frame-29 {
   padding: 0px 16px 16px 16px;
   display: flex;
   flex-direction: row;
@@ -242,7 +241,7 @@
   position: relative;
 }
 
-.button {
+.frame-2304 .button {
   background: var(--accent-500, #49a0b6);
   border-radius: 8px;
   padding: 16px;
@@ -255,7 +254,7 @@
   position: relative;
 }
 
-.button-label {
+.frame-2304 .button-label {
   color: var(--white, #ffffff);
   text-align: left;
   font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
@@ -269,11 +268,11 @@
   justify-content: flex-start;
 }
 
-.button:hover {
+.frame-2304 .button:hover {
   background-color: #6DB3C5;
 }
 
-.arrow-sm-right {
+.frame-2304 .arrow-sm-right {
   flex-shrink: 0;
   width: 24px;
   height: 24px;

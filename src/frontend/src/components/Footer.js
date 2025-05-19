@@ -1,5 +1,6 @@
 // src/components/Footer.js
-import './Footer.css'; // Para o estilo do rodapé
+
+import './Footer.css'; 
 
 function Footer() {
   return (

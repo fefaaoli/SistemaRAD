@@ -1,0 +1,135 @@
+.frame-2315 {
+  background: #ffffff;
+  min-height: 100vh;
+  height: 880px;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.frame-2315 .frame-2304 {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
+  margin-left: 88px; /* espaço para sidebar fixa */
+  padding: 16px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.frame-2315 .frame-2322 {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 207px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.frame-2315 .frame-2319 {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.frame-2315 .mask-group {
+  flex-shrink: 0;
+  width: 1480px;
+  height: 359px;
+  position: relative;
+  overflow: visible;
+}
+
+.frame-2315 .top-navigation-bar {
+  background: var(--accent-500, #49a0b6);
+  border-bottom: 1px solid var(--tertiary, #eef1f4);
+  padding: 24px 80px;
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.frame-2315 .ol-carlos-silva {
+  color: var(--tertiary, #eef1f4);
+  font-family: var(--h3-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h3-font-size, 24px);
+  font-weight: var(--h3-font-weight, 700);
+  letter-spacing: var(--h3-letter-spacing, -0.02em);
+  line-height: var(--h3-line-height, 30px);
+  display: flex;
+  align-items: center;
+  width: 189px;
+}
+
+.frame-2315 .frame-2320 {
+  border-left: 1px solid var(--tertiary, #eef1f4);
+  padding-left: 30px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  flex: 1;
+}
+
+.frame-2315 .perfil-de-administrador,
+.frame-2315 .per-odo-letivo-atual-2025-01 {
+  color: var(--tertiary, #eef1f4);
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  font-weight: var(--body-heavy-font-weight, 600);
+  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
+  line-height: var(--body-heavy-line-height, 22px);
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.frame-2315 .per-odo-letivo-atual-2025-01 {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.frame-2315 .frame-2318 {
+  background: var(--white, #ffffff);
+  border-bottom: 1px solid var(--tertiary, #eef1f4);
+  padding: 0px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+.frame-2315 .configurar-disciplinas {
+  color: var(--white, #ffffff);
+  font-family: var(--h1-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h1-font-size, 48px);
+  font-weight: var(--h1-font-weight, 700);
+  letter-spacing: var(--h1-letter-spacing, -0.02em);
+  line-height: var(--h1-line-height, 48px);
+  position: absolute;
+  left: 80px;
+  top: 243px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
