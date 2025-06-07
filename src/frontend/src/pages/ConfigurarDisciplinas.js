@@ -1,19 +1,13 @@
+import { useState } from 'react';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import { useNavigate } from 'react-router-dom'; // Importe o useNavigate
+import SelecionarDisciplinas from './SelecionarDisciplinas';
+import GerenciarDisciplinas from './GerenciarDisciplinas';
 import './ConfigurarDisciplinas.css';
 
 function ConfigurarDisciplinas() {
-  const navigate = useNavigate(); // Inicialize o hook
-
-  // Funções para navegação
-  const handleSelecionarDisciplinas = () => {
-    navigate('/selecionar-disciplinas');
-  };
-
-  const handleGerenciarDisciplinas = () => {
-    navigate('/gerenciar-disciplinas');
-  };
+  // Inicia sem nenhuma aba selecionada
+  const [abaAtiva, setAbaAtiva] = useState(null);
 
   return (
     <div className="frame-2315">
@@ -33,20 +27,44 @@ function ConfigurarDisciplinas() {
           </div>
         </div>
 
-        {/* Área de conteúdo ajustável com os novos elementos */}
         <div className="content-area">
           <div className="frame-2318">
             <div className="frame-32">
-              <button className="tab" onClick={handleSelecionarDisciplinas} style={{ cursor: 'pointer' }}><div className="tab-label">Selecionar Disciplinas</div></button>
-              <button className="tab2" onClick={handleGerenciarDisciplinas} style={{ cursor: 'pointer' }}><div className="tab-label2">Gerenciar Disciplinas</div></button>
+              <button 
+                className={`tab ${abaAtiva === 'selecionar' ? 'active' : ''}`}
+                onClick={() => setAbaAtiva('selecionar')}
+              >
+                <div className="tab-label">Selecionar Disciplinas</div>
+              </button>
+              <button 
+                className={`tab2 ${abaAtiva === 'gerenciar' ? 'active' : ''}`}
+                onClick={() => setAbaAtiva('gerenciar')}
+              >
+                <div className="tab-label2">Gerenciar Disciplinas</div>
+              </button>
             </div>
           </div>
-          <div className="configurar-disciplinas">Configurar Disciplinas</div>
+          
+          {/* Conteúdo dinâmico (só aparece se uma aba for selecionada) */}
+          <div className="conteudo-dinamico">
+            {abaAtiva === 'selecionar' && <SelecionarDisciplinas />}
+            {abaAtiva === 'gerenciar' && <GerenciarDisciplinas />}
+            
+            {/* Mensagem opcional se nenhuma aba estiver selecionada */}
+            {!abaAtiva && (
+              <div className="nenhuma-aba-selecionada">
+                <p></p>
+              </div>
+            )}
+          </div>
+          
+        
         </div>
+
+        <div className="configurar-disciplinas">Configurar Disciplinas</div>
 
         <Footer />
       </div>
-      {/* Sidebar */}
       <SideBar />
     </div>
   );

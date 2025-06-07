@@ -110,6 +110,13 @@
   box-sizing: border-box;
 }
 
+.button1:hover .button-label,
+.button2:hover .button-label, 
+.button3:hover .button-label,
+.button4:hover .button-label {
+  color: #6DB3C5;
+}
+
 .side-navigation-bar:not(.expanded) .button1,
 .side-navigation-bar:not(.expanded) .button2,
 .side-navigation-bar:not(.expanded) .button3,
@@ -214,6 +221,7 @@
 
 .dropdown-item:hover {
   background: var(--neutral-200, #f8f9fa);
+  color: #6DB3C5;
 }
 
 .frame-25 {

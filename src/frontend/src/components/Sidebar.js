@@ -19,8 +19,40 @@ const SideBar = () => {
   };
 
     // Função para redirecionar
-    const handleConfigurarDisciplinas = () => {
+
+  const handleDashboard = () => {
+    navigate('/dashboard');
+  };
+  const handleNovoPeriodo = () => {
+    navigate('/novo-periodo');
+  };
+
+  const handleConfigurarDisciplinas = () => {
     navigate('/configurar-disciplinas');
+  };
+
+  const handleConfigurarHorario = () => {
+    navigate('/configurar-horario');
+  };
+
+  const handleConfigurarRestricoes = () => {
+    navigate('/configurar-restricoes');
+  };
+
+  const handleConfigurarUsuarios = () => {
+    navigate('/configurar-usuarios');
+  };
+
+  const handleSelecaoDisciplinas = () => {
+    navigate('/selecao-disciplinas');
+  };
+
+  const handleRestricoesHorario = () => {
+    navigate('/restricoes-horario');
+  };
+
+  const handleDadosDocentes = () => {
+    navigate('/dados-docentes');
   };
 
   return (
@@ -34,7 +66,7 @@ const SideBar = () => {
           onMouseEnter={handleMouseEnterButton}
         >
           <img className="icon" src="home0.svg" alt="Início" />
-          {isOpen && <span className="button-label">Início</span>}
+          {isOpen && <span className="button-label" onClick={handleDashboard}>Início</span>}
         </button>
 
         {/* ADMINISTRAÇÃO */}
@@ -53,11 +85,11 @@ const SideBar = () => {
 
           {isOpen && showAdminDropdown && (
             <div className={`dropdown-menu ${isOpen ? 'expanded' : 'collapsed'}`}>
-              <button className="dropdown-item">Novo Período</button>
+              <button className="dropdown-item" onClick={handleNovoPeriodo}>Novo Período</button>
               <button className="dropdown-item" onClick={handleConfigurarDisciplinas}>Configurar Disciplinas</button>
-              <button className="dropdown-item">Configurar Horários</button>
-              <button className="dropdown-item">Configurar Restrições</button>
-              <button className="dropdown-item">Configurar Usuários</button>
+              <button className="dropdown-item" onClick={handleConfigurarHorario}>Configurar Horário</button>
+              <button className="dropdown-item" onClick={handleConfigurarRestricoes}>Configurar Restrições</button>
+              <button className="dropdown-item" onClick={handleConfigurarUsuarios}>Configurar Usuários</button>
             </div>
           )}
         </div>
@@ -78,9 +110,9 @@ const SideBar = () => {
           {isOpen && showAgendaDropdown && (
             <div className="dropdown-menu">
               <div className={`dropdown-menu ${isOpen ? 'expanded' : 'collapsed'}`}>
-                <button className="dropdown-item">Seleção de Disciplinas</button>
-                <button className="dropdown-item">Restrições de Horário</button>
-                <button className="dropdown-item">Dados Docentes</button>
+                <button className="dropdown-item" onClick={handleSelecaoDisciplinas}>Seleção de Disciplinas</button>
+                <button className="dropdown-item" onClick={handleRestricoesHorario}>Restrições de Horário</button>
+                <button className="dropdown-item" onClick={handleDadosDocentes}>Dados Docentes</button>
               </div>
             </div>
           )}
