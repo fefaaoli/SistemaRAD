@@ -1,12 +1,12 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // <-- Importa aqui
+import { useNavigate } from 'react-router-dom'; 
 import Footer from '../components/Footer'; 
 import './Login.css';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate(); // <-- Hook do React Router
+  const navigate = useNavigate(); 
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

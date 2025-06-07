@@ -43,6 +43,122 @@
   position: relative;
 }
 
+.content-area,
+.content-area * {
+  box-sizing: border-box;
+}
+
+.content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.frame-2318 {
+  background: var(--white, #ffffff);
+  border-style: solid;
+  border-color: var(--tertiary, #eef1f4);
+  border-width: 0px 0px 1px 0px;
+  padding: 0px 80px 0px 80px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.frame-32 {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 691px;
+  position: relative;
+}
+
+.tab, .tab2 {
+  background: var(--white, #ffffff);
+  border-style: solid;
+  border-color: var(--tertiary, #eef1f4);
+  border-width: 0px 0px 0px 0px;
+  flex: 1;
+  height: 48px;
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.1s ease; /* Apenas para a borda */
+}
+
+.tab-label, .tab-label2 {
+  color: var(--neutral-600, #6c757d);
+  text-align: center;
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+  position: absolute;
+  right: -0.5px;
+  left: 0px;
+  top: calc(50% - 12px);
+  transition: none;
+}
+
+/* Estilo hover dos botões */
+.tab:hover, .tab2:hover,
+.tab:active, .tab2:active {
+  border-width: 0px 0px 2px 0px;
+  border-color: var(--neutral-600, #6c757d);
+}
+
+/* Estilo hover dos textos - aplica imediatamente */
+.tab:hover .tab-label, 
+.tab2:hover .tab-label2,
+.tab:active .tab-label,
+.tab2:active .tab-label2 {
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-weight: var(--body-heavy-font-weight, 600);
+  color: var(--neutral-600, #6c757d);
+}
+
+/* Estilo para botão ativo/selecionado */
+.tab.active, .tab2.active {
+  border-width: 0px 0px 2px 0px;
+  border-color: var(--neutral-900, #212529);
+}
+
+.tab.active .tab-label, 
+.tab2.active .tab-label2 {
+  font-weight: 600;
+  color: var(--neutral-900, #212529);
+}
+
+.configurar-disciplinas {
+  color: var(--white, #ffffff);
+  text-align: left;
+  font-family: var(--h1-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h1-font-size, 48px);
+  line-height: var(--h1-line-height, 48px);
+  letter-spacing: var(--h1-letter-spacing, -0.02em);
+  font-weight: var(--h1-font-weight, 700);
+  position: absolute;
+  left: 80px;
+  top: 243px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
 .frame-2315 .mask-group {
   width: 100%;
   height: 359px; /* Altura da sua imagem original */

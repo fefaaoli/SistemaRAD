@@ -18,13 +18,18 @@ function DashboardPage() {
                 </div>
               </div>
             </div>
-            <div className="frame-2318">
-            </div>
-            <div className="configurar-disciplinas">Configurar Disciplinas</div>
           </div>
         </div>
-      <Footer />
+
+        {/* Área de conteúdo ajustável (nova adição) */}
+        <div className="content-area">
+          {/* Conteúdo dinâmico aqui */}
+          
+        </div>
+
+        <Footer />
       </div>
+      {/* Sidebar */}
       <SideBar />
     </div>
   );
