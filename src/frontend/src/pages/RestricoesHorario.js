@@ -1,5 +1,6 @@
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import Horario from '../components/HorarioD';
 import './ConfigurarDisciplinas.css';
 
 function RestricoesHorario() {
@@ -23,11 +24,18 @@ function RestricoesHorario() {
         </div>
 
         <div className="content-area">
-          
-        
+          <div class="frame-2318config">
+            <div class="frame-config">
+              <div class="tabconfig">
+                <div class="tab-labelconfig">Seleção de Horários</div>
+              </div>
+            </div>
         </div>
+      </div>
 
         <div className="configurar-disciplinas">Restrições de Horário</div>
+
+        <Horario />
 
         <Footer />
       </div>

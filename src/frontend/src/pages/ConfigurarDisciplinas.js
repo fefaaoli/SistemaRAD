@@ -49,13 +49,7 @@ function ConfigurarDisciplinas() {
           <div className="conteudo-dinamico">
             {abaAtiva === 'selecionar' && <SelecionarDisciplinas />}
             {abaAtiva === 'gerenciar' && <GerenciarDisciplinas />}
-            
-            {/* Mensagem opcional se nenhuma aba estiver selecionada */}
-            {!abaAtiva && (
-              <div className="nenhuma-aba-selecionada">
-                <p></p>
-              </div>
-            )}
+      
           </div>
           
         

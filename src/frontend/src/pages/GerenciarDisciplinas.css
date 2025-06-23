@@ -146,3 +146,214 @@
 .transaction-item2:active {
   transform: scale(0.98);
 }
+
+/* Overlay - ajustado para não ocupar tela inteira */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  z-index: 1000;
+  overflow-y: auto;
+}
+
+.popup-disciplina-container {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: var(
+    --shadow-2-box-shadow,
+    0px 0px 1px 0px rgba(33, 37, 41, 0.08),
+    0px 2px 2px 0px rgba(33, 37, 41, 0.06)
+  );
+}
+
+/* Card do pop-up - fiel ao original mas mais flexível */
+.popup-disciplina-card {
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0px 0px 1px 0px rgba(33, 37, 41, 0.08),
+              0px 2px 2px 0px rgba(33, 37, 41, 0.06);
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-disciplina-header {
+  background: var(--accent-500, #49a0b6);
+  border-radius: 16px 16px 0px 0px;
+  padding: 21px 16px 21px 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-width: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-disciplina-icon {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  position: relative;
+  overflow: visible;
+}
+
+.popup-disciplina-title {
+  color: var(--white, #ffffff);
+  text-align: left;
+  font-family: var(--h3-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h3-font-size, 24px);
+  line-height: var(--h3-line-height, 30px);
+  letter-spacing: var(--h3-letter-spacing, -0.02em);
+  font-weight: var(--h3-font-weight, 700);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* Corpo do formulário - rolável quando necessário */
+.popup-disciplina-body {
+  padding: 16px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.popup-disciplina-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.popup-input-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.popup-input-label {
+  color: #6c757d;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+.popup-input-wrapper {
+  border: 1px solid #adb5bd;
+  border-radius: 6px;
+  padding: 12px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.popup-input-text {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #6c757d;
+  background: transparent;
+}
+
+select.popup-input-text {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding-right: 24px; /* Espaço para o ícone */
+}
+
+/* Ações - mantendo estilo original */
+.popup-disciplina-actions {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0 0;
+}
+
+.popup-cancel-button, 
+.popup-confirm-button {
+  flex: 1;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.popup-cancel-button {
+  background: white;
+  border: 1px solid #6c757d;
+  color: #6c757d;
+}
+
+.popup-confirm-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+}
+
+/* Estados hover - mantendo original */
+.popup-cancel-button:hover {
+  background: #f8f9fa;
+}
+
+.popup-confirm-button:hover {
+  background: #495057;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .popup-overlay {
+    padding: 20px 10px;
+  }
+  
+  .popup-disciplina-actions {
+    flex-direction: column;
+  }
+  
+  .popup-disciplina-header {
+    padding: 16px;
+  }
+  
+  .popup-disciplina-title {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}

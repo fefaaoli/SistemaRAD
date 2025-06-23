@@ -1,0 +1,53 @@
+.frame-2318,
+.frame-2318 * {
+  box-sizing: border-box;
+}
+.frame-2318config {
+  background: var(--white, #ffffff);
+  border-style: solid;
+  border-color: var(--tertiary, #eef1f4);
+  border-width: 0px 0px 1px 0px;
+  padding: 0px 80px 0px 80px;
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+.frame-config {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 690px;
+  position: relative;
+}
+.tabconfig {
+  background: var(--white, #ffffff);
+  border-style: solid;
+  border-color: var(--neutral-600, #6c757d);
+  border-width: 0px 0px 2px 0px;
+  flex: 1;
+  height: 32px;
+  min-width: 200px;
+  position: relative;
+  overflow: hidden;
+}
+.tab-labelconfig {
+  color: var(--neutral-600, #6c757d);
+  text-align: center;
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  line-height: var(--body-heavy-line-height, 22px);
+  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
+  font-weight: var(--body-heavy-font-weight, 600);
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  top: calc(50% - 12px);
+}
