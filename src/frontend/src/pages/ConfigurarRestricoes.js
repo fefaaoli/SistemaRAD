@@ -32,42 +32,49 @@ function ConfigurarRestricoes() {
         </div>
 
         <div className="content-area">
-          <div className="frame-2333">
-            {/* Botão 1 - Restrição de Horário */}
-            <button 
-              className="transaction-item" 
-              onClick={() => setShowRestricaoPopup(true)}
-              aria-label="Restrição de Horário"
-            >
-              <div className="frame-19">
-                <img className="plus" src="plus0.svg" alt="Ícone de adição" />
-              </div>
-              <div className="frame-34">
-                <div className="adicionar-disciplinas">Restrição de Horário</div>
-                <div className="inclus-o-de-novas-disciplinas-para-o-semestre-vigente">
-                  Definir mínimo de horários disponíveis e limite de indisponibilidades para docentes.
-                </div>
-              </div>
-            </button>
+          <div className="frame-48">
+            <div className="frame-41">
+              <div className="frame-44">
+                <div className="frame-2333">
+                  {/* Botão 1 - Restrição de Horário */}
+                  <button 
+                    className="transaction-item" 
+                    onClick={() => setShowRestricaoPopup(true)}
+                    aria-label="Restrição de Horário"
+                  >
+                    <div className="frame-19">
+                      <img className="plus" src="plus0.svg" alt="Ícone de adição" />
+                    </div>
+                    <div className="frame-34">
+                      <div className="adicionar-disciplinas">Restrição de Horário</div>
+                      <div className="inclus-o-de-novas-disciplinas-para-o-semestre-vigente">
+                        Definir mínimo de horários disponíveis e limite de indisponibilidades para docentes.
+                      </div>
+                    </div>
+                  </button>
 
-            {/* Botão 2 - Data Limite */}
-            <button 
-              className="transaction-item" 
-              onClick={() => setShowDataLimitePopup(true)}
-              aria-label="Data Limite"
-            >
-              <div className="frame-19">
-                <img className="plus" src="plus0.svg" alt="Ícone de adição" />
-              </div>
-              <div className="frame-34">
-                <div className="adicionar-disciplinas">Data Limite</div>
-                <div className="inclus-o-de-novas-disciplinas-para-o-semestre-vigente">
-                  Configuração de prazo para edição de disciplinas e comentários para docentes.
+                  {/* Botão 2 - Data Limite */}
+                  <button 
+                    className="transaction-item2" 
+                    onClick={() => setShowDataLimitePopup(true)}
+                    aria-label="Data Limite"
+                  >
+                    <div className="frame-19">
+                      <img className="pencil" src="pencil0.svg" alt="Ícone de edição" />
+                    </div>
+                    <div className="frame-34">
+                      <div className="editar-disciplinas">Data Limite</div>
+                      <div className="edi-o-das-disciplinas-para-o-semestre-vigente">
+                        Configuração de prazo para edição de disciplinas e comentários para docentes.
+                      </div>
+                    </div>
+                  </button>
                 </div>
               </div>
-            </button>
-          </div>  
+            </div>
+          </div>
         </div>
+
 
         <div className="configurar-disciplinas">Configurar Restrições</div>
         <Footer />

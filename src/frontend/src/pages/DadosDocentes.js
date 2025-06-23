@@ -27,7 +27,7 @@ function DadosDocentes() {
         
         </div>
 
-        <div className="configurar-disciplinas">DadosDocentes</div>
+        <div className="configurar-disciplinas">Dados Docentes</div>
 
         <Footer />
       </div>

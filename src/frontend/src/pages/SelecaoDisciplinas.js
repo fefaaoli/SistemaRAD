@@ -1,5 +1,6 @@
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import Disciplinas from '../components/Disciplinas';
 import './ConfigurarDisciplinas.css';
 
 function SelecaoDisciplinas() {
@@ -23,15 +24,25 @@ function SelecaoDisciplinas() {
         </div>
 
         <div className="content-area">
-          
-        
+          <div class="frame-2318config">
+            <div class="frame-config">
+              <div class="tabconfig">
+                <div class="tab-labelconfig">Seleção de Disciplinas</div>
+              </div>
+            </div>
         </div>
+      </div>
 
         <div className="configurar-disciplinas">Seleção de Disciplinas</div>
 
+        <Disciplinas/>
+
         <Footer />
+
       </div>
+
       <SideBar />
+
     </div>
   );
 }
