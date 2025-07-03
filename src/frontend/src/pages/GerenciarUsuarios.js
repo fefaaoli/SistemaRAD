@@ -1,9 +1,10 @@
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import DAltDocentes from '../components/DAltDocentes';
 import './ConfigurarDisciplinas.css';
+import './GerenciarUsuarios.css';
+import AltDocentes from '../components/AltDocentes';
 
-function DadosDocentes() {
+function GerenciarUsuarios() {
 
   return (
     <div className="frame-2315">
@@ -27,21 +28,25 @@ function DadosDocentes() {
           <div class="frame-2318config">
             <div class="frame-config">
               <div class="tabconfig">
-                <div class="tab-labelconfig">Dados Docentes</div>
+                <div class="tab-labelconfig">Gerenciar Usuários</div>
               </div>
             </div>
         </div>
       </div>
 
-        <div className="configurar-disciplinas">Dados Docentes</div>
+        <div className="configurar-disciplinas">Gerenciar Usuários</div>
 
-        <DAltDocentes />
+        <AltDocentes />
 
         <Footer />
+
       </div>
+
       <SideBar />
+
     </div>
+
   );
 }
 
-export default DadosDocentes;
+export default GerenciarUsuarios;

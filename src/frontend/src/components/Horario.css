@@ -1,249 +1,247 @@
 /* Estrutura Principal */
-.horario-frame-41,
-.horario-frame-41 * {
-  box-sizing: border-box;
+.schedule-container {
+  width: 100%;
+  margin: 0 auto;
 }
-.horario-frame-41 {
-  border-radius: 16px;
+
+.schedule-card {
+  background: #ffffff;
+  border-radius: 0 0 16px 16px;
+  padding: 0 0 10px 0;
   display: flex;
   flex-direction: column;
-  gap: 0px;
   align-items: center;
   justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
   position: relative;
 }
 
-.horario-frame-44 {
-  background: var(--white, #ffffff);
-  border-radius: 0px 0px 16px 16px;
-  padding: 0px 0px 10px 0px;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.horario-frame-2328 {
+.schedule-inner {
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
+  width: 100%;
   position: relative;
 }
 
-.horario-frame-67 {
+.schedule-content {
   border-radius: 16px;
-  padding: 0px 10px 0px 10px;
+  padding: 0 10px;
   display: flex;
   flex-direction: column;
-  gap: 0px;
+  gap: 0;
   align-items: flex-start;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-}
-
-.horario-frame-2327 {
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  align-items: flex-start;
-  justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
+  width: 100%;
   position: relative;
 }
 
 /* Cabeçalho */
-.horario-header {
-  background: var(--neutral-200, #e9ecef);
-  border-style: solid;
-  border-color: var(--neutral-200, #e9ecef);
-  border-width: 0px 0px 1px 0px;
-  padding: 12px 20px 12px 20px;
+.schedule-header {
+  background: #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  padding: 12px 20px;
   display: flex;
   flex-direction: row;
-  gap: 16px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
+  width: 100%;
   position: relative;
-  overflow: hidden;
 }
 
-.horario-title {
-  color: var(--neutral-600, #6c757d);
+.schedule-title {
+  color: #6c757d;
   text-align: center;
-  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
-  font-size: var(--body-heavy-font-size, 16px);
-  line-height: var(--body-heavy-line-height, 22px);
-  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
-  font-weight: var(--body-heavy-font-weight, 600);
-  position: relative;
-  flex: 1;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  width: 200px;
+  min-width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 22px;
 }
 
-.horario-dia {
-  color: var(--neutral-600, #6c757d);
+.schedule-day-header {
+  color: #6c757d;
   text-align: center;
-  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
-  font-size: var(--body-heavy-font-size, 16px);
-  line-height: var(--body-heavy-line-height, 22px);
-  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
-  font-weight: var(--body-heavy-font-weight, 600);
-  position: relative;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
   flex: 1;
+  min-width: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.horario-frame-66 {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-  align-items: center;
-  justify-content: flex-start;
-  flex: 1;
-  position: relative;
-}
-
-.horario-add-dia {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 50px;
-  position: relative;
 }
 
 /* Linhas de horários */
-.horario-row {
-  background: var(--white, #ffffff);
-  border-style: solid;
-  border-color: var(--neutral-200, #e9ecef);
-  border-width: 0px 0px 1px 0px;
-  padding: 12px 20px 12px 20px;
+.schedule-row {
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  padding: 12px 20px;
   display: flex;
   flex-direction: row;
-  gap: 16px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
+  width: 100%;
   position: relative;
-  overflow: hidden;
 }
 
-.horario-periodo {
-  color: var(--neutral-600, #6c757d);
+.schedule-time {
+  color: #6c757d;
   text-align: center;
-  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
-  font-size: var(--body-font-size, 16px);
-  line-height: var(--body-line-height, 22px);
-  letter-spacing: var(--body-letter-spacing, -0.02em);
-  font-weight: var(--body-font-weight, 400);
-  position: relative;
-  flex: 1;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  width: 200px;
+  min-width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.horario-cell {
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-  flex: 1;
-  position: relative;
   cursor: pointer;
 }
 
-.horario-checkbox {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
-  color: var(--neutral-600, #6c757d);
+.schedule-input {
+  font-family: "Inter-Regular", sans-serif;
+  color: #6c757d;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  width: 100%;
+  max-width: 180px;
+  padding: 8px 12px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
 }
 
-.horario-checkbox-inner {
-  border-radius: 3px;
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  left: 2px;
-  top: 2px;
-  color: var(--neutral-600, #6c757d);
+.schedule-input:focus {
+  outline: none;
+  border-color: #e9ecef;
 }
 
-.horario-cell-empty {
+.schedule-day-cell {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  width: 50px;
-  position: relative;
+  flex: 1;
+  min-width: 80px;
+  cursor: pointer;
+  height: 100%;
 }
 
-.horario-plus-placeholder {
-  flex-shrink: 0;
-  width: 24px;
-  height: 24px;
+/* Novo estilo das checkboxes */
+.schedule-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.schedule-checkbox-custom {
   position: relative;
-  overflow: hidden;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6C757D;
+  border-radius: 3px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.schedule-checkbox-input:checked ~ .schedule-checkbox-custom {
+  background-color: #49a0b6;
+  border-color: #49a0b6;
+}
+
+.schedule-checkbox-input:checked ~ .schedule-checkbox-custom::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+}
+
+.schedule-empty-cell {
+  width: 50px;
+  min-width: 50px;
+}
+
+.schedule-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 0 8px;
+  color: #6c757d;
+}
+
+.schedule-action-btn:hover {
+  color: #49a0b6;
 }
 
 /* Rodapé */
-.horario-footer {
-  background: var(--white, #ffffff);
-  padding: 12px 20px 12px 20px;
+.schedule-footer {
+  background: #ffffff;
+  padding: 12px 20px;
   display: flex;
   flex-direction: row;
-  gap: 16px;
   align-items: center;
   justify-content: flex-start;
-  align-self: stretch;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
+  width: 100%;
+  border-bottom: 1px solid #e9ecef; 
 }
 
-.horario-add-horario {
+.schedule-add-btn {
   display: flex;
-  flex-direction: row;
-  gap: 10px;
   align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  justify-content: flex-start;
   width: 50px;
-  position: relative;
+  min-width: 50px;
 }
 
-.horario-plus-icon {
-  flex-shrink: 0;
+.schedule-add-btn img {
   width: 24px;
   height: 24px;
-  position: relative;
-  overflow: visible;
+  cursor: pointer;
+}
+
+/* Botão Confirmar */
+.schedule-confirm-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.schedule-confirm-btn {
+  background-color: #49a0b6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.schedule-confirm-btn:hover {
+  background-color: #3a8699;
 }

@@ -1,0 +1,476 @@
+/* Container principal */
+.d-alt-docentes-container,
+.d-alt-docentes-container * {
+  box-sizing: border-box;
+}
+
+.d-alt-docentes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.d-alt-docentes-content {
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Header */
+.d-alt-docentes-header {
+  background: var(--white, #ffffff);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.d-alt-docentes-search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  justify-content: flex-end;
+  flex: 1;
+  position: relative;
+}
+
+.d-alt-docentes-search-input {
+  background: var(--white, #ffffff);
+  border-radius: 8px;
+  border-style: solid;
+  border-color: var(--neutral-500, #6c757d);
+  border-width: 1px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  height: 48px;
+  position: relative;
+}
+
+.d-alt-docentes-search-input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  color: var(--neutral-500, #6c757d);
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+}
+
+.d-alt-docentes-search-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+.d-alt-docentes-filter-button {
+  background: var(--neutral-600, #6c757d);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.d-alt-docentes-filter-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+/* Tabela */
+.d-alt-docentes-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.d-alt-docentes-table {
+  border-radius: 16px;
+  padding: 0px 10px 0px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  align-items: flex-start;
+  justify-content: flex-start;
+  align-self: stretch;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Cabeçalho da tabela */
+.d-alt-docentes-table-header {
+  background: var(--neutral-200, #e9ecef);
+  border-style: solid;
+  border-color: var(--neutral-200, #e9ecef);
+  border-width: 0px 0px 1px 0px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.d-alt-docentes-table-header > div {
+  color: var(--neutral-600, #6c757d);
+  text-align: left;
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  line-height: var(--body-heavy-line-height, 22px);
+  letter-spacing: var(--body-heavy-letter-spacing, -0.02em);
+  font-weight: var(--body-heavy-font-weight, 600);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+/* Larguras das colunas */
+.d-alt-docentes-header-numero { 
+  width: 150px;
+  min-width: 150px;
+}
+.d-alt-docentes-header-nome { 
+  flex: 1;
+  min-width: 200px;
+}
+.d-alt-docentes-header-disciplinas,
+.d-alt-docentes-header-restricoes { 
+  width: 180px;
+  min-width: 180px;
+  justify-content: center;
+  text-align: center;
+}
+.d-alt-docentes-header-departamento { 
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Linhas da tabela */
+.d-alt-docentes-table-row {
+  background: var(--white, #ffffff);
+  border-style: solid;
+  border-color: var(--neutral-200, #e9ecef);
+  border-width: 0px 0px 1px 0px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  align-self: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.d-alt-docentes-table-row > div {
+  color: var(--neutral-600, #6c757d);
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: var(--body-line-height, 22px);
+  letter-spacing: var(--body-letter-spacing, -0.02em);
+  font-weight: var(--body-font-weight, 400);
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.d-alt-docentes-cell-numero { 
+  width: 150px;
+  min-width: 150px;
+}
+.d-alt-docentes-cell-nome { 
+  flex: 1;
+  min-width: 200px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.d-alt-docentes-cell-nome:hover {
+  color: #49a0b6;
+}
+.d-alt-docentes-cell-disciplinas,
+.d-alt-docentes-cell-restricoes { 
+  width: 180px;
+  min-width: 180px;
+  justify-content: center;
+  text-align: center;
+}
+.d-alt-docentes-cell-departamento { 
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Paginação */
+.d-alt-docentes-pagination-container {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  margin-top: 10px;
+}
+
+.d-alt-docentes-pagination-button {
+  display: flex;
+  flex-direction: row;
+  gap: 0px;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.d-alt-docentes-pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.d-alt-docentes-chevron-left,
+.d-alt-docentes-chevron-right {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  overflow: visible;
+}
+
+.d-alt-docentes-pagination-text {
+  color: var(--neutral-600, #6c757d);
+  text-align: left;
+  font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-small-font-size, 14px);
+  line-height: var(--body-small-line-height, 19px);
+  letter-spacing: var(--body-small-letter-spacing, -0.02em);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.d-alt-docentes-pagination-numbers {
+  display: flex;
+  flex-direction: row;
+  gap: 1px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.d-alt-docentes-page-number {
+  color: var(--neutral-600, #6c757d);
+  text-align: center;
+  font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-small-font-size, 14px);
+  line-height: var(--body-small-line-height, 19px);
+  letter-spacing: var(--body-small-letter-spacing, -0.02em);
+  font-weight: var(--body-small-font-weight, 400);
+  position: relative;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.d-alt-docentes-page-number.active {
+  font-weight: bold;
+  color: var(--primary-color, #49a0b6);
+}
+
+/* Popup de Detalhes */
+/* Estilos do pop-up overlay */
+.d-alt-docentes-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Container principal do pop-up */
+.d-alt-docentes-popup-container {
+  background: var(--white, #ffffff);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0px 0px 1px 0px rgba(33, 37, 41, 0.08),
+              0px 2px 2px 0px rgba(33, 37, 41, 0.06);
+}
+
+/* Cabeçalho do pop-up */
+.d-alt-docentes-popup-header {
+  background: var(--accent-500, #49a0b6);
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.d-alt-docentes-popup-title {
+  color: var(--white, #ffffff);
+  font-family: var(--h3-font-family, "Inter-Bold", sans-serif);
+  font-size: var(--h3-font-size, 24px);
+  line-height: var(--h3-line-height, 30px);
+  font-weight: var(--h3-font-weight, 700);
+  margin: 0;
+}
+
+.d-alt-docentes-popup-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.d-alt-docentes-popup-close img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Corpo do pop-up */
+.d-alt-docentes-popup-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.d-alt-docentes-popup-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.d-alt-docentes-popup-section h3 {
+  color: var(--neutral-600, #6c757d);
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  line-height: var(--body-heavy-line-height, 22px);
+  font-weight: var(--body-heavy-font-weight, 600);
+  margin: 0;
+}
+
+.d-alt-docentes-popup-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.d-alt-docentes-popup-item {
+  color: var(--neutral-600, #6c757d);
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: 1.6; /* Espaçamento entre linhas aumentado */
+  padding: 4px 0;
+}
+
+.d-alt-docentes-popup-comment {
+  color: var(--neutral-600, #6c757d);
+  font-family: var(--body-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-font-size, 16px);
+  line-height: 1.6;
+  padding: 8px 0;
+}
+
+/* Rodapé do pop-up */
+.d-alt-docentes-popup-footer {
+  padding: 16px 24px;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--neutral-200, #e9ecef);
+}
+
+.d-alt-docentes-popup-close-button {
+  padding: 10px 24px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  border: 1px solid var(--neutral-600, #6c757d);
+  background: white;
+}
+
+.popup-button-labelDoc {
+  font-family: var(--body-heavy-font-family, "Inter-SemiBold", sans-serif);
+  font-size: var(--body-heavy-font-size, 16px);
+  line-height: var(--body-heavy-line-height, 22px);
+  font-weight: var(--body-heavy-font-weight, 600);
+  color: #6c757d;
+}
+
+.popup-button-cancelD .popup-button-labelDoc {
+  color: var(--neutral-600, #6c757d);
+}
+
+.d-alt-docentes-popup-close-button:hover {
+  background: #f8f9fa;
+}
+
+.docentes-popup-cancel-iconDOC {
+  width: 24px;
+  height: 24px;
+}

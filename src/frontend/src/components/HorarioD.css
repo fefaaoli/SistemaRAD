@@ -1,0 +1,181 @@
+/* Container Principal */
+.horario-container {
+  box-sizing: border-box;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+/* Card que envolve o conteúdo */
+.horario-card {
+  background: #ffffff;
+  border-radius: 0px 0px 16px 16px;
+  padding: 0px 0px 20px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+/* Área de conteúdo */
+.horario-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  position: relative;
+}
+
+/* Grade de horários */
+.horario-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 16px;
+  padding: 0px 10px;
+}
+
+/* Cabeçalho */
+.horario-header {
+  background: #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  display: grid;
+  grid-template-columns: 1fr repeat(6, 1fr);
+  gap: 16px;
+  padding: 12px 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.horario-title, .horario-dia {
+  color: #6c757d;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Linhas de horários */
+.horario-row {
+  background: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  display: grid;
+  grid-template-columns: 1fr repeat(6, 1fr);
+  gap: 16px;
+  padding: 12px 20px;
+  align-items: center;
+  width: 100%;
+}
+
+.horario-periodo {
+  color: #6c757d;
+  text-align: center;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Células */
+.horario-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Checkbox personalizado */
+.horario-checkbox-label {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
+.horario-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.horario-checkbox-custom {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #6C757D;
+  border-radius: 3px;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.horario-checkbox-input:checked ~ .horario-checkbox-custom {
+  background-color: #49a0b6;
+  border-color: #49a0b6;
+}
+
+.horario-checkbox-input:checked ~ .horario-checkbox-custom::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.horario-checkbox-label:hover .horario-checkbox-custom {
+  border-color: #49a0b6;
+}
+
+/* Botão de confirmação */
+.horario-confirm-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.horario-confirm-button {
+  background-color: #49a0b6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.horario-confirm-button:hover {
+  background-color: #3a7f8e;
+}

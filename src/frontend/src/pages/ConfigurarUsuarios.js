@@ -154,7 +154,7 @@ function ConfigurarUsuarios() {
                   </div>
 
                   <div className="popup-input-field">
-                    <div className="popup-label">Matrícula</div>
+                    <div className="popup-label">Departamento</div>
                     <div className="popup-input-wrapperCU">
                       <input
                         type="text"
@@ -168,7 +168,7 @@ function ConfigurarUsuarios() {
                   </div>
                 </div>
                 
-                <div className="popup-actions">
+                <div className="popup-actionsC">
                   <button 
                     type="button"
                     className="popup-button-cancel"

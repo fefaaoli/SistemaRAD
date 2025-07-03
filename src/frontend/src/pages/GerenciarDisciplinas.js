@@ -26,6 +26,10 @@ function GerenciarDisciplinas() {
     setShowAddDisciplinaPopup(false);
   };
 
+  const handleEditarDisciplinas = () => {
+    navigate('/editar-disciplinas');
+  };
+
   return (
     <div className="frame-48">
       <div className="frame-41">
@@ -51,7 +55,7 @@ function GerenciarDisciplinas() {
             {/* Botão 2: Editar Disciplinas (mantido como estava) */}
             <button 
               className="transaction-item2" 
-              onClick={() => navigate('/editar-disciplinas')}
+              onClick={handleEditarDisciplinas}
               aria-label="Editar Disciplinas"
             >
               <div className="frame-19">

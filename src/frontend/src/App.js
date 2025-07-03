@@ -12,6 +12,8 @@ import ConfigurarUsuarios from './pages/ConfigurarUsuarios';
 import SelecaoDisciplinas from './pages/SelecaoDisciplinas';
 import RestricoesHorario from './pages/RestricoesHorario';
 import DadosDocentes from './pages/DadosDocentes';
+import EditarDisciplinas from './pages/EditarDisciplinas';
+import GerenciarUsuarios from './pages/GerenciarUsuarios';
 
 function App() {
   return (
@@ -29,7 +31,9 @@ function App() {
         <Route path="/selecao-disciplinas" element={<SelecaoDisciplinas />} />
         <Route path="/restricoes-horario" element={<RestricoesHorario />} />
         <Route path="/dados-docentes" element={<DadosDocentes />} />
-        
+        <Route path="/editar-disciplinas" element={<EditarDisciplinas />} />
+        <Route path="/gerenciar-usuarios" element={<GerenciarUsuarios />} />
+
         {/* Adicione outras rotas conforme necessário */}
         {/* Exemplo:
         <Route path="/gerenciar-disciplinas" element={<GerenciarDisciplinas />} />

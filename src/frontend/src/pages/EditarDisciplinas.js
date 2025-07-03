@@ -1,9 +1,10 @@
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import DAltDocentes from '../components/DAltDocentes';
 import './ConfigurarDisciplinas.css';
+import './ConfigurarHorario.css';
+import DisciplinasEditar from '../components/DisciplinasEditar';
 
-function DadosDocentes() {
+function EditarDisciplinas() {
 
   return (
     <div className="frame-2315">
@@ -27,21 +28,24 @@ function DadosDocentes() {
           <div class="frame-2318config">
             <div class="frame-config">
               <div class="tabconfig">
-                <div class="tab-labelconfig">Dados Docentes</div>
+                <div class="tab-labelconfig">Edição de Disciplinas</div>
               </div>
             </div>
         </div>
       </div>
 
-        <div className="configurar-disciplinas">Dados Docentes</div>
+        <div className="configurar-disciplinas">Editar Disciplinas</div>
 
-        <DAltDocentes />
+        <DisciplinasEditar/>
 
         <Footer />
-      </div>
-      <SideBar />
+
+        </div>
+
+    <SideBar />
+      
     </div>
   );
 }
 
-export default DadosDocentes;
+export default EditarDisciplinas;

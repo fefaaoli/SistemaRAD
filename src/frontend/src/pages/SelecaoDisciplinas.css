@@ -1,0 +1,30 @@
+/* Estilos para o botão Confirmar Seleção */
+.confirmar-selecao-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  padding: 0 20px;
+}
+
+.confirmar-selecao-btn {
+  background-color: #49a0b6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  transition: background-color 0.3s;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.confirmar-selecao-btn:hover {
+  background-color: #3a8699;
+}
