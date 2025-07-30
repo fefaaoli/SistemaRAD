@@ -1,51 +1,38 @@
-// backend/app.js
-require('dotenv').config(); // Carrega variáveis de ambiente
 const express = require('express');
-const cors = require('cors'); // Importando CORS para permitir requisições externas
-const bodyParser = require('body-parser'); // Middleware para processamento de corpo de requisição
-const sequelize = require('./config/database'); // Importando conexão com o banco
-const { verificarToken } = require('./controllers/authController'); // Função de autenticação com token
-
+const cors = require('cors');
+const sequelize = require('./database');
 const app = express();
-const port = 3000; // Ou a porta que você preferir
 
-// Middlewares
-app.use(express.json()); // Substitui body-parser para JSON
-app.use(cors()); // Habilita CORS
+// Configurações básicas
+app.use(cors({
+  origin: 'http://localhost:3000', // Porta padrão do React
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+})); // Permite conexão com o frontend
+app.use(express.json()); // Habilita JSON nas requisições
 
-// Importação das rotas
-const authRoutes = require('./routes/authRoutes');
-const adminRoutes = require('./routes/adminRoutes');
-const docenteRoutes = require('./routes/docenteRoutes');
-const disciplinaRoutes = require('./routes/disciplinaRoutes');
-const horarioRoutes = require("./routes/horarioRoutes");
-const dataLimiteRoutes = require('./routes/dataLimiteRoutes');
-
-// Uso das rotas
-app.use('/api/auth', authRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/docente', docenteRoutes);
-app.use("/horarios", horarioRoutes);
-app.use('/api/admin', dataLimiteRoutes);
-
-// Definir a rota para o gerenciamento de disciplinas com autenticação
-app.use('/api/disciplinas', verificarToken, disciplinaRoutes);
-
-// Rota inicial (pode ser substituída por outras rotas que você tenha)
+// Rota de teste
 app.get('/', (req, res) => {
-  res.send('Bem-vindo à API de Gerenciamento de Disciplinas');
+  res.send('Backend da Gestão de Horários está rodando! 🚀');
 });
 
-// Middleware para capturar erros globais
-app.use((err, req, res, next) => {
-  console.error('Erro no servidor:', err);
-  res.status(500).json({ error: 'Erro interno no servidor' });
-});
+app.use(express.json()); // Isso é ESSENCIAL para processar JSON
+app.use(express.urlencoded({ extended: true })); // Para forms HTML
 
-// Conexão com o banco de dados e inicialização do servidor
-sequelize.sync({ alter: true }).then(() => {
-  app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
-  });
-});
+const periodoRoutes = require('./routes/periodos');
+app.use('/api/admin/periodos', periodoRoutes); // Cria um novo período e insere os horários padrão
 
+const configRoutes = require('./routes/configRestricoes');
+app.use('/api/admin/config', configRoutes); // Define ou atualiza a data limite para esse período
+
+const disciplinaRoutes = require('./routes/disciplinas');
+app.use('/api/admin/disciplinas', disciplinaRoutes);
+
+// Importe o agendador
+const { iniciarAgendamento } = require('./services/agendador');
+
+// Inicia o agendador quando o servidor começa
+if (process.env.NODE_ENV !== 'test') {
+  iniciarAgendamento();
+}
+
+module.exports = app;

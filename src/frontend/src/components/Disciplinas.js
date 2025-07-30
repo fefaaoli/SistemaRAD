@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Disciplinas.css'; 
+import './Disciplinas.css';
+import axios from 'axios';
 
 const Disciplinas = () => {
   // Estado para armazenar as disciplinas
@@ -8,36 +9,33 @@ const Disciplinas = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDisciplinas, setSelectedDisciplinas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Ajuste conforme necessário
+  const [loading, setLoading] = useState(true);
+  const itemsPerPage = 20;
 
-  // Simulação de dados do banco de dados
+  // Busca disciplinas da API
   useEffect(() => {
-    const mockDisciplinas = [
-      {
-        codigo: 'RAD2801',
-        nome: 'Planejamento e Gestão Estratégica de Marketing',
-        turma: '1º Semestre',
-        tipo: 'Optativa Livre',
-        turno: 'Noturno'
-      },
-      {
-        codigo: 'INF101',
-        nome: 'Introdução à Programação',
-        turma: '3º Semestre',
-        tipo: 'Obrigatória',
-        turno: 'Noturno'
-      },
-      {
-        codigo: 'RAD2802',
-        nome: 'Gestão Empresarial',
-        turma: '1º Semestre',
-        tipo: 'Obrigatória',
-        turno: 'Diurno'
-      },
-    ];
-    
-    setDisciplinas(mockDisciplinas);
-    setFilteredDisciplinas(mockDisciplinas);
+    const fetchDisciplinas = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/admin/disciplinas');
+        
+        const dadosFormatados = response.data.map(item => ({
+          codigo: item.cod,
+          nome: item.disciplina,
+          turma: item.turma,
+          tipo: item.tipo,
+          turno: item.turma.includes('D') ? 'Diurno' : 'Noturno'
+        }));
+
+        setDisciplinas(dadosFormatados);
+        setFilteredDisciplinas(dadosFormatados);
+      } catch (error) {
+        console.error("Erro ao carregar disciplinas:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDisciplinas();
   }, []);
 
   // Filtro de busca
@@ -75,6 +73,15 @@ const Disciplinas = () => {
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Carregando disciplinas...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="disciplinas-container">
@@ -161,7 +168,6 @@ const Disciplinas = () => {
             </button>
           </div>
 
-          {/* Botão Confirmar Seleção adicionado aqui */}
           <div className="confirmar-selecao-container">
             <button 
               className="confirmar-selecao-btn"

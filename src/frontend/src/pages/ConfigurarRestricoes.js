@@ -3,6 +3,7 @@ import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './ConfigurarDisciplinas.css';
 import './NovoPeriodo.css';
+import { definirDataLimite } from '../services/apiPeriodo'; // Importação do serviço
 
 function ConfigurarRestricoes() {
   // Estados para controlar cada popup
@@ -12,6 +13,26 @@ function ConfigurarRestricoes() {
   // Estados para os formulários
   const [periodo, setPeriodo] = useState('');
   const [dataLimite, setDataLimite] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // Estado para loading
+
+  // Função para salvar a data limite (única modificação necessária)
+  const handleSalvarDataLimite = async () => {
+    if (!dataLimite) {
+      alert('Selecione uma data válida!');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      await definirDataLimite('2025/1', dataLimite); // Período fixo ou dinâmico
+      alert('Data limite configurada com sucesso!');
+      setShowDataLimitePopup(false);
+    } catch (error) {
+      alert(`Erro: ${error.response?.data?.error || error.message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="frame-2315">
@@ -36,7 +57,7 @@ function ConfigurarRestricoes() {
             <div className="frame-41">
               <div className="frame-44">
                 <div className="frame-2333">
-                  {/* Botão 1 - Restrição de Horário */}
+                  {/* Botão 1 - Restrição de Horário (mantido original) */}
                   <button 
                     className="transaction-item" 
                     onClick={() => setShowRestricaoPopup(true)}
@@ -53,7 +74,7 @@ function ConfigurarRestricoes() {
                     </div>
                   </button>
 
-                  {/* Botão 2 - Data Limite */}
+                  {/* Botão 2 - Data Limite (mantido original) */}
                   <button 
                     className="transaction-item2" 
                     onClick={() => setShowDataLimitePopup(true)}
@@ -75,13 +96,12 @@ function ConfigurarRestricoes() {
           </div>
         </div>
 
-
         <div className="configurar-disciplinas">Configurar Restrições</div>
         <Footer />
       </div>
       <SideBar />
 
-      {/* Popup 1 - Restrição de Horário */}
+      {/* Popup 1 - Restrição de Horário (mantido original) */}
       {showRestricaoPopup && (
         <div className="popup-overlay">
           <div className="popup-periodo-container">
@@ -118,7 +138,7 @@ function ConfigurarRestricoes() {
                 <button 
                   className="popup-button-confirm"
                   onClick={() => {
-                    // Lógica para salvar a restrição
+                    // Lógica original (pode manter sem integração por enquanto)
                     setShowRestricaoPopup(false);
                   }}
                 >
@@ -131,7 +151,7 @@ function ConfigurarRestricoes() {
         </div>
       )}
 
-      {/* Popup 2 - Data Limite */}
+      {/* Popup 2 - Data Limite (integrado) */}
       {showDataLimitePopup && (
         <div className="popup-overlay">
           <div className="popup-periodo-container">
@@ -146,9 +166,10 @@ function ConfigurarRestricoes() {
                   <div className="popup-label">Data Limite</div>
                   <div className="popup-text-input">
                     <input
-                      type="date"
+                     
                       value={dataLimite}
                       onChange={(e) => setDataLimite(e.target.value)}
+                      placeholder="dd/mm/aaaa"
                       className="popup-input-text"
                     />
                   </div>
@@ -159,6 +180,7 @@ function ConfigurarRestricoes() {
                 <button 
                   className="popup-button-cancel"
                   onClick={() => setShowDataLimitePopup(false)}
+                  disabled={isLoading}
                 >
                   <div className="popup-button-label">Cancelar</div>
                   <img className="popup-x-icon" src="x0.svg" alt="Cancelar"/>
@@ -166,13 +188,13 @@ function ConfigurarRestricoes() {
                 
                 <button 
                   className="popup-button-confirm"
-                  onClick={() => {
-                    // Lógica para salvar a data limite
-                    setShowDataLimitePopup(false);
-                  }}
+                  onClick={handleSalvarDataLimite}
+                  disabled={isLoading}
                 >
-                  <div className="popup-button-label">Salvar</div>
-                  <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                  <div className="popup-button-label">
+                    {isLoading ? 'Salvando...' : 'Salvar'}
+                  </div>
+                  {!isLoading && <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>}
                 </button>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './DisciplinasEditar.css';
+import axios from 'axios';
 
 const DisciplinasEditar = () => {
   // Estados
@@ -10,36 +11,58 @@ const DisciplinasEditar = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [disciplinaEditando, setDisciplinaEditando] = useState(null);
-  const itemsPerPage = 10;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const itemsPerPage = 20;
 
-  // Dados mockados
+  // Carrega disciplinas da API
   useEffect(() => {
-    const mockDisciplinas = [
-      {
-        codigo: 'RAD2801',
-        nome: 'Planejamento e Gestão Estratégica de Marketing',
-        turma: '1º Semestre',
-        tipo: 'Optativa Livre',
-        turno: 'Noturno'
-      },
-      {
-        codigo: 'INF101',
-        nome: 'Introdução à Programação',
-        turma: '3º Semestre',
-        tipo: 'Obrigatória',
-        turno: 'Noturno'
-      },
-      {
-        codigo: 'RAD2802',
-        nome: 'Gestão Empresarial',
-        turma: '1º Semestre',
-        tipo: 'Obrigatória',
-        turno: 'Diurno'
-      },
-    ];
-    setDisciplinas(mockDisciplinas);
-    setFilteredDisciplinas(mockDisciplinas);
+    const carregarDisciplinas = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/admin/disciplinas');
+        
+        const dadosFormatados = response.data.map(item => ({
+          id: item.id,
+          codigo: item.cod,
+          nome: item.disciplina,
+          turma: item.turma,
+          tipo: formatarTipo(item.tipo),
+          turno: item.turma.includes('D') ? 'Diurno' : 'Noturno',
+          cred: item.cred
+        }));
+        
+        setDisciplinas(dadosFormatados);
+        setFilteredDisciplinas(dadosFormatados);
+      } catch (err) {
+        setError(err.message);
+        console.error("Erro ao carregar disciplinas:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarDisciplinas();
   }, []);
+
+  // Formata o tipo para exibição
+  const formatarTipo = (tipo) => {
+    switch(tipo) {
+      case 'optativa_eletiva': return 'Optativa Eletiva';
+      case 'optativa_livre': return 'Optativa Livre';
+      case 'obrigatoria': return 'Obrigatória';
+      default: return tipo;
+    }
+  };
+
+  // Converte o tipo para o formato da API
+  const parseTipo = (tipo) => {
+    switch(tipo) {
+      case 'Optativa Eletiva': return 'optativa_eletiva';
+      case 'Optativa Livre': return 'optativa_livre';
+      case 'Obrigatória': return 'obrigatoria';
+      default: return tipo;
+    }
+  };
 
   // Filtro de busca
   useEffect(() => {
@@ -65,11 +88,34 @@ const DisciplinasEditar = () => {
     setShowEditPopup(true);
   };
 
-  const handleSalvarEdicao = (dadosAtualizados) => {
-    setDisciplinas(prev => prev.map(d => 
-      d.codigo === dadosAtualizados.codigo ? dadosAtualizados : d
-    ));
-    setShowEditPopup(false);
+  const handleSalvarEdicao = async (dadosAtualizados) => {
+    try {
+      setLoading(true);
+      
+      // Prepara os dados para a API
+      const dadosAPI = {
+        cod: dadosAtualizados.codigo,
+        disciplina: dadosAtualizados.nome,
+        turma: dadosAtualizados.turma,
+        tipo: parseTipo(dadosAtualizados.tipo),
+        cred: dadosAtualizados.cred
+      };
+
+      await axios.put(`http://localhost:5000/api/admin/disciplinas/${dadosAtualizados.id}`, dadosAPI);
+      
+      // Atualiza o estado local
+      setDisciplinas(prev => prev.map(d => 
+        d.id === dadosAtualizados.id ? dadosAtualizados : d
+      ));
+      
+      setShowEditPopup(false);
+      alert('Disciplina atualizada com sucesso!');
+    } catch (err) {
+      console.error('Erro ao atualizar disciplina:', err);
+      alert(`Erro ao atualizar: ${err.response?.data?.error || err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Paginação
@@ -79,6 +125,24 @@ const DisciplinasEditar = () => {
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading && disciplinas.length === 0) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Carregando disciplinas...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p>Erro ao carregar disciplinas: {error}</p>
+        <button onClick={() => window.location.reload()}>Tentar novamente</button>
+      </div>
+    );
+  }
 
   return (
     <div className="disciplinas-editar-container">
@@ -169,12 +233,11 @@ const DisciplinasEditar = () => {
               <img className="chevron-right" src="chevron-right0.svg" alt="Próxima" />
             </button>
           </div>
-
         </div>
       </div>
 
       {/* Popup de Edição */}
-      {showEditPopup && (
+      {showEditPopup && disciplinaEditando && (
         <div className="edit-popup-overlay">
           <div className="edit-popup-container">
             <div className="popup-header">
@@ -195,6 +258,7 @@ const DisciplinasEditar = () => {
                       ...disciplinaEditando,
                       codigo: e.target.value
                     })}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -206,6 +270,7 @@ const DisciplinasEditar = () => {
                       ...disciplinaEditando,
                       nome: e.target.value
                     })}
+                    required
                   />
                 </div>
                 <div className="form-group">
@@ -216,6 +281,7 @@ const DisciplinasEditar = () => {
                       ...disciplinaEditando,
                       turma: e.target.value
                     })}
+                    required
                   >
                     <option>1º Semestre</option>
                     <option>2º Semestre</option>
@@ -230,6 +296,7 @@ const DisciplinasEditar = () => {
                       ...disciplinaEditando,
                       tipo: e.target.value
                     })}
+                    required
                   >
                     <option>Obrigatória</option>
                     <option>Optativa Livre</option>
@@ -244,16 +311,32 @@ const DisciplinasEditar = () => {
                       ...disciplinaEditando,
                       turno: e.target.value
                     })}
+                    required
                   >
                     <option>Diurno</option>
                     <option>Noturno</option>
                   </select>
+                </div>
+                <div className="form-group">
+                  <label>Créditos</label>
+                  <input
+                    type="number"
+                    value={disciplinaEditando.cred || ''}
+                    onChange={(e) => setDisciplinaEditando({
+                      ...disciplinaEditando,
+                      cred: parseInt(e.target.value) || 0
+                    })}
+                    min="1"
+                    max="10"
+                    required
+                  />
                 </div>
                 <div className="popup-disciplina-actions">
                   <button 
                     type="button"
                     className="popup-cancel-button"
                     onClick={() => setShowEditPopup(false)}
+                    disabled={loading}
                   >
                     <div className="popup-button-text">Cancelar</div>
                     <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
@@ -262,9 +345,16 @@ const DisciplinasEditar = () => {
                   <button 
                     type="submit"
                     className="popup-confirm-button"
+                    disabled={loading}
                   >
-                    <div className="popup-button-text">Salvar</div>
-                    <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    {loading ? (
+                      <div className="popup-button-text">Salvando...</div>
+                    ) : (
+                      <>
+                        <div className="popup-button-text">Salvar</div>
+                        <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>

@@ -6,11 +6,12 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  height: 96.5%;
-  position: absolute;
+  height: 100vh; /* Alterado para 100vh (viewport height) */
+  position: fixed; /* Mudado de absolute para fixed */
   top: 0;
   left: 0;
   overflow: hidden;
+  z-index: 1000; /* Garante que fique acima de outros elementos */
 }
 
 .side-navigation-bar.expanded {
@@ -230,13 +231,12 @@
   align-items: center;
   width: 100%;
   padding: 16px;
-  border-top: 1px solid var(--neutral-200, #e9ecef);
   position: relative;
 }
 
 .mask-group2 {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 80px;
   flex-shrink: 0;
   border-radius: 50%;
 }
@@ -283,14 +283,12 @@
 
 .side-navigation-bar:not(.expanded) .frame-25 {
   justify-content: center;
-  border-top: 1px solid var(--neutral-200, #e9ecef);
   padding: 16px 0;
   margin-top: 8px;
 }
 
 .side-navigation-bar:not(.expanded) .frame-25 {
   justify-content: center;
-  border-top: 1px solid var(--neutral-200, #e9ecef);
   padding: 16px 0;
   margin-top: 8px;
 }

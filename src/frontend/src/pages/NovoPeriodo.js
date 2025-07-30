@@ -2,20 +2,28 @@ import { useState } from 'react';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './NovoPeriodo.css';
+import { criarPeriodo } from '../services/apiPeriodo'; // Importação do serviço
 
 function NovoPeriodo() {
   const [showPopup, setShowPopup] = useState(false);
   const [periodo, setPeriodo] = useState('');
 
-  const handleAddPeriodo = () => {
-    if (!/^\d{4}\.[12]$/.test(periodo)) {
-      alert('Formato inválido! Use AAAA.S (Ex: 2025.1 ou 2026.2)');
+  // Função modificada para integrar com o backend
+  const handleAddPeriodo = async () => {
+    if (!/^\d{4}\/[12]$/.test(periodo)) {
+      alert('Formato inválido! Use AAAA/S (Ex: 2025/1 ou 2026/2)');
       return;
     }
-    
-    console.log('Novo período adicionado:', periodo);
-    setPeriodo('');
-    setShowPopup(false);
+
+    try {
+      // Chamada à API
+      await criarPeriodo(periodo);
+      alert(`Período ${periodo} criado com sucesso!`);
+      setPeriodo('');
+      setShowPopup(false);
+    } catch (error) {
+      alert(`Erro ao criar período: ${error.response?.data?.error || error.message}`);
+    }
   };
 
   return (
@@ -62,7 +70,7 @@ function NovoPeriodo() {
       </div>
       <SideBar />
 
-      {/* Pop-up simplificado */}
+      {/* Pop-up */}
       {showPopup && (
         <div className="popup-overlay">
           <div className="popup-periodo-container">
@@ -80,7 +88,7 @@ function NovoPeriodo() {
                       type="text"
                       value={periodo}
                       onChange={(e) => setPeriodo(e.target.value)}
-                      placeholder="Ex: 2025.2"
+                      placeholder="aaaa/s"
                       className="popup-input-text"
                     />
                   </div>
