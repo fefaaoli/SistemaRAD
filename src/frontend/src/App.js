@@ -14,6 +14,7 @@ import RestricoesHorario from './pages/RestricoesHorario';
 import DadosDocentes from './pages/DadosDocentes';
 import EditarDisciplinas from './pages/EditarDisciplinas';
 import GerenciarUsuarios from './pages/GerenciarUsuarios';
+import DisciplinasDocentes from './pages/DisciplinasDocentes';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/dados-docentes" element={<DadosDocentes />} />
         <Route path="/editar-disciplinas" element={<EditarDisciplinas />} />
         <Route path="/gerenciar-usuarios" element={<GerenciarUsuarios />} />
+        <Route path="/disciplinas-docentes" element={<DisciplinasDocentes />} />
 
         {/* Adicione outras rotas conforme necessário */}
         {/* Exemplo:

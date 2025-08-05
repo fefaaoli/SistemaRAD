@@ -11,8 +11,7 @@ router.post('/', DisciplinaController.criar);
 router.put('/:id', DisciplinaController.atualizarDisciplina);
 
 // Gerenciamento por período
-router.post('/:periodo/ativar/:id', DisciplinaController.ativarParaPeriodo);
-router.delete('/:periodo/desativar/:id', DisciplinaController.desativarParaPeriodo);
-router.get('/ativas', DisciplinaController.listarAtivas);
+router.get('/ativas', DisciplinaController.listarDisciplinasAtivas);
+router.post('/selecionar', DisciplinaController.selecionarDisciplinasParaPeriodo);
 
 module.exports = router;

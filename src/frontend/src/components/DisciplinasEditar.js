@@ -7,7 +7,6 @@ const DisciplinasEditar = () => {
   const [disciplinas, setDisciplinas] = useState([]);
   const [filteredDisciplinas, setFilteredDisciplinas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDisciplinas, setSelectedDisciplinas] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [disciplinaEditando, setDisciplinaEditando] = useState(null);
@@ -75,13 +74,6 @@ const DisciplinasEditar = () => {
   }, [searchTerm, disciplinas]);
 
   // Handlers
-  const handleCheckboxChange = (codigo) => {
-    setSelectedDisciplinas(prev => 
-      prev.includes(codigo) 
-        ? prev.filter(item => item !== codigo) 
-        : [...prev, codigo]
-    );
-  };
 
   const handleEditarClick = (disciplina) => {
     setDisciplinaEditando(disciplina);
@@ -190,13 +182,6 @@ const DisciplinasEditar = () => {
                   >
                     <img className="pencil-icon" src="pencil0.svg" alt="Editar" />
                   </button>
-                </div>
-                <div className="row-checkbox">
-                  <input
-                    type="checkbox"
-                    checked={selectedDisciplinas.includes(disciplina.codigo)}
-                    onChange={() => handleCheckboxChange(disciplina.codigo)}
-                  />
                 </div>
               </div>
             ))}

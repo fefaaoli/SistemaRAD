@@ -2,21 +2,23 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
+import { apiUsuarios } from '../services/apiUsuarios';
 import './ConfigurarDisciplinas.css';
 import './ConfigurarUsuarios.css';
 
 function ConfigurarUsuarios() {
   const navigate = useNavigate();
-  
-  // Estado para controlar o popup
   const [showAddUsuarioPopup, setShowAddUsuarioPopup] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
   
-  // Estados para o formulário
   const [usuario, setUsuario] = useState({
+    numeroUSP: '',
     nome: '',
     email: '',
-    tipo: 'Professor',
-    matricula: ''
+    departamento: '',
+    funcao: 'Docente',
+    senha: ''
   });
 
   const handleInputChange = (e) => {
@@ -24,12 +26,39 @@ function ConfigurarUsuarios() {
     setUsuario(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica para adicionar usuário
-    console.log('Novo usuário:', usuario);
+    setError(null);
+    setSuccess(null);
+    
+  try {
+    // Validação básica
+    if (!usuario.numeroUSP || !usuario.nome || !usuario.email || !usuario.departamento) {
+      throw new Error('Preencha todos os campos obrigatórios');
+    }
+
+    await apiUsuarios.adicionarDocente(usuario);
+    
+    // Mensagem de sucesso via alert
+    alert('Usuário adicionado com sucesso!');
+    
+    setUsuario({
+      numeroUSP: '',
+      nome: '',
+      email: '',
+      departamento: '',
+      funcao: 'Docente',
+      senha: ''
+    });
+    
+    // Fecha o popup imediatamente (sem esperar 2 segundos como antes)
     setShowAddUsuarioPopup(false);
-  };
+    
+  } catch (error) {
+    console.error('Erro ao adicionar usuário:', error);
+    // Mensagem de erro via alert
+    alert(error.message || 'Erro ao adicionar usuário');
+  }}
 
   return (
     <div className="frame-2315">
@@ -54,7 +83,6 @@ function ConfigurarUsuarios() {
             <div className="frame-41">
               <div className="frame-44">
                 <div className="frame-2333">
-                  {/* Botão 1: Adicionar Novo Usuário (Popup) */}
                   <button 
                     className="transaction-item" 
                     onClick={() => setShowAddUsuarioPopup(true)}
@@ -71,7 +99,6 @@ function ConfigurarUsuarios() {
                     </div>
                   </button>
 
-                  {/* Botão 2: Gerenciar Usuários (Redirecionamento) */}
                   <button 
                     className="transaction-item2" 
                     onClick={() => navigate('/gerenciar-usuarios')}
@@ -111,8 +138,25 @@ function ConfigurarUsuarios() {
             <div className="popup-body">
               <form onSubmit={handleSubmit}>
                 <div className="popup-content">
+                  {error && <div className="popup-error-message">{error}</div>}
+                  {success && <div className="popup-success-message">{success}</div>}
+
                   <div className="popup-input-field">
-                    <div className="popup-label">Número USP</div>
+                    <div className="popup-label">Número USP *</div>
+                    <div className="popup-input-wrapperCU">
+                      <input
+                        type="text"
+                        name="numeroUSP"
+                        value={usuario.numeroUSP}
+                        onChange={handleInputChange}
+                        className="popup-input-text"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="popup-input-field">
+                    <div className="popup-label">Nome *</div>
                     <div className="popup-input-wrapperCU">
                       <input
                         type="text"
@@ -126,7 +170,7 @@ function ConfigurarUsuarios() {
                   </div>
 
                   <div className="popup-input-field">
-                    <div className="popup-label">Nome</div>
+                    <div className="popup-label">E-mail *</div>
                     <div className="popup-input-wrapperCU">
                       <input
                         type="email"
@@ -140,26 +184,42 @@ function ConfigurarUsuarios() {
                   </div>
 
                   <div className="popup-input-field">
-                    <div className="popup-label">E-mail</div>
-                    <div className="popup-input-wrapperCU">
-                      <input
-                        type="email"
-                        name="email"
-                        value={usuario.email}
-                        onChange={handleInputChange}
-                        className="popup-input-text"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="popup-input-field">
-                    <div className="popup-label">Departamento</div>
+                    <div className="popup-label">Setor *</div>
                     <div className="popup-input-wrapperCU">
                       <input
                         type="text"
-                        name="matricula"
-                        value={usuario.matricula}
+                        name="departamento"
+                        value={usuario.departamento}
+                        onChange={handleInputChange}
+                        className="popup-input-text"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="popup-input-field">
+                    <div className="popup-label">Função *</div>
+                    <div className="popup-input-wrapperCU">
+                      <select
+                        name="funcao"
+                        value={usuario.funcao}
+                        onChange={handleInputChange}
+                        className="popup-input-text"
+                        required
+                      >
+                        <option value="Docente">Docente</option>
+                        <option value="Administrador">Administrador</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="popup-input-field">
+                    <div className="popup-label">Senha *</div>
+                    <div className="popup-input-wrapperCU">
+                      <input
+                        type="password"
+                        name="senha"
+                        value={usuario.senha}
                         onChange={handleInputChange}
                         className="popup-input-text"
                         required
@@ -172,7 +232,11 @@ function ConfigurarUsuarios() {
                   <button 
                     type="button"
                     className="popup-button-cancel"
-                    onClick={() => setShowAddUsuarioPopup(false)}
+                    onClick={() => {
+                      setShowAddUsuarioPopup(false);
+                      setError(null);
+                      setSuccess(null);
+                    }}
                   >
                     <div className="popup-button-label">Cancelar</div>
                     <img className="popup-x-icon" src="x0.svg" alt="Cancelar"/>
@@ -191,7 +255,6 @@ function ConfigurarUsuarios() {
           </div>
         </div>
       )}
-      
     </div>
   );
 }

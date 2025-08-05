@@ -224,8 +224,8 @@ function GerenciarDisciplinas() {
                     <div className="popup-error-message">
                       <img src="alert-circle0.svg" alt="Erro" />
                       <span>{error}</span>
-                    </div>
-                  )}
+                    </div> 
+                  )} 
                   
                   <div className="popup-disciplina-actions">
                     <button 

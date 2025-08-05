@@ -186,17 +186,13 @@
   min-width: 150px;
 }
 .header-turno { 
-  width: 150px;
-  min-width: 150px;
+  width: 145px;
+  min-width: 130px;
 }
 .header-editar { 
-  width: 100px;
-  min-width: 100px;
+  width: 40px;
+  min-width: 40px;
   justify-content: center; /* Mantém o ícone de editar centralizado */
-}
-.header-checkbox { 
-  width: 50px;
-  min-width: 50px;
 }
 
 /* Corpo da tabela */
@@ -488,33 +484,3 @@
   overflow: visible;
 }
 
-/* Botão Confirmar */
-.confirmar-alteracoes-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-
-.confirmar-alteracoes-btn {
-  background-color: #49a0b6;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  transition: background-color 0.3s;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  cursor: pointer;
-  font-family: "Inter-SemiBold", sans-serif;
-  font-size: 16px;
-  line-height: 22px;
-  letter-spacing: -0.02em;
-  font-weight: 600;
-}
-
-.confirmar-alteracoes-btn:hover {
-  background-color: #3a8699;
-}

@@ -34,8 +34,6 @@ function GerenciarUsuarios() {
         </div>
       </div>
 
-        <div className="configurar-disciplinas">Gerenciar Usuários</div>
-
         <AltDocentes />
 
         <Footer />

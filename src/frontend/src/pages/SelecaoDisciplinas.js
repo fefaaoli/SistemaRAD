@@ -1,6 +1,6 @@
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import Disciplinas from '../components/Disciplinas';
+import DDisciplinas from '../components/DDisciplinas';
 import './ConfigurarDisciplinas.css';
 
 function SelecaoDisciplinas() {
@@ -35,7 +35,7 @@ function SelecaoDisciplinas() {
 
         <div className="configurar-disciplinas">Seleção de Disciplinas</div>
 
-        <Disciplinas/>
+        <DDisciplinas/>
 
         <Footer />
 

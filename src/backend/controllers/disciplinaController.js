@@ -1,5 +1,5 @@
 const database = require('../database');
-const { DataTypes } = require('sequelize');
+const { DataTypes, Op } = require('sequelize');
 
 // Importa os modelos
 const Disciplina = require('../models/Disciplina')(database, DataTypes);
@@ -69,65 +69,151 @@ module.exports = {
     }
   },
 
-  // Ativar disciplina para um período
-  async ativarParaPeriodo(req, res) {
+  // Selecionar Disciplinas Para o Período
+  selecionarDisciplinasParaPeriodo: async (req, res) => {
     try {
-      const { periodo, id } = req.params;
+      console.log('Iniciando seleção de disciplinas...'); // Debug
       
-      const [oferecimento, created] = await ExpOferecimento.findOrCreate({
-        where: { periodo, aid: id },
-        defaults: { periodo, aid: id }
-      });
-      
-      if (!created) {
-        return res.status(409).json({ error: 'Disciplina já ativada para este período' });
+      const { disciplinasIds } = req.body;
+      console.log('IDs recebidos:', disciplinasIds); // Debug
+
+      // 1. Busca o último período com mais logs
+      const ultimoPeriodo = await database.query(
+        `SELECT periodo FROM exp_horario 
+        WHERE cat = 'init' AND ordem = 0 
+        ORDER BY 
+          CAST(SUBSTRING(periodo, 1, 4) AS UNSIGNED) DESC,
+          CASE WHEN SUBSTRING(periodo, 6, 1) = '1' THEN 1 ELSE 2 END DESC 
+        LIMIT 1`,
+        { type: database.QueryTypes.SELECT }
+      );
+
+      console.log('Último período encontrado:', ultimoPeriodo); // Debug
+
+      if (!ultimoPeriodo || ultimoPeriodo.length === 0) {
+        console.error('Nenhum período encontrado!'); // Debug
+        return res.status(404).json({
+          error: 'Nenhum período cadastrado no sistema',
+          code: 'PERIODO_NAO_ENCONTRADO'
+        });
       }
-      
-      res.json({ success: true });
+
+      const periodo = ultimoPeriodo[0].periodo;
+      console.log('Período que será usado:', periodo); // Debug
+
+      // 2. Validação das disciplinas
+      if (!Array.isArray(disciplinasIds)) {
+        console.error('IDs não são um array:', disciplinasIds); // Debug
+        return res.status(400).json({
+          error: 'Formato inválido. Envie um array de IDs de disciplinas',
+          code: 'FORMATO_INVALIDO'
+        });
+      }
+
+      // 3. Verifica disciplinas existentes
+      console.log('Verificando disciplinas no banco...'); // Debug
+      const disciplinasExistentes = await Disciplina.findAll({ 
+        where: { id: disciplinasIds } 
+      });
+
+      if (disciplinasExistentes.length !== disciplinasIds.length) {
+        const idsInvalidos = disciplinasIds.filter(id => 
+          !disciplinasExistentes.some(d => d.id === id)
+        );
+        console.error('IDs inválidos encontrados:', idsInvalidos); // Debug
+        return res.status(404).json({
+          error: 'Disciplinas não encontradas',
+          idsInvalidos,
+          code: 'DISCIPLINAS_INVALIDAS'
+        });
+      }
+
+      // 4. Processamento em transação com mais logs
+      console.log('Iniciando transação...'); // Debug
+      const resultado = await database.transaction(async (t) => {
+        console.log(`Removendo ofertas existentes para ${periodo}...`); // Debug
+        const deleteCount = await ExpOferecimento.destroy({ 
+          where: { periodo }, 
+          transaction: t 
+        });
+        console.log(`Removidas ${deleteCount} ofertas antigas`); // Debug
+        
+        console.log('Criando novas ofertas...'); // Debug
+        const novasOfertas = await ExpOferecimento.bulkCreate(
+          disciplinasIds.map(id => ({ periodo, aid: id })), 
+          { transaction: t, returning: true }
+        );
+        console.log(`Criadas ${novasOfertas.length} novas ofertas`); // Debug
+
+        return { 
+          success: true,
+          periodoUtilizado: periodo,
+          totalDisciplinas: disciplinasIds.length,
+          deleted: deleteCount,
+          created: novasOfertas.length,
+          updatedAt: new Date()
+        };
+      });
+
+      console.log('Transação concluída com sucesso:', resultado); // Debug
+      res.json(resultado);
+
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      console.error('Erro detalhado:', err); // Debug mais completo
+      res.status(500).json({
+        error: 'Erro no servidor ao processar vínculo de disciplinas',
+        code: 'ERRO_INTERNO',
+        details: process.env.NODE_ENV === 'development' ? {
+          message: err.message,
+          stack: err.stack,
+          sql: err.sql
+        } : undefined
+      });
     }
   },
 
-  // Listar disciplinas ativas em um período
-  async listarAtivas(req, res) {
+  // Listar Disciplinas Ativas
+  listarDisciplinasAtivas: async (req, res) => {
     try {
-      const { periodo, tipo } = req.query;
-      
-      const where = {};
-      if (tipo) where.tipo = tipo;
-      
-      const disciplinas = await ExpOferecimento.findAll({
-        where: { periodo },
-        include: [{
-          model: Disciplina,
-          where,
-          as: 'disciplina'
-        }]
-      });
-      
-      res.json(disciplinas.map(d => d.disciplina));
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  },
+      // Busca o último período que realmente tem ofertas cadastradas
+      const periodoAtivo = await database.query(
+        `SELECT periodo FROM exp_oferecimento 
+        ORDER BY 
+          CAST(SUBSTRING(periodo, 1, 4) AS UNSIGNED) DESC,
+          CASE WHEN SUBSTRING(periodo, 6, 1) = '1' THEN 1 ELSE 2 END DESC 
+        LIMIT 1`,
+        { type: database.QueryTypes.SELECT }
+      );
 
-  // Desativar disciplina de um período
-  async desativarParaPeriodo(req, res) {
-    try {
-      const { periodo, id } = req.params;
-      
-      const result = await ExpOferecimento.destroy({
-        where: { periodo, aid: id }
-      });
-      
-      if (result === 0) {
-        return res.status(404).json({ error: 'Disciplina não estava ativa para este período' });
+      if (!periodoAtivo || periodoAtivo.length === 0) {
+        return res.json([]);
       }
+
+      const periodo = periodoAtivo[0].periodo;
+      console.log('Período ativo encontrado:', periodo);
+
+      // Query alternativa usando JOIN explícito
+      const disciplinas = await database.query(
+        `SELECT d.id, d.cod, d.disciplina as nome, d.cred, d.turma, d.tipo 
+        FROM exp_atividade d
+        INNER JOIN exp_oferecimento o ON d.id = o.aid
+        WHERE o.periodo = :periodo
+        ORDER BY d.disciplina ASC`,
+        {
+          replacements: { periodo },
+          type: database.QueryTypes.SELECT
+        }
+      );
+
+      res.json(disciplinas);
       
-      res.json({ success: true });
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      console.error('Erro ao listar disciplinas ativas:', err);
+      res.status(500).json({ 
+        error: 'Erro ao carregar disciplinas ativas',
+        details: err.message
+      });
     }
   }
+
 };

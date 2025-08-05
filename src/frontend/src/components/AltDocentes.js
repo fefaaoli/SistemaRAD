@@ -1,48 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import './AltDocentes.css';
+import { apiUsuarios } from '../services/apiUsuarios';
 
 const AltDocentes = () => {
-  // Estados
   const [docentes, setDocentes] = useState([]);
   const [filteredDocentes, setFilteredDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [docenteEditando, setDocenteEditando] = useState(null);
-  const itemsPerPage = 10;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const itemsPerPage = 20;
 
-  // Dados mockados
+  // Carrega docentes da API
   useEffect(() => {
-    const mockDocentes = [
-      {
-        numeroUSP: '1234567',
-        nome: 'Carlos Silva',
-        departamento: 'Departamento de Informática',
-        funcao: 'Docente'
-      },
-      {
-        numeroUSP: '7654321',
-        nome: 'Ana Oliveira',
-        departamento: 'Departamento de Matemática',
-        funcao: 'Administrador'
-      },
-      {
-        numeroUSP: '9876543',
-        nome: 'Pedro Santos',
-        departamento: 'Departamento de Física',
-        funcao: 'Docente'
-      },
-    ];
-    setDocentes(mockDocentes);
-    setFilteredDocentes(mockDocentes);
+    const carregarDocentes = async () => {
+      try {
+        const dados = await apiUsuarios.listarDocentes();
+        setDocentes(dados);
+        setFilteredDocentes(dados);
+      } catch (err) {
+        setError('Falha ao carregar docentes. Usando dados locais.');
+        console.error(err);
+        // Dados mockados de fallback
+        const mockDocentes = [
+          {
+            numeroUSP: '1234567',
+            nome: 'Carlos Silva',
+            departamento: 'Departamento de Informática',
+            funcao: 'Docente'
+          },
+          {
+            numeroUSP: '7654321',
+            nome: 'Ana Oliveira',
+            departamento: 'Departamento de Matemática',
+            funcao: 'Administrador'
+          }
+        ];
+        setDocentes(mockDocentes);
+        setFilteredDocentes(mockDocentes);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    carregarDocentes();
   }, []);
 
   // Filtro de busca
   useEffect(() => {
-    const results = docentes.filter(docente =>
-      docente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      docente.numeroUSP.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    const results = docentes.filter(docente => {
+      const searchLower = searchTerm.toLowerCase();
+      return (
+        docente.nome.toLowerCase().includes(searchLower) ||
+        String(docente.numeroUSP).toLowerCase().includes(searchLower)
+      );
+    });
     setFilteredDocentes(results);
     setCurrentPage(1);
   }, [searchTerm, docentes]);
@@ -53,11 +67,17 @@ const AltDocentes = () => {
     setShowEditPopup(true);
   };
 
-  const handleSalvarEdicao = (dadosAtualizados) => {
-    setDocentes(prev => prev.map(d => 
-      d.numeroUSP === dadosAtualizados.numeroUSP ? dadosAtualizados : d
-    ));
-    setShowEditPopup(false);
+  const handleSalvarEdicao = async (dadosAtualizados) => {
+    try {
+      await apiUsuarios.atualizarDocente(dadosAtualizados.numeroUSP, dadosAtualizados);
+      setDocentes(prev => prev.map(d => 
+        d.numeroUSP === dadosAtualizados.numeroUSP ? dadosAtualizados : d
+      ));
+      setShowEditPopup(false);
+    } catch (err) {
+      setError('Falha ao atualizar docente. Tente novamente.');
+      console.error(err);
+    }
   };
 
   // Paginação
@@ -68,9 +88,15 @@ const AltDocentes = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return <div className="docentes-loading">Carregando...</div>;
+  }
+
   return (
     <div className="docentes-alt-container">
       <div className="docentes-alt-content">
+        {error && <div className="docentes-error-message">{error}</div>}
+        
         <div className="docentes-alt-header">
           <div className="docentes-search-container">
             <div className="docentes-search-input">
@@ -93,7 +119,7 @@ const AltDocentes = () => {
             <div className="docentes-table-header">
               <div className="docentes-header-numero">Número USP</div>
               <div className="docentes-header-nome">Nome</div>
-              <div className="docentes-header-departamento">Departamento</div>
+              <div className="docentes-header-departamento">Setor</div>
               <div className="docentes-header-funcao">Função</div>
               <div className="docentes-header-editar">Editar</div>
             </div>
@@ -168,10 +194,7 @@ const AltDocentes = () => {
                   <input
                     type="text"
                     value={docenteEditando.numeroUSP}
-                    onChange={(e) => setDocenteEditando({
-                      ...docenteEditando,
-                      numeroUSP: e.target.value
-                    })}
+                    readOnly
                   />
                 </div>
                 <div className="docentes-form-group">
@@ -183,6 +206,7 @@ const AltDocentes = () => {
                       ...docenteEditando,
                       nome: e.target.value
                     })}
+                    required
                   />
                 </div>
                 <div className="docentes-form-group">
@@ -194,6 +218,7 @@ const AltDocentes = () => {
                       ...docenteEditando,
                       departamento: e.target.value
                     })}
+                    required
                   />
                 </div>
                 <div className="docentes-form-group">
@@ -205,8 +230,8 @@ const AltDocentes = () => {
                       funcao: e.target.value
                     })}
                   >
-                    <option>Docente</option>
-                    <option>Administrador</option>
+                    <option value="Docente">Docente</option>
+                    <option value="Administrador">Administrador</option>
                   </select>
                 </div>
                 <div className="popup-periodo-actionsD">
