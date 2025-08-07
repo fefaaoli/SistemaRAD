@@ -114,8 +114,10 @@
 
 /* Tabela */
 .disciplinas-list-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   gap: 10px;
   align-items: center;
   justify-content: flex-start;
@@ -127,13 +129,20 @@
 .disciplinas-table {
   border-radius: 16px;
   padding: 0px 10px 0px 10px;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   gap: 0px;
   align-items: flex-start;
   justify-content: flex-start;
   align-self: stretch;
   flex-shrink: 0;
+  position: relative;
+}
+
+.table-body-container {
+  flex: 1;
   position: relative;
 }
 

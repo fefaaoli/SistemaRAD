@@ -18,7 +18,17 @@ const DDisciplina = () => {
       'optativa_livre': 'op. livre',
       'obrigatoria': 'obrigatória'
     };
-    return tipos[tipo] || tipo;
+    return (tipos[tipo] || tipo).toLowerCase();
+  };
+
+  // Função para formatar a turma
+  const formatarTurma = (turma) => {
+    return turma.toLowerCase();
+  };
+
+  // Função para formatar o turno
+  const formatarTurno = (turma) => {
+    return turma.includes('N') ? 'noturno' : 'diurno';
   };
 
   // Busca as disciplinas ativas
@@ -44,9 +54,9 @@ const DDisciplina = () => {
           id: item.id,
           codigo: item.cod,
           nome: item.nome || item.disciplina,
-          turma: item.turma,
+          turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: item.turma.includes('N') ? 'Noturno' : 'Diurno'
+          turno: formatarTurno(item.turma)
         }));
 
         console.log('Disciplinas formatadas:', dadosFormatados);
@@ -161,50 +171,50 @@ const DDisciplina = () => {
             )}
           </div>
           
-          {filteredDisciplinas.length > itemsPerPage && (
-            <><div className="pagination-container">
-              <button
-                className="pagination-button"
-                disabled={currentPage === 1}
-                onClick={() => paginate(currentPage - 1)}
-              >
-                <img className="chevron-left" src="chevron-left0.svg" alt="Anterior" />
-                <div className="pagination-text">Anterior</div>
-              </button>
+          {/* Paginação - SEMPRE VISÍVEL */}
+          <div className="pagination-container">
+            <button
+              className="pagination-button"
+              disabled={currentPage === 1 || filteredDisciplinas.length === 0}
+              onClick={() => paginate(currentPage - 1)}
+            >
+              <img className="chevron-left" src="chevron-left0.svg" alt="Anterior" />
+              <div className="pagination-text">Anterior</div>
+            </button>
 
-              <div className="pagination-numbers">
-                {[...Array(totalPages).keys()].map(number => (
-                  <button
-                    key={number}
-                    className={`page-number ${currentPage === number + 1 ? 'active' : ''}`}
-                    onClick={() => paginate(number + 1)}
-                  >
-                    {number + 1}
-                  </button>
-                ))}
-              </div>
-
-              <button
-                className="pagination-button"
-                disabled={currentPage === totalPages}
-                onClick={() => paginate(currentPage + 1)}
-              >
-                <div className="pagination-text">Próxima</div>
-                <img className="chevron-right" src="chevron-right0.svg" alt="Próxima" />
-              </button>
-            </div>
-            
-            <div className="confirmar-selecao-container">
+            <div className="pagination-numbers">
+              {[...Array(totalPages).keys()].map(number => (
                 <button
-                  className="confirmar-selecao-btn"
-
+                  key={number}
+                  className={`page-number ${currentPage === number + 1 ? 'active' : ''}`}
+                  onClick={() => paginate(number + 1)}
+                  disabled={filteredDisciplinas.length === 0}
                 >
-                  {'Confirmar Seleção'}
-                  <img className="confirm-icon" src="check0.svg" alt="Confirmar" />
+                  {number + 1}
                 </button>
-              </div></>
+              ))}
+            </div>
 
-          )}
+            <button
+              className="pagination-button"
+              disabled={currentPage === totalPages || filteredDisciplinas.length === 0}
+              onClick={() => paginate(currentPage + 1)}
+            >
+              <div className="pagination-text">Próxima</div>
+              <img className="chevron-right" src="chevron-right0.svg" alt="Próxima" />
+            </button>
+          </div>
+          
+          {/* Botão Confirmar Seleção - SEMPRE VISÍVEL */}
+          <div className="confirmar-selecao-container">
+            <button
+              className="confirmar-selecao-btn"
+              disabled={filteredDisciplinas.length === 0}
+            >
+              {'Confirmar Seleção'}
+              <img className="confirm-icon" src="check0.svg" alt="Confirmar" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

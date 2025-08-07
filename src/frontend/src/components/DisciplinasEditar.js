@@ -14,6 +14,26 @@ const DisciplinasEditar = () => {
   const [error, setError] = useState(null);
   const itemsPerPage = 20;
 
+  // Função para formatar o tipo da disciplina
+  const formatarTipo = (tipo) => {
+    const tipos = {
+      'optativa_eletiva': 'op. eletiva',
+      'optativa_livre': 'op. livre',
+      'obrigatoria': 'obrigatória'
+    };
+    return (tipos[tipo] || tipo).toLowerCase();
+  };
+
+  // Função para formatar a turma
+  const formatarTurma = (turma) => {
+    return turma.toLowerCase();
+  };
+
+  // Função para formatar o turno
+  const formatarTurno = (turma) => {
+    return turma.includes('N') ? 'noturno' : 'diurno';
+  };
+
   // Carrega disciplinas da API
   useEffect(() => {
     const carregarDisciplinas = async () => {
@@ -24,9 +44,9 @@ const DisciplinasEditar = () => {
           id: item.id,
           codigo: item.cod,
           nome: item.disciplina,
-          turma: item.turma,
+          turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: item.turma.includes('D') ? 'Diurno' : 'Noturno',
+          turno: formatarTurno(item.turma),
           cred: item.cred
         }));
         
@@ -42,16 +62,6 @@ const DisciplinasEditar = () => {
 
     carregarDisciplinas();
   }, []);
-
-  // Formata o tipo para exibição
-  const formatarTipo = (tipo) => {
-    switch(tipo) {
-      case 'optativa_eletiva': return 'Optativa Eletiva';
-      case 'optativa_livre': return 'Optativa Livre';
-      case 'obrigatoria': return 'Obrigatória';
-      default: return tipo;
-    }
-  };
 
   // Converte o tipo para o formato da API
   const parseTipo = (tipo) => {

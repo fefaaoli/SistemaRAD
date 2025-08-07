@@ -1,126 +1,108 @@
+const db = require('../database');
+const { QueryTypes } = require('sequelize');
 const Horario = require('../models/Horario');
-const sequelize = require('../database');
-const { Op } = require('sequelize');
 
-exports.getHorariosByPeriodo = async (req, res) => {
+// GET - Listar todos os períodos disponíveis
+exports.getPeriodoMaisRecente = async (req, res) => {
   try {
-    const periodo = req.params.periodo.replace('-', '/');
-
-    const horarios = await Horario.findAll({
-      where: { 
-        periodo,
-        cat: 'hora' // Alterado para maiúsculo para consistência
-      },
-      order: [['ordem', 'ASC']],
-      attributes: ['valor']
-    });
-
-    const dias = await Horario.findAll({
-      where: { 
-        periodo,
-        cat: 'dia' // Alterado para maiúsculo para consistência
-      },
-      order: [['ordem', 'ASC']],
-      attributes: ['valor']
-    });
-
-    res.json({
-      horarios: horarios.map(h => h.valor),
-      dias: dias.map(d => d.valor)
-    });
+    const rows = await db.query(
+      'SELECT periodo FROM exp_horario ORDER BY periodo DESC LIMIT 1',
+      {
+        type: QueryTypes.SELECT
+      }
+    );
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Nenhum período cadastrado' });
+    }
+    
+    res.json({ periodo: rows[0].periodo });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error('Erro ao buscar período mais recente:', error);
+    res.status(500).json({ error: 'Erro interno ao buscar período' });
   }
 };
 
-exports.updateHorarios = async (req, res) => {
-  const transaction = await sequelize.transaction();
+// GET - Listar horários padrão por período
+exports.getHorariosPorPeriodo = async (req, res) => {
+  console.log('Query params:', req.query);   // <-- log de debug importante!
+  const { periodo } = req.query;
+  console.log('Período recebido na rota:', periodo);
+
+  if (!periodo) {
+    return res.status(400).json({ error: 'Parâmetro período é obrigatório' });
+  }
+
   try {
-    const { periodo } = req.params;
-    const periodoFormatado = periodo.replace('-', '/');
-    const { horarios, horariosParaRemover } = req.body;
-
-    // Validação básica
-    if ((!horarios || horarios.length === 0) && (!horariosParaRemover || horariosParaRemover.length === 0)) {
-      await transaction.rollback();
-      return res.status(400).json({ error: 'Nenhum horário para adicionar ou remover foi enviado.' });
-    }
-
-    // Validação de formato
-    const formatoValido = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9] às ([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    
-    if (horarios && horarios.some(h => !formatoValido.test(h))) {
-      await transaction.rollback();
-      return res.status(400).json({ error: 'Formato de horário inválido. Use "HH:MM às HH:MM".' });
-    }
-
-    if (horariosParaRemover && horariosParaRemover.some(h => !formatoValido.test(h))) {
-      await transaction.rollback();
-      return res.status(400).json({ error: 'Formato de horário inválido para remoção. Use "HH:MM às HH:MM".' });
-    }
-
-    // Remoção de horários
-    if (horariosParaRemover && horariosParaRemover.length > 0) {
-      await Horario.destroy({
-        where: {
-          periodo: periodoFormatado,
-          cat: 'HORA',
-          valor: { [Op.in]: horariosParaRemover }
-        },
-        transaction
-      });
-    }
-
-    // Adição de novos horários
-    if (horarios && horarios.length > 0) {
-      // Verifica duplicatas
-      const existentes = await Horario.findAll({
-        where: {
-          periodo: periodoFormatado,
-          cat: 'HORA',
-          valor: { [Op.in]: horarios }
-        },
-        transaction
-      });
-
-      if (existentes.length > 0) {
-        await transaction.rollback();
-        return res.status(400).json({ 
-          error: 'Alguns horários já existem no sistema.',
-          horariosDuplicados: existentes.map(h => h.valor)
-        });
+    const rows = await db.query(
+      'SELECT * FROM exp_horario WHERE periodo = ? ORDER BY ordem',
+      {
+        replacements: [periodo],
+        type: QueryTypes.SELECT
       }
-
-      // Encontra a última ordem
-      const ultimaOrdem = await Horario.max('ordem', {
-        where: { periodo: periodoFormatado, cat: 'HORA' },
-        transaction
-      }) || 0;
-
-      // Prepara e insere novos horários
-      const novosHorarios = horarios.map((valor, index) => ({
-        periodo: periodoFormatado,
-        ordem: ultimaOrdem + (index + 1) * 10,
-        cat: 'HORA',
-        valor
-      }));
-
-      await Horario.bulkCreate(novosHorarios, { transaction });
-    }
-
-    await transaction.commit();
-    res.json({ 
-      message: 'Operação concluída com sucesso.',
-      horariosAdicionados: horarios || [],
-      horariosRemovidos: horariosParaRemover || []
-    });
-
+    );
+    res.json(rows);
   } catch (error) {
-    await transaction.rollback();
-    console.error('Erro detalhado:', error);
-    res.status(500).json({ 
-      error: 'Falha ao processar a solicitação.',
-      detalhes: error.message
+    console.error('Erro ao buscar horários:', error);
+    res.status(500).json({ error: 'Erro interno ao buscar horários' });
+  }
+};
+
+// POST - Adicionar ou atualizar horários padrão (recebe lista de horários para salvar no período)
+exports.salvarHorarios = async (req, res) => {
+  const { periodo, horarios } = req.body;
+  // horarios é um array de objetos { ordem, cat, valor }
+
+  if (!periodo || !Array.isArray(horarios)) {
+    return res.status(400).json({ error: 'Parâmetros inválidos' });
+  }
+
+  try {
+    // Remover horários atuais daquele período (resetar)
+    await db.query('DELETE FROM exp_horario WHERE periodo = ?', {
+      replacements: [periodo],
+      type: QueryTypes.DELETE
     });
+
+    // Inserir os novos horários
+    const insertPromises = horarios.map(({ ordem, cat, valor }) => {
+      return db.query(
+        'INSERT INTO exp_horario (periodo, ordem, cat, valor) VALUES (?, ?, ?, ?)',
+        {
+          replacements: [periodo, ordem, cat, valor],
+          type: QueryTypes.INSERT
+        }
+      );
+    });
+    await Promise.all(insertPromises);
+
+    res.json({ message: 'Horários salvos com sucesso' });
+  } catch (error) {
+    console.error('Erro ao salvar horários:', error);
+    res.status(500).json({ error: 'Erro interno ao salvar horários' });
+  }
+};
+
+// DELETE - Remover faixa horária específica pelo id composto
+// Como a tabela não tem ID, podemos remover pelo período + ordem (único)
+exports.removerHorario = async (req, res) => {
+  const { periodo, ordem } = req.params;
+  try {
+    const result = await db.query(
+      'DELETE FROM exp_horario WHERE periodo = ? AND ordem = ?',
+      {
+        replacements: [periodo, ordem],
+        type: QueryTypes.DELETE
+      }
+    );
+
+    // Sequelize retorna um array, mas para DELETE não retorna affectedRows diretamente,
+    // então, para garantir, podemos checar a resposta conforme seu banco
+    // Se quiser, pode executar um SELECT para verificar existência após DELETE
+
+    res.json({ message: 'Horário removido com sucesso' });
+  } catch (error) {
+    console.error('Erro ao remover horário:', error);
+    res.status(500).json({ error: 'Erro interno ao remover horário' });
   }
 };

@@ -33,9 +33,6 @@ app.use('/api/admin/horarios', adminHorarioRoutes);
 const adminRestricoesRoutes = require('./routes/restricoesAdminRoutes');
 app.use('/api/admin/restricoes', adminRestricoesRoutes);
 
-const docenteRestricoesRoutes = require('./routes/docente/restricoesDocenteRoutes');
-app.use('/api/docente/restricoes', docenteRestricoesRoutes);
-
 const usuarioRoutes = require('./routes/usuarioRoutes');
 app.use('/api/admin', usuarioRoutes);
 

@@ -23,6 +23,16 @@ const Disciplinas = () => {
     return tipos[tipo] || tipo;
   };
 
+    // Função para formatar a turma
+  const formatarTurma = (turma) => {
+    return turma.toLowerCase();
+  };
+
+  // Função para formatar o turno
+  const formatarTurno = (turma) => {
+    return turma.includes('N') ? 'noturno' : 'diurno';
+  };
+
   // Busca disciplinas
   useEffect(() => {
     const fetchDisciplinas = async () => {
@@ -34,9 +44,9 @@ const Disciplinas = () => {
           id: item.id,
           codigo: item.cod,
           nome: item.disciplina,
-          turma: item.turma,
+          turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: item.turma?.includes('D') ? 'Diurno' : 'Noturno'
+          turno: formatarTurno(item.turma)
         }));
 
         setDisciplinas(dadosFormatados);

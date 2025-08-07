@@ -1,15 +1,86 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './HorarioD.css';
 
-function Horario() {
-  const [horarios, setHorarios] = useState([
-    { id: 1, periodo: '08:00 - 09:40', dias: [false, false, false, false, false, false] },
-    { id: 2, periodo: '10:00 - 11:40', dias: [false, false, false, false, false, false] },
-    { id: 3, periodo: '19:00 - 20:40', dias: [false, false, false, false, false, false] },
-    { id: 4, periodo: '20:50 - 22:30', dias: [false, false, false, false, false, false] }
-  ]);
+function HorarioD() {
+  const [horarios, setHorarios] = useState([]);
+  const [diasSemana, setDiasSemana] = useState([]);
+  const [periodoAtual, setPeriodoAtual] = useState('');
 
-  const [diasSemana] = useState(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
+  // Processa os dados do backend para o formato usado no frontend
+  const processarDadosBackend = useCallback((data) => {
+    const diasMap = {};
+    let diaAtual = null;
+
+    data.forEach(h => {
+      const valor = h.valor?.toLowerCase();
+      if (valor?.includes('feira')) {
+        diaAtual = normalizarDia(valor);
+        if (!diasMap[diaAtual]) diasMap[diaAtual] = [];
+      } else if (valor?.match(/\d{2}:\d{2}/)) {
+        if (diaAtual) diasMap[diaAtual].push(valor);
+      }
+    });
+
+    const diasSemana = Object.keys(diasMap);
+    const horariosUnicos = Array.from(new Set(Object.values(diasMap).flat()));
+
+    // Modificação: forçar todos os dias como false inicialmente
+    const novaTabela = horariosUnicos.map((horarioTexto, i) => ({
+      id: i + 1,
+      periodo: horarioTexto,
+      dias: diasSemana.map(() => false) // Todos desmarcados por padrão
+    }));
+
+    setDiasSemana(diasSemana);
+    setHorarios(novaTabela);
+  }, []);
+
+  const normalizarDia = (texto) => {
+    const mapa = {
+      '2a feira': 'Segunda',
+      '3a feira': 'Terça',
+      '4a feira': 'Quarta',
+      '5a feira': 'Quinta',
+      '6a feira': 'Sexta',
+      'sábado': 'Sábado'
+    };
+    return mapa[texto.toLowerCase()] || texto;
+  };
+
+  // Carrega o período mais recente e os horários ao montar o componente
+  useEffect(() => {
+    const carregarPeriodoRecente = async () => {
+      try {
+        // 1. Busca o período mais recente
+        const responsePeriodo = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        if (!responsePeriodo.ok) throw new Error('Erro ao carregar período');
+        
+        const { periodo } = await responsePeriodo.json();
+        setPeriodoAtual(periodo);
+
+        // 2. Busca os horários do período
+        const responseHorarios = await fetch(
+          `http://localhost:5000/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
+        );
+        if (!responseHorarios.ok) throw new Error('Erro ao carregar horários');
+
+        const data = await responseHorarios.json();
+        processarDadosBackend(data);
+      } catch (error) {
+        console.error('Erro:', error);
+        // Mantém os dados padrão caso ocorra erro
+        setDiasSemana(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
+        setHorarios([
+          { id: 1, periodo: '08:00 - 09:40', dias: [false, false, false, false, false, false] },
+          { id: 2, periodo: '10:00 - 11:40', dias: [false, false, false, false, false, false] },
+          { id: 3, periodo: '19:00 - 20:40', dias: [false, false, false, false, false, false] },
+          { id: 4, periodo: '20:50 - 22:30', dias: [false, false, false, false, false, false] }
+        ]);
+      }
+    };
+
+    carregarPeriodoRecente();
+  }, [processarDadosBackend]);
 
   const toggleDia = (horarioId, diaIndex) => {
     setHorarios(horarios.map(horario => {
@@ -34,7 +105,7 @@ function Horario() {
           <div className="horario-grid">
             {/* Cabeçalho */}
             <div className="horario-header">
-              <div className="horario-title">Horários</div>
+              <div className="horario-title">Horários {periodoAtual && `- ${periodoAtual}`}</div>
               {diasSemana.map((dia, index) => (
                 <div key={index} className="horario-dia">
                   {dia}
@@ -77,4 +148,4 @@ function Horario() {
   );
 }
 
-export default Horario;
+export default HorarioD;

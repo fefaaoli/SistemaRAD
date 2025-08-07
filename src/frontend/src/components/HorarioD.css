@@ -1,5 +1,10 @@
 /* Container Principal */
 .horario-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.horario-container {
   box-sizing: border-box;
   border-radius: 16px;
   display: flex;
@@ -43,19 +48,21 @@
   padding: 0px 10px;
 }
 
+
 /* Cabeçalho */
 .horario-header {
   background: #e9ecef;
   border-bottom: 1px solid #e9ecef;
-  display: grid;
-  grid-template-columns: 1fr repeat(6, 1fr);
-  gap: 16px;
-  padding: 12px 20px;
+  padding: 12px 35px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
+  position: relative;
 }
 
-.horario-title, .horario-dia {
+.horario-title {
   color: #6c757d;
   text-align: center;
   font-family: "Inter-SemiBold", sans-serif;
@@ -63,21 +70,38 @@
   line-height: 22px;
   letter-spacing: -0.02em;
   font-weight: 600;
+  width: 200px;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 22px;
+}
+
+.horario-dia {
+  color: #6c757d;
+  text-align: center;
+  font-family: "Inter-SemiBold", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Linhas de horários */
 .horario-row {
   background: #ffffff;
   border-bottom: 1px solid #e9ecef;
-  display: grid;
-  grid-template-columns: 1fr repeat(6, 1fr);
-  gap: 16px;
-  padding: 12px 20px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
   width: 100%;
+  position: relative;
 }
 
 .horario-periodo {
@@ -88,16 +112,23 @@
   line-height: 22px;
   letter-spacing: -0.02em;
   font-weight: 400;
+  width: 220px;
+  min-width: 225px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 
 /* Células */
 .horario-cell {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 80px;
+  cursor: pointer;
+  height: 100%;
 }
 
 /* Checkbox personalizado */
@@ -112,23 +143,20 @@
 .horario-checkbox-input {
   position: absolute;
   opacity: 0;
-  cursor: pointer;
-  height: 0;
   width: 0;
+  height: 0;
 }
 
 .horario-checkbox-custom {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 20px;
   height: 20px;
   border: 2px solid #6C757D;
   border-radius: 3px;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .horario-checkbox-input:checked ~ .horario-checkbox-custom {
