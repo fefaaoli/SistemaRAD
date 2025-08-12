@@ -9,7 +9,9 @@ const DisciplinasEditar = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [disciplinaEditando, setDisciplinaEditando] = useState(null);
+  const [disciplinaDeletando, setDisciplinaDeletando] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const itemsPerPage = 20;
@@ -84,10 +86,33 @@ const DisciplinasEditar = () => {
   }, [searchTerm, disciplinas]);
 
   // Handlers
-
   const handleEditarClick = (disciplina) => {
     setDisciplinaEditando(disciplina);
     setShowEditPopup(true);
+  };
+
+  const handleDeletarClick = (disciplina) => {
+    setDisciplinaDeletando(disciplina);
+    setShowDeletePopup(true);
+  };
+
+  const handleConfirmarDelecao = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`http://localhost:5000/api/admin/disciplinas/${disciplinaDeletando.id}`);
+      
+      // Atualiza o estado local
+      setDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
+      setFilteredDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
+      
+      setShowDeletePopup(false);
+      alert('Disciplina removida com sucesso!');
+    } catch (err) {
+      console.error('Erro ao remover disciplina:', err);
+      alert(`Erro ao remover: ${err.response?.data?.error || err.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSalvarEdicao = async (dadosAtualizados) => {
@@ -192,6 +217,12 @@ const DisciplinasEditar = () => {
                   >
                     <img className="pencil-icon" src="pencil0.svg" alt="Editar" />
                   </button>
+                  <button 
+                    className="schedule-action-btn"
+                    onClick={() => handleDeletarClick(disciplina)}
+                  >
+                    ×
+                  </button>
                 </div>
               </div>
             ))}
@@ -281,6 +312,13 @@ const DisciplinasEditar = () => {
                     <option>1º Semestre</option>
                     <option>2º Semestre</option>
                     <option>3º Semestre</option>
+                    <option>4º Semestre</option>
+                    <option>5º Semestre</option>
+                    <option>6º Semestre</option>
+                    <option>7º Semestre</option>
+                    <option>8º Semestre</option>
+                    <option>9º Semestre</option>
+                    <option>10º Semestre</option>
                   </select>
                 </div>
                 <div className="form-group">
@@ -353,6 +391,46 @@ const DisciplinasEditar = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popup de Deleção */}
+      {showDeletePopup && disciplinaDeletando && (
+        <div className="edit-popup-overlay">
+          <div className="edit-popup-container">
+            <div className="popup-header">
+              <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone deletar"/>
+              <div className="popup-disciplina-title">Remover Disciplina</div>
+            </div>
+            <div className="popup-bodyE">
+              <p className='popup-labelDD'>Tem certeza que deseja remover a disciplina <strong>{disciplinaDeletando.nome}</strong>?</p>
+              <div className="popup-periodo-actions">
+                <button 
+                  className="popup-button-cancel"
+                  onClick={() => setShowDeletePopup(false)}
+                  disabled={loading}
+                >
+                  <div className="popup-button-label">Cancelar</div>
+                  <img className="popup-x-icon" src="x0.svg" alt="Cancelar"/>
+                </button>
+                
+                <button 
+                  className="popup-button-confirm"
+                  onClick={handleConfirmarDelecao}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="popup-button-label">Removendo...</div>
+                  ) : (
+                    <>
+                      <div className="popup-button-label">Remover</div>
+                      <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

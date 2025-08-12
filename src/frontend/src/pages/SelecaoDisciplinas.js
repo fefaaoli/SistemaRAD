@@ -1,9 +1,30 @@
+import React, { useEffect, useState } from 'react';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import DDisciplinas from '../components/DDisciplinas';
 import './ConfigurarDisciplinas.css';
 
 function SelecaoDisciplinas() {
+  const [periodoAtual, setPeriodoAtual] = useState('Carregando...');
+
+  useEffect(() => {
+    async function fetchPeriodo() {
+      try {
+        const response = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        if (!response.ok) {
+          throw new Error('Erro ao buscar período');
+        }
+
+        const data = await response.json();
+        setPeriodoAtual(data.periodo);
+      } catch (error) {
+        console.error('Erro ao buscar período:', error);
+        setPeriodoAtual('Indisponível');
+      }
+    }
+
+    fetchPeriodo();
+  }, []);
 
   return (
     <div className="frame-2315">
@@ -16,7 +37,7 @@ function SelecaoDisciplinas() {
               <div className="frame-2320">
                 <div className="perfil-de-administrador">Perfil de Administrador</div>
                 <div className="per-odo-letivo-atual-2025-01">
-                  Período Letivo Atual: 2025/01
+                  Período Letivo Atual: {periodoAtual}
                 </div>
               </div>
             </div>

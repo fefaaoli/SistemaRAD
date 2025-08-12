@@ -5,6 +5,16 @@ function HorarioD() {
   const [horarios, setHorarios] = useState([]);
   const [diasSemana, setDiasSemana] = useState([]);
   const [periodoAtual, setPeriodoAtual] = useState('');
+  const [maxIndisponiveis, setMaxIndisponiveis] = useState(4); // Valor padrão inicial
+  const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
+
+  // Calcula o total de checkboxes marcados como indisponível
+  useEffect(() => {
+    const count = horarios.reduce((acc, horario) => {
+      return acc + horario.dias.filter(dia => dia).length;
+    }, 0);
+    setTotalIndisponiveis(count);
+  }, [horarios]);
 
   // Processa os dados do backend para o formato usado no frontend
   const processarDadosBackend = useCallback((data) => {
@@ -24,11 +34,10 @@ function HorarioD() {
     const diasSemana = Object.keys(diasMap);
     const horariosUnicos = Array.from(new Set(Object.values(diasMap).flat()));
 
-    // Modificação: forçar todos os dias como false inicialmente
     const novaTabela = horariosUnicos.map((horarioTexto, i) => ({
       id: i + 1,
       periodo: horarioTexto,
-      dias: diasSemana.map(() => false) // Todos desmarcados por padrão
+      dias: diasSemana.map(() => false)
     }));
 
     setDiasSemana(diasSemana);
@@ -47,9 +56,9 @@ function HorarioD() {
     return mapa[texto.toLowerCase()] || texto;
   };
 
-  // Carrega o período mais recente e os horários ao montar o componente
+  // Carrega o período mais recente, horários e configurações de restrição
   useEffect(() => {
-    const carregarPeriodoRecente = async () => {
+    const carregarDados = async () => {
       try {
         // 1. Busca o período mais recente
         const responsePeriodo = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
@@ -64,11 +73,20 @@ function HorarioD() {
         );
         if (!responseHorarios.ok) throw new Error('Erro ao carregar horários');
 
-        const data = await responseHorarios.json();
-        processarDadosBackend(data);
+        const dataHorarios = await responseHorarios.json();
+        processarDadosBackend(dataHorarios);
+
+        // 3. Busca as configurações de restrição
+        const responseRestricao = await fetch(
+          `http://localhost:5000/api/admin/restricoes/horario?periodo=${encodeURIComponent(periodo)}`
+        );
+        if (responseRestricao.ok) {
+          const { maxIndisponiveis } = await responseRestricao.json();
+          setMaxIndisponiveis(maxIndisponiveis);
+        }
       } catch (error) {
         console.error('Erro:', error);
-        // Mantém os dados padrão caso ocorra erro
+        // Dados padrão em caso de erro
         setDiasSemana(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
         setHorarios([
           { id: 1, periodo: '08:00 - 09:40', dias: [false, false, false, false, false, false] },
@@ -79,29 +97,67 @@ function HorarioD() {
       }
     };
 
-    carregarPeriodoRecente();
+    carregarDados();
   }, [processarDadosBackend]);
 
   const toggleDia = (horarioId, diaIndex) => {
-    setHorarios(horarios.map(horario => {
-      if (horario.id === horarioId) {
-        const novosDias = [...horario.dias];
-        novosDias[diaIndex] = !novosDias[diaIndex];
-        return { ...horario, dias: novosDias };
-      }
-      return horario;
-    }));
+    setHorarios(prevHorarios => {
+      return prevHorarios.map(horario => {
+        if (horario.id === horarioId) {
+          // Verifica se está tentando marcar um novo checkbox indisponível
+          const tentandoMarcar = !horario.dias[diaIndex];
+          if (tentandoMarcar && totalIndisponiveis >= maxIndisponiveis) {
+            alert(`Você só pode marcar ${maxIndisponiveis} horários como indisponíveis!`);
+            return horario;
+          }
+          
+          const novosDias = [...horario.dias];
+          novosDias[diaIndex] = !novosDias[diaIndex];
+          return { ...horario, dias: novosDias };
+        }
+        return horario;
+      });
+    });
   };
 
-  const handleConfirm = () => {
-    console.log("Horários selecionados:", horarios);
-    alert("Seleção confirmada com sucesso!");
+  const handleConfirm = async () => {
+    try {
+      // Envia as indisponibilidades para o backend
+      const indisponibilidades = horarios.flatMap(horario => {
+        return horario.dias
+          .map((selecionado, diaIndex) => selecionado ? {
+            horarioId: horario.id,
+            dia: diasSemana[diaIndex],
+            periodo: horario.periodo
+          } : null)
+          .filter(Boolean);
+      });
+
+      const response = await fetch('http://localhost:5000/api/docente/restricoes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          periodo: periodoAtual,
+          indisponibilidades
+        })
+      });
+
+      if (response.ok) {
+        alert("Restrições salvas com sucesso!");
+      } else {
+        throw new Error('Erro ao salvar restrições');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      alert("Erro ao salvar restrições. Por favor, tente novamente.");
+    }
   };
 
   return (
     <div className="horario-container">
       <div className="horario-card">
         <div className="horario-content">
+
           <div className="horario-grid">
             {/* Cabeçalho */}
             <div className="horario-header">
@@ -126,6 +182,10 @@ function HorarioD() {
                         checked={selecionado}
                         onChange={() => toggleDia(horario.id, diaIndex)}
                         className="horario-checkbox-input"
+                        disabled={
+                          !selecionado && 
+                          totalIndisponiveis >= maxIndisponiveis
+                        }
                       />
                       <span className="horario-checkbox-custom"></span>
                     </label>
@@ -137,7 +197,11 @@ function HorarioD() {
           
           {/* Botão de confirmação */}
           <div className="horario-confirm-container">
-            <button className="horario-confirm-button" onClick={handleConfirm}>
+            <button 
+              className="horario-confirm-button" 
+              onClick={handleConfirm}
+              disabled={totalIndisponiveis > maxIndisponiveis}
+            >
               Confirmar Seleção
               <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
             </button>

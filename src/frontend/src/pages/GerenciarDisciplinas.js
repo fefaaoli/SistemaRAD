@@ -32,7 +32,7 @@ function GerenciarDisciplinas() {
       const disciplinaData = {
         cod: formData.codigo,
         disciplina: formData.disciplina,
-        turma: formData.turma.includes('1º') ? '1D01' : '2N01', // Exemplo de formatação
+        turma: formData.turma, 
         tipo: formData.tipo === 'Optativa Eletiva' ? 'optativa_eletiva' : 
               formData.tipo === 'Optativa Livre' ? 'optativa_livre' : 'obrigatoria',
         cred: parseInt(formData.creditos),
@@ -162,6 +162,14 @@ function GerenciarDisciplinas() {
                         >
                           <option>1º Semestre</option>
                           <option>2º Semestre</option>
+                          <option>3º Semestre</option>
+                          <option>4º Semestre</option>
+                          <option>5º Semestre</option>
+                          <option>6º Semestre</option>
+                          <option>7º Semestre</option>
+                          <option>8º Semestre</option>
+                          <option>9º Semestre</option>
+                          <option>10º Semestre</option>
                         </select>
                         <img className="popup-selector-icon" src="selector0.svg" alt="Seletor"/>
                       </div>

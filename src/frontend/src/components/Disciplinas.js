@@ -11,7 +11,16 @@ const Disciplinas = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [filterOption, setFilterOption] = useState('todos');
+  const [selectAll, setSelectAll] = useState(false);
   const itemsPerPage = 20;
+
+  // Lógica de paginação
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredDisciplinas.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
   // Função para formatar o tipo da disciplina
   const formatarTipo = (tipo) => {
@@ -23,7 +32,7 @@ const Disciplinas = () => {
     return tipos[tipo] || tipo;
   };
 
-    // Função para formatar a turma
+  // Função para formatar a turma
   const formatarTurma = (turma) => {
     return turma.toLowerCase();
   };
@@ -31,6 +40,27 @@ const Disciplinas = () => {
   // Função para formatar o turno
   const formatarTurno = (turma) => {
     return turma.includes('N') ? 'noturno' : 'diurno';
+  };
+
+  // Função para aplicar filtro de semestre
+  const aplicarFiltroSemestre = () => {
+    let resultados = disciplinas;
+    
+    if (filterOption === 'impar') {
+      resultados = disciplinas.filter(disciplina => {
+        const semestre = parseInt(disciplina.turma.split(' ')[0]);
+        return semestre % 2 !== 0;
+      });
+    } else if (filterOption === 'par') {
+      resultados = disciplinas.filter(disciplina => {
+        const semestre = parseInt(disciplina.turma.split(' ')[0]);
+        return semestre % 2 === 0;
+      });
+    }
+    
+    setFilteredDisciplinas(resultados);
+    setCurrentPage(1);
+    setShowFilterPopup(false);
   };
 
   // Busca disciplinas
@@ -70,9 +100,10 @@ const Disciplinas = () => {
     );
     setFilteredDisciplinas(results);
     setCurrentPage(1);
+    setSelectAll(false);
   }, [searchTerm, disciplinas]);
 
-  // Manipulador do checkbox
+  // Manipulador do checkbox individual
   const handleCheckboxChange = (id) => {
     setSelectedDisciplinas(prev => {
       if (prev.includes(id)) {
@@ -82,6 +113,29 @@ const Disciplinas = () => {
       }
     });
   };
+
+  // Função para selecionar/deselecionar TODAS as disciplinas (não apenas da página atual)
+  const handleSelectAllChange = () => {
+    if (selectAll) {
+      setSelectedDisciplinas([]);
+    } else {
+      const allIds = filteredDisciplinas.map(disciplina => disciplina.id);
+      setSelectedDisciplinas(allIds);
+    }
+    setSelectAll(!selectAll);
+  };
+
+  // Atualiza o estado selectAll quando selectedDisciplinas muda
+  useEffect(() => {
+    if (filteredDisciplinas.length > 0) {
+      const allSelected = filteredDisciplinas.every(disciplina => 
+        selectedDisciplinas.includes(disciplina.id)
+      );
+      setSelectAll(allSelected);
+    } else {
+      setSelectAll(false);
+    }
+  }, [selectedDisciplinas, filteredDisciplinas]);
 
   // Função para confirmar seleção - Versão simplificada com alert
   const handleConfirmSelection = async () => {
@@ -110,6 +164,7 @@ const Disciplinas = () => {
       if (response.data.success) {
         alert(`${selectedDisciplinas.length} disciplina(s) vinculada(s) ao período ${response.data.periodoUtilizado}`);
         setSelectedDisciplinas([]);
+        setSelectAll(false);
         
         // Verificação imediata no banco (para debug)
         const verifica = await axios.get(`http://localhost:5000/api/admin/disciplinas/ativas?periodo=${response.data.periodoUtilizado}`);
@@ -130,14 +185,10 @@ const Disciplinas = () => {
       }
       
       alert(errorMsg);
+    } finally {
+      setSaving(false);
     }
   };
-
-  // Lógica de paginação
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDisciplinas.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -165,10 +216,83 @@ const Disciplinas = () => {
               <img className="search-icon" src="search0.svg" alt="Buscar" />
             </div>
           </div>
-          <div className="filter-button">
+          <div className="filter-button" onClick={() => setShowFilterPopup(true)}>
             <img className="filter-icon" src="filter0.svg" alt="Filtrar" />
           </div>
         </div>
+        
+        {/* Popup de Filtro */}
+        {showFilterPopup && (
+          <div className="popup-overlay">
+            <div className="popup-periodo-container">
+              <div className="popup-periodo-header">
+                <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone filtrar"/>
+                <div className="popup-periodo-title">Filtrar Disciplinas</div>
+              </div>
+              <div className="popup-bodyE">
+                <form onSubmit={(e) => {
+                  e.preventDefault();
+                  aplicarFiltroSemestre();
+                }}>
+                  <div className="form-group">
+                    <div className="filter-options">
+                      <label className="filter-option">
+                        <input
+                          type="radio"
+                          name="filterOption"
+                          value="todos"
+                          checked={filterOption === 'todos'}
+                          onChange={() => setFilterOption('todos')}
+                        />
+                        Todos os semestres
+                      </label>
+                      <label className="filter-option">
+                        <input
+                          type="radio"
+                          name="filterOption"
+                          value="impar"
+                          checked={filterOption === 'impar'}
+                          onChange={() => setFilterOption('impar')}
+                        />
+                        Semestres ímpares (1º, 3º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input
+                          type="radio"
+                          name="filterOption"
+                          value="par"
+                          checked={filterOption === 'par'}
+                          onChange={() => setFilterOption('par')}
+                        />
+                        Semestres pares (2º, 4º, ...)
+                      </label>
+                    </div>
+                  </div>
+                  <div className="popup-disciplina-actions">
+                    <button 
+                      type="button"
+                      className="popup-cancel-button"
+                      onClick={() => setShowFilterPopup(false)}
+                      disabled={loading}
+                    >
+                      <div className="popup-button-text">Cancelar</div>
+                      <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
+                    </button>
+                    
+                    <button 
+                      type="submit"
+                      className="popup-confirm-button"
+                      disabled={loading}
+                    >
+                      <div className="popup-button-text">Aplicar Filtro</div>
+                      <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
         
         <div className="disciplinas-list-container">
           <div className="disciplinas-table">
@@ -180,7 +304,15 @@ const Disciplinas = () => {
                 <div className="tipo-text">Tipo</div>
               </div>
               <div className="header-turno">Turno</div>
-              <div className="header-checkbox"></div>
+              <div className="header-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selectAll}
+                  onChange={handleSelectAllChange}
+                  disabled={saving || currentItems.length === 0}
+                  className="select-all-checkbox"
+                />
+              </div>
             </div>
             
             {currentItems.length > 0 ? (

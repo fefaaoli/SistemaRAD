@@ -493,3 +493,10 @@
   overflow: visible;
 }
 
+.popup-labelDD {
+  color: var(--neutral-600, #6c757d);
+  font-family: var(--body-small-font-family, "Inter-Regular", sans-serif);
+  font-size: var(--body-small-font-size, 14px);
+  line-height: var(--body-small-line-height, 19px);
+  text-align: center;
+}

@@ -8,7 +8,9 @@ const AltDocentes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [showEditPopup, setShowEditPopup] = useState(false);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
   const [docenteEditando, setDocenteEditando] = useState(null);
+  const [docenteDeletando, setDocenteDeletando] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const itemsPerPage = 20;
@@ -67,6 +69,11 @@ const AltDocentes = () => {
     setShowEditPopup(true);
   };
 
+  const handleDeletarClick = (docente) => {
+    setDocenteDeletando(docente);
+    setShowDeletePopup(true);
+  };
+
   const handleSalvarEdicao = async (dadosAtualizados) => {
     try {
       await apiUsuarios.atualizarDocente(dadosAtualizados.numeroUSP, dadosAtualizados);
@@ -78,6 +85,20 @@ const AltDocentes = () => {
       setError('Falha ao atualizar docente. Tente novamente.');
       console.error(err);
     }
+  };
+
+  const handleConfirmarDelecao = async () => {
+      setLoading(true);
+      try {
+          await apiUsuarios.removerDocente(docenteDeletando.numeroUSP);
+          setDocentes(prev => prev.filter(d => d.numeroUSP !== docenteDeletando.numeroUSP));
+          setShowDeletePopup(false);
+      } catch (err) {
+          setError('Falha ao remover docente. Tente novamente.');
+          console.error('Erro detalhado:', err);
+      } finally {
+          setLoading(false);
+      }
   };
 
   // Paginação
@@ -136,6 +157,12 @@ const AltDocentes = () => {
                     onClick={() => handleEditarClick(docente)}
                   >
                     <img className="docentes-pencil-icon" src="pencil0.svg" alt="Editar" />
+                  </button>
+                  <button 
+                    className="schedule-action-btn"
+                    onClick={() => handleDeletarClick(docente)}
+                  >
+                    ×
                   </button>
                 </div>
               </div>
@@ -253,6 +280,46 @@ const AltDocentes = () => {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Popup de Deleção */}
+      {showDeletePopup && docenteDeletando && (
+        <div className="edit-popup-overlay">
+          <div className="edit-popup-container">
+            <div className="popup-header">
+              <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone deletar"/>
+              <div className="popup-disciplina-title">Remover Docente</div>
+            </div>
+            <div className="popup-bodyE">
+              <p className='popup-labelDD'>Tem certeza que deseja remover o docente <strong>{docenteDeletando.nome}</strong>?</p>
+              <div className="popup-periodo-actions">
+                <button 
+                  className="popup-button-cancel"
+                  onClick={() => setShowDeletePopup(false)}
+                  disabled={loading}
+                >
+                  <div className="popup-button-label">Cancelar</div>
+                  <img className="popup-x-icon" src="x0.svg" alt="Cancelar"/>
+                </button>
+                
+                <button 
+                  className="popup-button-confirm"
+                  onClick={handleConfirmarDelecao}
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <div className="popup-button-label">Removendo...</div>
+                  ) : (
+                    <>
+                      <div className="popup-button-label">Remover</div>
+                      <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         </div>

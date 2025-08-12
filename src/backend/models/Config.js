@@ -1,28 +1,19 @@
-// models/Config.js
 module.exports = (sequelize, DataTypes) => {
-  const Config = sequelize.define('config', {
+  const Config = sequelize.define('Config', {
     nome: {
       type: DataTypes.STRING(30),
-      primaryKey: true
+      primaryKey: true,
+      unique: true,
+      allowNull: false
     },
-    valor: DataTypes.TEXT
+    valor: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    }
   }, {
     tableName: 'config',
     timestamps: false
   });
-
-  // models/Config.js
-  Config.upsert = async function(config) {
-    return await this.create(config, {
-      updateOnDuplicate: ['valor']
-      });
-    };
-
-  // Busca configuração por nome
-  Config.getValor = async (nome, padrao) => {
-    const config = await Config.findOne({ where: { nome } });
-    return config ? parseInt(config.valor) : padrao;
-  };
 
   return Config;
 };

@@ -433,3 +433,116 @@
 .confirmar-selecao-btn:hover {
   background-color: #3a8699;
 }
+
+.popup-bodyE {
+  padding: 16px;
+  overflow-y: auto;
+  background: var(--white, #ffffff);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  border-radius: 0px 0px 16px 16px;
+}
+
+.form-group {
+  color: #6c757d;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 14px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.form-group input,
+.form-group select {
+  border: 1px solid #adb5bd;
+  border-radius: 6px;
+  width: 100%;
+  margin-top: 5px;
+  padding: 12px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+  font-family: "Inter-Regular", sans-serif;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #6c757d;
+  background: transparent;
+}
+
+.lapisBRANCO {
+  flex-shrink: 0;
+  width: 34px;
+  height: 26px;
+  position: relative;
+  overflow: visible;
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; 
+  align-items: flex-start;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 8px; 
+  cursor: pointer;
+  justify-content: flex-start;
+}
+
+.filter-option input[type="radio"] {
+  width: 16px; 
+  height: 16px; 
+  margin: 0; 
+  padding: 0; 
+  cursor: pointer;
+}
+
+.header-checkbox {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+  width: 50px;
+  min-width: 50px;
+  position: relative;
+}
+
+.header-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  min-height: 20px;
+  cursor: pointer;
+  border: 2px solid #6C757D;
+  border-radius: 3px;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.header-checkbox input[type="checkbox"]:checked {
+  background-color: #49a0b6;
+  border-color: #49a0b6;
+}
+
+.header-checkbox input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

@@ -1,21 +1,83 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './ConfigurarDisciplinas.css';
 import './NovoPeriodo.css';
-import { definirDataLimite } from '../services/apiPeriodo'; // Importação do serviço
+import { definirDataLimite } from '../services/apiPeriodo';
 
 function ConfigurarRestricoes() {
-  // Estados para controlar cada popup
   const [showRestricaoPopup, setShowRestricaoPopup] = useState(false);
   const [showDataLimitePopup, setShowDataLimitePopup] = useState(false);
-  
-  // Estados para os formulários
-  const [periodo, setPeriodo] = useState('');
-  const [dataLimite, setDataLimite] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Estado para loading
+  const [periodoAtual, setPeriodoAtual] = useState('Carregando...');
 
-  // Função para salvar a data limite (única modificação necessária)
+  // Estado para data limite
+  const [dataLimite, setDataLimite] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Estado para restrição de horários
+  const [minSlotsDisponiveis, setMinSlotsDisponiveis] = useState('');
+  const [maxIndisponiveis, setMaxIndisponiveis] = useState('');
+  const [totalHorarios, setTotalHorarios] = useState('');
+
+  // Período fixo (ou você pode usar um dinâmico se tiver disponível)
+  const periodo = '2025/1';
+
+  // Buscar o período atual
+  useEffect(() => {
+    async function fetchPeriodo() {
+      try {
+        const response = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const data = await response.json();
+        setPeriodoAtual(data.periodo);
+      } catch (error) {
+        console.error('Erro ao buscar período:', error);
+        setPeriodoAtual('Indisponível');
+      }
+    }
+
+    fetchPeriodo();
+  }, []);
+
+  // Abrir popup e buscar dados da restrição
+  const handleAbrirRestricao = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/admin/restricoes/horario?periodo=${periodo}`);
+      const data = await res.json();
+
+      setMinSlotsDisponiveis(data.minSlotsDisponiveis);
+      setMaxIndisponiveis(data.maxIndisponiveis);
+      setTotalHorarios(data.totalHorarios);
+      setShowRestricaoPopup(true);
+    } catch (error) {
+      alert('Erro ao buscar restrição de horário');
+    }
+  };
+
+  // Salvar nova restrição
+  const handleSalvarRestricao = async () => {
+    try {
+      const body = {
+        minSlotsDisponiveis: parseInt(minSlotsDisponiveis)
+      };
+
+      const res = await fetch('http://localhost:5000/api/admin/restricoes/horario', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!res.ok) {
+        throw new Error('Erro ao salvar restrição');
+      }
+
+      alert('Restrição atualizada com sucesso!');
+      setShowRestricaoPopup(false);
+    } catch (error) {
+      alert(`Erro: ${error.message}`);
+    }
+  };
+
+  // Salvar data limite
   const handleSalvarDataLimite = async () => {
     if (!dataLimite) {
       alert('Selecione uma data válida!');
@@ -24,7 +86,7 @@ function ConfigurarRestricoes() {
 
     setIsLoading(true);
     try {
-      await definirDataLimite('2025/1', dataLimite); // Período fixo ou dinâmico
+      await definirDataLimite(periodo, dataLimite);
       alert('Data limite configurada com sucesso!');
       setShowDataLimitePopup(false);
     } catch (error) {
@@ -45,7 +107,7 @@ function ConfigurarRestricoes() {
               <div className="frame-2320">
                 <div className="perfil-de-administrador">Perfil de Administrador</div>
                 <div className="per-odo-letivo-atual-2025-01">
-                  Período Letivo Atual: 2025/01
+                  Período Letivo Atual: {periodoAtual}
                 </div>
               </div>
             </div>
@@ -57,10 +119,9 @@ function ConfigurarRestricoes() {
             <div className="frame-41">
               <div className="frame-44">
                 <div className="frame-2333">
-                  {/* Botão 1 - Restrição de Horário (mantido original) */}
                   <button 
                     className="transaction-item" 
-                    onClick={() => setShowRestricaoPopup(true)}
+                    onClick={handleAbrirRestricao}
                     aria-label="Restrição de Horário"
                   >
                     <div className="frame-19">
@@ -74,7 +135,6 @@ function ConfigurarRestricoes() {
                     </div>
                   </button>
 
-                  {/* Botão 2 - Data Limite (mantido original) */}
                   <button 
                     className="transaction-item2" 
                     onClick={() => setShowDataLimitePopup(true)}
@@ -101,7 +161,7 @@ function ConfigurarRestricoes() {
       </div>
       <SideBar />
 
-      {/* Popup 1 - Restrição de Horário (mantido original) */}
+      {/* Popup - Restrição de Horário */}
       {showRestricaoPopup && (
         <div className="popup-overlay">
           <div className="popup-periodo-container">
@@ -116,13 +176,16 @@ function ConfigurarRestricoes() {
                   <div className="popup-label">Quantidade mínima de slots de horário disponíveis:</div>
                   <div className="popup-text-input">
                     <input
-                      type="text"
-                      value={periodo}
-                      onChange={(e) => setPeriodo(e.target.value)}
-                      placeholder=""
+                      type="number"
+                      value={minSlotsDisponiveis}
+                      onChange={(e) => setMinSlotsDisponiveis(e.target.value)}
                       className="popup-input-text"
                     />
                   </div>
+                </div>
+
+                <div className="popup-label" style={{ marginTop: '10px' }}>
+                  Limite de horários indisponíveis permitido: <strong>{maxIndisponiveis}</strong> (de um total de {totalHorarios})
                 </div>
               </div>
               
@@ -137,10 +200,7 @@ function ConfigurarRestricoes() {
                 
                 <button 
                   className="popup-button-confirm"
-                  onClick={() => {
-                    // Lógica original (pode manter sem integração por enquanto)
-                    setShowRestricaoPopup(false);
-                  }}
+                  onClick={handleSalvarRestricao}
                 >
                   <div className="popup-button-label">Salvar</div>
                   <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
@@ -151,7 +211,7 @@ function ConfigurarRestricoes() {
         </div>
       )}
 
-      {/* Popup 2 - Data Limite (integrado) */}
+      {/* Popup - Data Limite */}
       {showDataLimitePopup && (
         <div className="popup-overlay">
           <div className="popup-periodo-container">
@@ -166,7 +226,6 @@ function ConfigurarRestricoes() {
                   <div className="popup-label">Data Limite</div>
                   <div className="popup-text-input">
                     <input
-                     
                       value={dataLimite}
                       onChange={(e) => setDataLimite(e.target.value)}
                       placeholder="dd/mm/aaaa"

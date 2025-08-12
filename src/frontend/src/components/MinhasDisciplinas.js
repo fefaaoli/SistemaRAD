@@ -55,7 +55,7 @@ const DisciplinasManager = () => {
     ));
     
     setShowEditModal(false);
-    alert('Disciplina atualizada com sucesso!');
+    alert('Informações sobre disciplinas editadas!');
   };
 
   // Paginação
@@ -183,31 +183,7 @@ const DisciplinasManager = () => {
                 handleSalvarEdicao(disciplinaEditando);
               }}>
                 <div className="form-group-frame">
-                  <label>Código</label>
-                  <input
-                    type="text"
-                    value={disciplinaEditando.codigo}
-                    onChange={(e) => setDisciplinaEditando({
-                      ...disciplinaEditando,
-                      codigo: e.target.value
-                    })}
-                    required
-                  />
-                </div>
-                <div className="form-group-frame">
-                  <label>Disciplina</label>
-                  <input
-                    type="text"
-                    value={disciplinaEditando.nome}
-                    onChange={(e) => setDisciplinaEditando({
-                      ...disciplinaEditando,
-                      nome: e.target.value
-                    })}
-                    required
-                  />
-                </div>
-                <div className="form-group-frame">
-                  <label>Turma</label>
+                  <label>Oferecimento em Inglês</label>
                   <select
                     value={disciplinaEditando.turma}
                     onChange={(e) => setDisciplinaEditando({
@@ -216,42 +192,26 @@ const DisciplinasManager = () => {
                     })}
                     required
                   >
-                    <option>1º Semestre</option>
-                    <option>2º Semestre</option>
-                    <option>3º Semestre</option>
+                    <option>Sim</option>
+                    <option>Não</option>
                   </select>
                 </div>
                 <div className="form-group-frame">
-                  <label>Tipo</label>
+                  <label>Necessita do Leia</label>
                   <select
-                    value={disciplinaEditando.tipo}
+                    value={disciplinaEditando.turma}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      tipo: e.target.value
+                      turma: e.target.value
                     })}
                     required
                   >
-                    <option>Obrigatória</option>
-                    <option>Optativa Livre</option>
-                    <option>Optativa Eletiva</option>
+                    <option>Sim</option>
+                    <option>Não</option>
                   </select>
                 </div>
                 <div className="form-group-frame">
-                  <label>Turno</label>
-                  <select
-                    value={disciplinaEditando.turno}
-                    onChange={(e) => setDisciplinaEditando({
-                      ...disciplinaEditando,
-                      turno: e.target.value
-                    })}
-                    required
-                  >
-                    <option>Diurno</option>
-                    <option>Noturno</option>
-                  </select>
-                </div>
-                <div className="form-group-frame">
-                  <label>Créditos</label>
+                  <label>Limitar Número de Alunos</label>
                   <input
                     type="number"
                     value={disciplinaEditando.cred || ''}
@@ -261,6 +221,17 @@ const DisciplinasManager = () => {
                     })}
                     min="1"
                     max="10"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Comentário</label>
+                  <input
+                    type="text"
+                    onChange={(e) => setDisciplinaEditando({
+                      ...disciplinaEditando,
+                      codigo: e.target.value
+                    })}
                     required
                   />
                 </div>

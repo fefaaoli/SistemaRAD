@@ -30,8 +30,8 @@ app.use('/api/admin/disciplinas', disciplinaRoutes);
 const adminHorarioRoutes = require('./routes/horarioRoutes');
 app.use('/api/admin/horarios', adminHorarioRoutes);
 
-const adminRestricoesRoutes = require('./routes/restricoesAdminRoutes');
-app.use('/api/admin/restricoes', adminRestricoesRoutes);
+const adminRoutes = require('./routes/configHorarioRestricoes');
+app.use('/api/admin', adminRoutes);
 
 const usuarioRoutes = require('./routes/usuarioRoutes');
 app.use('/api/admin', usuarioRoutes);

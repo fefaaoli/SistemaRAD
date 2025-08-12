@@ -73,5 +73,28 @@ export const apiUsuarios = {
       console.error('Erro na API:', error);
       throw error;
     }
+  },
+
+  async removerDocente(id) {
+      try {
+          const response = await fetch(`${API_URL}/usuarios/${id}`, {
+              method: 'DELETE',
+              headers: {
+                  'Content-Type': 'application/json',
+                  // Adicionar headers de autenticação 
+              }
+          });
+          
+          if (!response.ok) {
+              const errorData = await response.json();
+              throw new Error(errorData.error || 'Erro ao remover docente');
+          }
+          
+          return response.status === 204 ? {} : await response.json();
+      } catch (error) {
+          console.error('Erro na API:', error);
+          throw error;
+      }
   }
+
 };

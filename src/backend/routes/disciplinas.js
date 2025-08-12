@@ -9,6 +9,7 @@ router.get('/', DisciplinaController.listarTodas);
 // CRUD Disciplinas
 router.post('/', DisciplinaController.criar);
 router.put('/:id', DisciplinaController.atualizarDisciplina);
+router.delete('/:id', DisciplinaController.removerDisciplina); 
 
 // Gerenciamento por período
 router.get('/ativas', DisciplinaController.listarDisciplinasAtivas);

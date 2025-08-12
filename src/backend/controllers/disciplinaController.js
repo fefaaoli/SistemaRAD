@@ -214,6 +214,45 @@ module.exports = {
         details: err.message
       });
     }
+  },
+
+  // Remover disciplina
+  async removerDisciplina(req, res) {
+    try {
+      const { id } = req.params;
+      
+      // Verifica se a disciplina existe
+      const disciplina = await Disciplina.findByPk(id);
+      if (!disciplina) {
+        return res.status(404).json({ error: 'Disciplina não encontrada' });
+      }
+      
+      // Verifica se há ofertas vinculadas a esta disciplina
+      const ofertasVinculadas = await ExpOferecimento.count({
+        where: { aid: id }
+      });
+      
+      if (ofertasVinculadas > 0) {
+        return res.status(400).json({
+          error: 'Não é possível remover a disciplina pois existem ofertas vinculadas',
+          code: 'OFERTAS_VINCULADAS'
+        });
+      }
+      
+      // Remove a disciplina
+      await disciplina.destroy();
+      
+      res.json({
+        success: true,
+        message: 'Disciplina removida com sucesso',
+        id: id
+      });
+    } catch (err) {
+      res.status(500).json({ 
+        error: 'Erro ao remover disciplina',
+        details: err.message 
+      });
+    }
   }
 
 };

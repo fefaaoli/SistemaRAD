@@ -102,6 +102,27 @@ const UsuarioController = {
             console.error('Erro ao obter usuário:', error);
             res.status(500).json({ error: 'Erro ao obter usuário' });
         }
+    },
+
+    // Remover usuário
+    async removerUsuario(req, res) {
+        try {
+            const { id } = req.params;
+            const usuario = await Usuario.findByPk(id);
+            
+            if (!usuario) {
+                return res.status(404).json({ error: 'Usuário não encontrado' });
+            }
+            
+            await usuario.destroy();
+            res.status(204).end(); // 204 No Content para sucesso em DELETE
+        } catch (error) {
+            console.error('Erro ao remover usuário:', error);
+            res.status(500).json({ 
+                error: 'Erro ao remover usuário',
+                detalhes: error.message
+            });
+        }
     }
 };
 
