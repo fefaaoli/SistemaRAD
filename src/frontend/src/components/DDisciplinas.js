@@ -9,6 +9,7 @@ const DDisciplina = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  const [selectedDisciplinas, setSelectedDisciplinas] = useState([]);
   const itemsPerPage = 20;
 
   // Função para formatar o tipo da disciplina
@@ -52,11 +53,13 @@ const DDisciplina = () => {
 
         const dadosFormatados = response.data.map(item => ({
           id: item.id,
+          aid: item.id, // Adicionado para usar na inscrição
           codigo: item.cod,
           nome: item.nome || item.disciplina,
           turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: formatarTurno(item.turma)
+          turno: formatarTurno(item.turma),
+          selected: false // Adicionado para controle de seleção
         }));
 
         console.log('Disciplinas formatadas:', dadosFormatados);
@@ -96,6 +99,87 @@ const DDisciplina = () => {
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Função para lidar com a seleção/deseleção de disciplinas
+  const handleSelectDisciplina = (disciplinaId) => {
+    setDisciplinas(prevDisciplinas => 
+      prevDisciplinas.map(disciplina => 
+        disciplina.id === disciplinaId 
+          ? { ...disciplina, selected: !disciplina.selected } 
+          : disciplina
+      )
+    );
+    
+    setFilteredDisciplinas(prevFiltered => 
+      prevFiltered.map(disciplina => 
+        disciplina.id === disciplinaId 
+          ? { ...disciplina, selected: !disciplina.selected } 
+          : disciplina
+      )
+    );
+
+    setSelectedDisciplinas(prevSelected => {
+      if (prevSelected.includes(disciplinaId)) {
+        return prevSelected.filter(id => id !== disciplinaId);
+      } else {
+        return [...prevSelected, disciplinaId];
+      }
+    });
+  };
+
+  // Função para confirmar a seleção e enviar ao backend
+  const handleConfirmarSelecao = async () => {
+    if (selectedDisciplinas.length === 0) {
+      setNotification({
+        type: 'warning',
+        message: 'Nenhuma disciplina selecionada',
+        details: 'Selecione pelo menos uma disciplina para confirmar'
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      
+      // Obter o ID do docente (você pode precisar ajustar isso conforme sua autenticação)
+      const docenteId = 14595546; // Exemplo - ajustar conforme necessário
+      
+      if (!docenteId) {
+        throw new Error('ID do docente não encontrado');
+      }
+
+      // Enviar cada disciplina selecionada
+      const promises = selectedDisciplinas.map(async (aid) => {
+        await axios.post('http://localhost:5000/api/inscricao/add', {
+          aid,
+          did: docenteId
+        });
+      });
+
+      await Promise.all(promises);
+
+      setNotification({
+        type: 'success',
+        message: 'Inscrições confirmadas com sucesso!',
+        details: `Você foi inscrito em ${selectedDisciplinas.length} disciplina(s)`
+      });
+
+      // Limpar seleções após confirmação
+      setSelectedDisciplinas([]);
+      setDisciplinas(prev => prev.map(d => ({ ...d, selected: false })));
+      setFilteredDisciplinas(prev => prev.map(d => ({ ...d, selected: false })));
+
+    } catch (error) {
+      console.error('Erro ao confirmar inscrições:', error);
+      setNotification({
+        type: 'error',
+        message: 'Erro ao confirmar inscrições',
+        details: error.response?.data?.message || error.message
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -158,7 +242,11 @@ const DDisciplina = () => {
                   <div className="row-tipo">{disciplina.tipo}</div>
                   <div className="row-turno">{disciplina.turno}</div>
                   <div className="row-checkbox">
-                    <input type="checkbox" />
+                    <input 
+                      type="checkbox" 
+                      checked={disciplina.selected}
+                      onChange={() => handleSelectDisciplina(disciplina.id)}
+                    />
                   </div>
                 </div>
               ))
@@ -209,7 +297,8 @@ const DDisciplina = () => {
           <div className="confirmar-selecao-container">
             <button
               className="confirmar-selecao-btn"
-              disabled={filteredDisciplinas.length === 0}
+              disabled={filteredDisciplinas.length === 0 || selectedDisciplinas.length === 0}
+              onClick={handleConfirmarSelecao}
             >
               {'Confirmar Seleção'}
               <img className="confirm-icon" src="check0.svg" alt="Confirmar" />

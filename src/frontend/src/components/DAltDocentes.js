@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import './DAltDocentes.css';
 
 const DAltDocentes = () => {
@@ -9,79 +9,90 @@ const DAltDocentes = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showDetailPopup, setShowDetailPopup] = useState(false);
   const [docenteSelecionado, setDocenteSelecionado] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const itemsPerPage = 10;
 
-  // Dados mockados
+  // Buscar docentes da API
   useEffect(() => {
-    const mockDocentes = [
-      {
-        numeroUSP: '1234567',
-        nome: 'Carlos Silva',
-        nroDisciplinas: 3,
-        percentualRestricoes: '75%',
-        departamento: 'Departamento de Informática',
-        disciplinas: [
-          { codigo: 'MAC0101', nome: 'Introdução à Computação' },
-          { codigo: 'MAC0323', nome: 'Estruturas de Dados' },
-          { codigo: 'MAC0338', nome: 'Banco de Dados' }
-        ],
-        restricoes: [
-          { dia: 'Segunda', horario: '14:00-16:00' },
-          { dia: 'Quarta', horario: '08:00-10:00' }
-        ],
-        comentarios: 'Preferência por aulas no período da tarde, exceto às segundas-feiras.'
-      },
-      {
-        numeroUSP: '7654321',
-        nome: 'Ana Oliveira',
-        nroDisciplinas: 2,
-        percentualRestricoes: '50%',
-        departamento: 'Departamento de Matemática',
-        disciplinas: [
-          { codigo: 'MAT0101', nome: 'Cálculo I' },
-          { codigo: 'MAT0202', nome: 'Álgebra Linear' }
-        ],
-        restricoes: [
-          { dia: 'Terça', horario: '10:00-12:00' }
-        ],
-        comentarios: 'Disponível apenas no período da manhã.'
-      },
-      {
-        numeroUSP: '9876543',
-        nome: 'Pedro Santos',
-        nroDisciplinas: 4,
-        percentualRestricoes: '25%',
-        departamento: 'Departamento de Física',
-        disciplinas: [
-          { codigo: 'FIS0101', nome: 'Física I' },
-          { codigo: 'FIS0102', nome: 'Física II' },
-          { codigo: 'FIS0203', nome: 'Física III' },
-          { codigo: 'FIS0304', nome: 'Física IV' }
-        ],
-        restricoes: [
-          { dia: 'Quinta', horario: '16:00-18:00' }
-        ],
-        comentarios: 'Prefiro dar aulas consecutivas no mesmo dia.'
-      },
-    ];
-    setDocentes(mockDocentes);
-    setFilteredDocentes(mockDocentes);
+    const fetchDocentes = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/docentes');
+        if (!response.ok) {
+          throw new Error('Erro ao carregar docentes');
+        }
+        const data = await response.json();
+        setDocentes(data.docentes);
+        setFilteredDocentes(data.docentes);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchDocentes();
   }, []);
+
+  // Buscar detalhes do docente
+  const fetchDocenteDetalhes = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/docentes/${id}/detalhes`);
+      if (!response.ok) {
+        throw new Error('Erro ao carregar detalhes do docente');
+      }
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error('Erro:', err);
+      return null;
+    }
+  };
 
   // Filtro de busca
   useEffect(() => {
     const results = docentes.filter(docente =>
       docente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      docente.numeroUSP.toLowerCase().includes(searchTerm.toLowerCase())
+      docente.id.toString().includes(searchTerm)
     );
     setFilteredDocentes(results);
     setCurrentPage(1);
   }, [searchTerm, docentes]);
 
   // Handlers
-  const handleNomeClick = (docente) => {
-    setDocenteSelecionado(docente);
-    setShowDetailPopup(true);
+  const handleNomeClick = async (docente) => {
+    setLoading(true);
+    try {
+      const detalhes = await fetchDocenteDetalhes(docente.id);
+      
+      if (detalhes) {
+        // Processa as disciplinas para formatar os campos booleanos e comentários
+        const disciplinasFormatadas = detalhes.disciplinas.map(disciplina => ({
+          ...disciplina,
+          leciona_ingles: disciplina.leciona_ingles ? 'Sim' : 'Não',
+          apoio_leia: disciplina.apoio_leia ? 'Sim' : 'Não',
+          max_alunos: disciplina.max_alunos || 'Sem limite',
+          comentario: disciplina.comentario || 'Nenhum comentário'
+        }));
+
+        // Extrai o primeiro comentário não vazio das disciplinas (se existir)
+        const primeiroComentario = detalhes.disciplinas.find(d => d.comentario && d.comentario.trim() !== '')?.comentario;
+
+        setDocenteSelecionado({
+          ...docente,
+          disciplinas: disciplinasFormatadas,
+          restricoes: detalhes.restricoes_horario,
+          comentarios: primeiroComentario || 'Nenhum comentário fornecido'
+        });
+        
+        setShowDetailPopup(true);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar detalhes do docente:', error);
+      // Você pode adicionar um estado de erro aqui se quiser mostrar para o usuário
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Paginação
@@ -91,6 +102,9 @@ const DAltDocentes = () => {
   const totalPages = Math.ceil(filteredDocentes.length / itemsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  if (loading) return <div className="d-alt-docentes-loading">Carregando...</div>;
+  if (error) return <div className="d-alt-docentes-error">Erro: {error}</div>;
 
   return (
     <div className="d-alt-docentes-container">
@@ -117,23 +131,24 @@ const DAltDocentes = () => {
             <div className="d-alt-docentes-table-header">
               <div className="d-alt-docentes-header-numero">Número USP</div>
               <div className="d-alt-docentes-header-nome">Nome</div>
+              <div className="d-alt-docentes-header-departamento">Departamento</div>
               <div className="d-alt-docentes-header-disciplinas">Nro de Disciplinas</div>
               <div className="d-alt-docentes-header-restricoes">% Restrições</div>
-              <div className="d-alt-docentes-header-departamento">Departamento</div>
             </div>
             
             {currentItems.map((docente, index) => (
               <div className="d-alt-docentes-table-row" key={index}>
-                <div className="d-alt-docentes-cell-numero">{docente.numeroUSP}</div>
+                <div className="d-alt-docentes-cell-numero">{docente.id}</div>
                 <div 
                   className="d-alt-docentes-cell-nome"
                   onClick={() => handleNomeClick(docente)}
+                  style={{cursor: 'pointer'}}
                 >
                   {docente.nome}
                 </div>
-                <div className="d-alt-docentes-cell-disciplinas">{docente.nroDisciplinas}</div>
-                <div className="d-alt-docentes-cell-restricoes">{docente.percentualRestricoes}</div>
-                <div className="d-alt-docentes-cell-departamento">{docente.departamento}</div>
+                <div className="d-alt-docentes-cell-departamento">{docente.setor}</div>
+                <div className="d-alt-docentes-cell-disciplinas">{docente.total_disciplinas}</div>
+                <div className="d-alt-docentes-cell-restricoes">{docente.percentual_restricao}%</div>
               </div>
             ))}
           </div>
@@ -173,7 +188,7 @@ const DAltDocentes = () => {
       </div>
 
       {/* Popup de Detalhes */}
-      {showDetailPopup && (
+      {showDetailPopup && docenteSelecionado && (
         <div className="d-alt-docentes-popup-overlay">
           <div className="d-alt-docentes-popup-container">
             <div className="d-alt-docentes-popup-header">
@@ -185,60 +200,78 @@ const DAltDocentes = () => {
                 </button>
             </div>
       
-        <div className="d-alt-docentes-popup-body">
-            <div className="d-alt-docentes-popup-section">
+            <div className="d-alt-docentes-popup-body">
+              <div className="d-alt-docentes-popup-section">
                 <h3>Disciplinas Selecionadas</h3>
                 <div className="d-alt-docentes-popup-content">
-                    {docenteSelecionado.disciplinas.map((disciplina, idx) => (
-                        <div key={idx} className="d-alt-docentes-popup-item">
-                            {disciplina.codigo} - {disciplina.nome}
+                  {docenteSelecionado.disciplinas && docenteSelecionado.disciplinas.length > 0 ? (
+                    docenteSelecionado.disciplinas.map((disciplina, idx) => (
+                      <div key={idx} className="d-alt-docentes-popup-item">
+                        <div className="d-alt-docentes-popup-item">
+                          <strong>{disciplina.codigo} - {disciplina.nome}</strong> (Turma: {disciplina.turma})
                         </div>
-                    ))}
-                </div>
-            </div>
-        
-        <div className="d-alt-docentes-popup-section">
-          <h3>Restrições de Horário</h3>
-          <div className="d-alt-docentes-popup-content">
-            {docenteSelecionado.restricoes.length > 0 ? (
-              docenteSelecionado.restricoes.map((restricao, idx) => (
-                <div key={idx} className="d-alt-docentes-popup-item">
-                  {restricao.dia}: {restricao.horario}
-                </div>
-              ))
-            ) : (
-              <div className="d-alt-docentes-popup-item">
-                Nenhuma restrição cadastrada
+                        <div className="d-alt-docentes-popup-items">
+                          <div>
+                            <span>Leciona em inglês: </span>
+                            <span className={disciplina.leciona_ingles === 'Sim' ? 'd-alt-docentes-popup-item' : 'd-alt-docentes-popup-item'}>
+                              {disciplina.leciona_ingles}
+                            </span>
+                          </div>
+                          <div>
+                            <span>Precisa de apoio LEIA: </span>
+                            <span className={disciplina.apoio_leia === 'Sim' ? 'd-alt-docentes-popup-item' : 'd-alt-docentes-popup-item'}>
+                              {disciplina.apoio_leia}
+                            </span>
+                          </div>
+                          <div>
+                            <span>Máximo de alunos: </span>
+                            <span>{disciplina.max_alunos}</span>
+                          </div>
+                          <div>
+                            <span>Comentário: </span>
+                            <span>{disciplina.comentario}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="d-alt-docentes-popup-item">
+                      Nenhuma disciplina cadastrada
+                        </div>
+                      )}
+                  </div>
               </div>
-            )}
-          </div>
-        </div>
-        
-        <div className="d-alt-docentes-popup-section">
-          <h3>Comentários</h3>
-          <div className="d-alt-docentes-popup-content">
-            <div className="d-alt-docentes-popup-comment">
-              {docenteSelecionado.comentarios || 'Nenhum comentário fornecido'}
+          
+              <div className="d-alt-docentes-popup-section">
+                <h3>Restrições de Horário</h3>
+                <div className="d-alt-docentes-popup-content">
+                  {docenteSelecionado.restricoes && docenteSelecionado.restricoes.length > 0 ? (
+                    docenteSelecionado.restricoes.map((restricao, idx) => (
+                      <div key={idx} className="d-alt-docentes-popup-item">
+                        {restricao.dia}: {restricao.horario}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="d-alt-docentes-popup-item">
+                      Nenhuma restrição cadastrada
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            
+            <div className="d-alt-docentes-popup-footer">
+                <button 
+                className="d-alt-docentes-popup-close-button"
+                onClick={() => setShowDetailPopup(false)}
+                >
+                    <span className="popup-button-label">Fechar</span>
+                    <img className="popup-x-icon" src="x0.svg" alt="Cancelar"/>
+                </button>
             </div>
           </div>
         </div>
-      </div>
-      
-    <div className="d-alt-docentes-popup-footer">
-        <button 
-        className="d-alt-docentes-popup-close-button"
-        onClick={() => setShowDetailPopup(false)}
-        >
-            <span className="popup-button-labelDoc">Fechar</span>
-            <img className="docentes-popup-cancel-iconDOC" src="x0.svg" alt="Fechar"/>
-            </button>
-    </div>
-
-    </div>
-
-  </div>
-  
-)}
+      )}
     </div>
   );
 };

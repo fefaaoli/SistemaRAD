@@ -210,8 +210,7 @@
   min-width: 143px;
 }
 .header-editar-frame { 
-  width: 42px;
-  min-width: 42px;
+  min-width: 20px;
   justify-content: center; /* Mantém o ícone de editar centralizado */
 }
 

@@ -8,6 +8,9 @@ function HorarioD() {
   const [maxIndisponiveis, setMaxIndisponiveis] = useState(4); // Valor padrão inicial
   const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
 
+  // ID do docente fixo (substitui login/autenticação)
+  const docenteId = '14595546'; // <--- aqui você coloca o número USP do docente
+
   // Calcula o total de checkboxes marcados como indisponível
   useEffect(() => {
     const count = horarios.reduce((acc, horario) => {
@@ -16,7 +19,6 @@ function HorarioD() {
     setTotalIndisponiveis(count);
   }, [horarios]);
 
-  // Processa os dados do backend para o formato usado no frontend
   const processarDadosBackend = useCallback((data) => {
     const diasMap = {};
     let diaAtual = null;
@@ -60,14 +62,12 @@ function HorarioD() {
   useEffect(() => {
     const carregarDados = async () => {
       try {
-        // 1. Busca o período mais recente
         const responsePeriodo = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
         if (!responsePeriodo.ok) throw new Error('Erro ao carregar período');
         
         const { periodo } = await responsePeriodo.json();
         setPeriodoAtual(periodo);
 
-        // 2. Busca os horários do período
         const responseHorarios = await fetch(
           `http://localhost:5000/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
         );
@@ -76,7 +76,6 @@ function HorarioD() {
         const dataHorarios = await responseHorarios.json();
         processarDadosBackend(dataHorarios);
 
-        // 3. Busca as configurações de restrição
         const responseRestricao = await fetch(
           `http://localhost:5000/api/admin/restricoes/horario?periodo=${encodeURIComponent(periodo)}`
         );
@@ -86,7 +85,6 @@ function HorarioD() {
         }
       } catch (error) {
         console.error('Erro:', error);
-        // Dados padrão em caso de erro
         setDiasSemana(['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']);
         setHorarios([
           { id: 1, periodo: '08:00 - 09:40', dias: [false, false, false, false, false, false] },
@@ -104,7 +102,6 @@ function HorarioD() {
     setHorarios(prevHorarios => {
       return prevHorarios.map(horario => {
         if (horario.id === horarioId) {
-          // Verifica se está tentando marcar um novo checkbox indisponível
           const tentandoMarcar = !horario.dias[diaIndex];
           if (tentandoMarcar && totalIndisponiveis >= maxIndisponiveis) {
             alert(`Você só pode marcar ${maxIndisponiveis} horários como indisponíveis!`);
@@ -122,31 +119,26 @@ function HorarioD() {
 
   const handleConfirm = async () => {
     try {
-      // Envia as indisponibilidades para o backend
+      // Mapeia horários indisponíveis no formato do backend
       const indisponibilidades = horarios.flatMap(horario => {
         return horario.dias
           .map((selecionado, diaIndex) => selecionado ? {
-            horarioId: horario.id,
-            dia: diasSemana[diaIndex],
-            periodo: horario.periodo
+            docente: docenteId, // <--- adiciona automaticamente
+            hordem: horario.id, // ou outro identificador que o backend espera
+            dordem: diaIndex + 1, // mapeia o dia para dordem (1=Segunda, 2=Terça,...)
           } : null)
           .filter(Boolean);
       });
 
-      const response = await fetch('http://localhost:5000/api/docente/restricoes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          periodo: periodoAtual,
-          indisponibilidades
-        })
-      });
-
-      if (response.ok) {
-        alert("Restrições salvas com sucesso!");
-      } else {
-        throw new Error('Erro ao salvar restrições');
+      for (const indisponibilidade of indisponibilidades) {
+        await fetch('http://localhost:5000/indisponibilidades', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(indisponibilidade)
+        });
       }
+
+      alert("Restrições salvas com sucesso!");
     } catch (error) {
       console.error('Erro:', error);
       alert("Erro ao salvar restrições. Por favor, tente novamente.");
@@ -159,21 +151,16 @@ function HorarioD() {
         <div className="horario-content">
 
           <div className="horario-grid">
-            {/* Cabeçalho */}
             <div className="horario-header">
               <div className="horario-title">Horários {periodoAtual && `- ${periodoAtual}`}</div>
               {diasSemana.map((dia, index) => (
-                <div key={index} className="horario-dia">
-                  {dia}
-                </div>
+                <div key={index} className="horario-dia">{dia}</div>
               ))}
             </div>
 
-            {/* Linhas de horários */}
             {horarios.map((horario) => (
               <div key={horario.id} className="horario-row">
                 <div className="horario-periodo">{horario.periodo}</div>
-                
                 {horario.dias.map((selecionado, diaIndex) => (
                   <div key={diaIndex} className="horario-cell">
                     <label className="horario-checkbox-label">
@@ -195,7 +182,6 @@ function HorarioD() {
             ))}
           </div>
           
-          {/* Botão de confirmação */}
           <div className="horario-confirm-container">
             <button 
               className="horario-confirm-button" 

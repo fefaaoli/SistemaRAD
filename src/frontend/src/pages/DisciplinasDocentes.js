@@ -44,6 +44,16 @@ function DashboardPage() {
           </div>
         </div>
 
+        <div className="content-area">
+          <div class="frame-2318config">
+            <div class="frame-config">
+              <div class="tabconfig">
+                <div class="tab-labelconfig">Minhas Disciplinas</div>
+              </div>
+            </div>
+        </div>
+      </div>
+
         <div className="configurar-disciplinas">Minhas Disciplinas</div>
 
         <MinhasDisciplinas/>

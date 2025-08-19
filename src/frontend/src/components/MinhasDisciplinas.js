@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './MinhasDisciplinas.css';
 
 const DisciplinasManager = () => {
-  // Estados
   const [disciplinas, setDisciplinas] = useState([]);
   const [filteredDisciplinas, setFilteredDisciplinas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -13,57 +13,121 @@ const DisciplinasManager = () => {
   const [error, setError] = useState(null);
   const itemsPerPage = 20;
 
-  // Dados mockados
+  const docenteId = 14595546; // substitua pelo ID real do docente logado
+
+  const formatarTipo = (tipo) => {
+    const tipos = {
+      'optativa_eletiva': 'op. eletiva',
+      'optativa_livre': 'op. livre',
+      'obrigatoria': 'obrigatória'
+    };
+    return tipos[tipo] || tipo;
+  };
+
+  const formatarTurma = (turma) => turma.toLowerCase();
+
   useEffect(() => {
-    setLoading(true);
-    try {
-      const mockData = [
-        { id: 1, codigo: 'MAT101', nome: 'Matemática Básica', turma: '1A', tipo: 'Obrigatória', turno: 'Diurno', cred: 4 },
-        { id: 2, codigo: 'FIS201', nome: 'Física Geral', turma: '2B', tipo: 'Obrigatória', turno: 'Noturno', cred: 4 },
-        { id: 3, codigo: 'ART301', nome: 'Arte Contemporânea', turma: '3C', tipo: 'Optativa Livre', turno: 'Diurno', cred: 2 }
-      ];
-      
-      setDisciplinas(mockData);
-      setFilteredDisciplinas(mockData);
-    } catch (err) {
-      setError("Erro ao carregar dados mockados");
-    } finally {
-      setLoading(false);
-    }
+    const fetchDisciplinas = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(`http://localhost:5000/api/inscricao/list/${docenteId}`);
+        if (response.data.success) {
+          const data = response.data.data.map(d => ({
+            id: d.aid,
+            codigo: d.cod,
+            nome: d.disciplina,
+            turma: formatarTurma(d.turma),
+            tipo: formatarTipo(d.tipo),
+            comentario: d.comentario || '',
+            idioma_en: d.idioma_en ? true : false,
+            apoio_leia: d.apoio_leia ? true : false,
+            max_alunos: d.max_alunos || ''
+          }));
+          setDisciplinas(data);
+          setFilteredDisciplinas(data);
+        } else {
+          setError('Erro ao buscar disciplinas do backend');
+        }
+      } catch (err) {
+        console.error(err);
+        setError('Erro ao buscar disciplinas do backend');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchDisciplinas();
   }, []);
 
-  // Filtro de busca
   useEffect(() => {
-    const results = disciplinas.filter(disciplina =>
-      disciplina.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      disciplina.codigo.toLowerCase().includes(searchTerm.toLowerCase())
+    const results = disciplinas.filter(d =>
+      d.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      d.codigo.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredDisciplinas(results);
     setCurrentPage(1);
   }, [searchTerm, disciplinas]);
 
-  // Handlers
+  const handleRemoverDisciplina = async (disciplinaId) => {
+    if (!window.confirm('Tem certeza que deseja remover esta disciplina?')) return;
+    setLoading(true);
+    try {
+      const response = await axios.delete('http://localhost:5000/api/inscricao/remove', {
+        data: { aid: disciplinaId, did: docenteId }
+      });
+      if (response.data.success) {
+        setDisciplinas(prev => prev.filter(d => d.id !== disciplinaId));
+        alert('Disciplina removida com sucesso!');
+      } else {
+        alert('Erro ao remover disciplina');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao remover disciplina');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleEditarClick = (disciplina) => {
     setDisciplinaEditando(disciplina);
     setShowEditModal(true);
   };
 
-  const handleSalvarEdicao = (dadosAtualizados) => {
-    // Atualiza o estado local
-    setDisciplinas(prev => prev.map(d => 
-      d.id === dadosAtualizados.id ? dadosAtualizados : d
-    ));
-    
-    setShowEditModal(false);
-    alert('Informações sobre disciplinas editadas!');
+  const handleSalvarEdicao = async () => {
+    if (!disciplinaEditando) return;
+
+    try {
+      setLoading(true);
+      // Chamada ao backend para salvar comentário/metadados
+      const response = await axios.post('http://localhost:5000/api/inscricao/comentario', {
+        did: docenteId,
+        aid: disciplinaEditando.id,
+        comentario: disciplinaEditando.comentario,
+        idioma_en: disciplinaEditando.idioma_en,
+        apoio_leia: disciplinaEditando.apoio_leia,
+        max_alunos: disciplinaEditando.max_alunos
+      });
+      if (response.data.success) {
+        setDisciplinas(prev => prev.map(d =>
+          d.id === disciplinaEditando.id ? { ...d, ...disciplinaEditando } : d
+        ));
+        setShowEditModal(false);
+        alert('Informações sobre disciplina atualizadas!');
+      } else {
+        alert('Erro ao salvar comentário/metadados');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao salvar comentário/metadados');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredDisciplinas.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
-
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading && disciplinas.length === 0) {
@@ -99,11 +163,8 @@ const DisciplinasManager = () => {
               <img className="search-icon" src="search0.svg" alt="Buscar" />
             </div>
           </div>
-          <div className="filter-frame">
-            <img className="filter-icon" src="filter0.svg" alt="Filtrar" />
-          </div>
         </div>
-        
+
         <div className="list-disciplinas-frame">
           <div className="table-disciplinas-frame">
             <div className="table-header-frame">
@@ -111,11 +172,10 @@ const DisciplinasManager = () => {
               <div className="header-nome-frame">Disciplina</div>
               <div className="header-turma-frame">Turma</div>
               <div className="header-tipo-frame">Tipo</div>
-              <div className="header-turno-frame">Turno</div>
+              <div className="header-turno-frame"></div>
               <div className="header-editar-frame">Editar</div>
-              <div className="header-checkbox-frame"></div>
             </div>
-            
+
             {currentItems.map((disciplina, index) => (
               <div className="table-row-frame" key={index}>
                 <div className="cell-codigo-frame">{disciplina.codigo}</div>
@@ -130,21 +190,25 @@ const DisciplinasManager = () => {
                   >
                     <img className="pencil-icon" src="pencil0.svg" alt="Editar" />
                   </button>
+                  <button 
+                    className="schedule-action-btn"
+                    onClick={() => handleRemoverDisciplina(disciplina.id)}
+                  >
+                    ×
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-          
+
           <div className="pagination-frame">
             <button 
               className="pagination-button-frame" 
               disabled={currentPage === 1}
               onClick={() => paginate(currentPage - 1)}
             >
-              <img className="chevron-left" src="chevron-left0.svg" alt="Anterior" />
               <div className="pagination-text-frame">Anterior</div>
             </button>
-            
             <div className="pagination-numbers-frame">
               {[...Array(totalPages).keys()].map(number => (
                 <button
@@ -156,20 +220,17 @@ const DisciplinasManager = () => {
                 </button>
               ))}
             </div>
-            
             <button 
               className="pagination-button-frame" 
               disabled={currentPage === totalPages}
               onClick={() => paginate(currentPage + 1)}
             >
               <div className="pagination-text-frame">Próxima</div>
-              <img className="chevron-right" src="chevron-right0.svg" alt="Próxima" />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Modal de Edição */}
       {showEditModal && disciplinaEditando && (
         <div className="edit-modal-overlay-frame">
           <div className="edit-modal-frame">
@@ -178,19 +239,15 @@ const DisciplinasManager = () => {
               <div className="modal-title-frame">Editar Disciplina</div>
             </div>
             <div className="modal-body-frame">
-              <form onSubmit={(e) => {
-                e.preventDefault();
-                handleSalvarEdicao(disciplinaEditando);
-              }}>
+              <form onSubmit={(e) => { e.preventDefault(); handleSalvarEdicao(); }}>
                 <div className="form-group-frame">
                   <label>Oferecimento em Inglês</label>
                   <select
-                    value={disciplinaEditando.turma}
+                    value={disciplinaEditando.idioma_en ? 'Sim' : 'Não'}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      turma: e.target.value
+                      idioma_en: e.target.value === 'Sim'
                     })}
-                    required
                   >
                     <option>Sim</option>
                     <option>Não</option>
@@ -199,12 +256,11 @@ const DisciplinasManager = () => {
                 <div className="form-group-frame">
                   <label>Necessita do Leia</label>
                   <select
-                    value={disciplinaEditando.turma}
+                    value={disciplinaEditando.apoio_leia ? 'Sim' : 'Não'}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      turma: e.target.value
+                      apoio_leia: e.target.value === 'Sim'
                     })}
-                    required
                   >
                     <option>Sim</option>
                     <option>Não</option>
@@ -214,25 +270,23 @@ const DisciplinasManager = () => {
                   <label>Limitar Número de Alunos</label>
                   <input
                     type="number"
-                    value={disciplinaEditando.cred || ''}
+                    value={disciplinaEditando.max_alunos || ''}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      cred: parseInt(e.target.value) || 0
+                      max_alunos: parseInt(e.target.value) || null
                     })}
-                    min="1"
-                    max="10"
-                    required
+                    min="30"
                   />
                 </div>
-                <div className="form-group">
+                <div className="form-group-frame">
                   <label>Comentário</label>
                   <input
                     type="text"
+                    value={disciplinaEditando.comentario || ''}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      codigo: e.target.value
+                      comentario: e.target.value
                     })}
-                    required
                   />
                 </div>
                 <div className="popup-disciplina-actions">
@@ -245,7 +299,6 @@ const DisciplinasManager = () => {
                     <div className="popup-button-text">Cancelar</div>
                     <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
                   </button>
-                  
                   <button 
                     type="submit"
                     className="popup-confirm-button"
