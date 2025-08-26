@@ -1,6 +1,7 @@
 // src/pages/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
+import { toast } from "react-toastify";
 import Footer from '../components/Footer'; 
 import './Login.css';
 
@@ -37,10 +38,10 @@ function Login() {
         navigate('/dashboard');
       } else {
         // Exibe mensagem de erro sem alterar a estrutura
-        alert(data.message || 'Erro ao fazer login');
+        toast.error(data.message || 'Erro ao fazer login');
       }
     } catch (error) {
-      alert('Erro de conexão com o servidor');
+      toast.error('Erro de conexão com o servidor');
       console.error('Erro no login:', error);
     }
   };

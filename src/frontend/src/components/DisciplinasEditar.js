@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import './DisciplinasEditar.css';
 import axios from 'axios';
 
@@ -106,10 +107,10 @@ const DisciplinasEditar = () => {
       setFilteredDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
       
       setShowDeletePopup(false);
-      alert('Disciplina removida com sucesso!');
+      toast.success('Disciplina removida com sucesso!');
     } catch (err) {
       console.error('Erro ao remover disciplina:', err);
-      alert(`Erro ao remover: ${err.response?.data?.error || err.message}`);
+      toast.error(`Erro ao remover: ${err.response?.data?.error || err.message}`);
     } finally {
       setLoading(false);
     }
@@ -136,10 +137,10 @@ const DisciplinasEditar = () => {
       ));
       
       setShowEditPopup(false);
-      alert('Disciplina atualizada com sucesso!');
+      toast.success('Disciplina atualizada com sucesso!');
     } catch (err) {
       console.error('Erro ao atualizar disciplina:', err);
-      alert(`Erro ao atualizar: ${err.response?.data?.error || err.message}`);
+      toast.error(`Erro ao atualizar: ${err.response?.data?.error || err.message}`);
     } finally {
       setLoading(false);
     }

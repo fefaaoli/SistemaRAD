@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import './GerenciarDisciplinas.css';
 
@@ -43,7 +44,7 @@ function GerenciarDisciplinas() {
       
       console.log('Disciplina criada:', response.data);
       setShowAddDisciplinaPopup(false);
-      alert('Disciplina criada com sucesso!');
+      toast.success('Disciplina criada com sucesso!');
       
       // Limpa o formulário após sucesso
       setFormData({

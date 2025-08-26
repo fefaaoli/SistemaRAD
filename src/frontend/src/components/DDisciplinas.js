@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import './Disciplinas.css';
 import axios from 'axios';
 
@@ -44,11 +45,7 @@ const DDisciplina = () => {
         
         if (response.data.length === 0) {
           console.log('Nenhuma disciplina retornada pelo backend');
-          setNotification({
-            type: 'info',
-            message: 'Nenhuma disciplina ativa no período atual',
-            details: 'O período atual é 2026/2, mas não há disciplinas vinculadas'
-          });
+          toast.error('Nenhuma disciplina ativa no período atual');
         }
 
         const dadosFormatados = response.data.map(item => ({
@@ -69,11 +66,7 @@ const DDisciplina = () => {
       } catch (error) {
         console.error("Erro completo:", error);
         console.error("Resposta de erro:", error.response);
-        setNotification({
-          type: 'error',
-          message: 'Erro ao carregar disciplinas',
-          details: error.response?.data?.error || error.message
-        });
+        toast.error(`Erro ao carregar disciplinas: ${error.response?.data?.error || error.message}`);
       } finally {
         setLoading(false);
       }
@@ -130,25 +123,22 @@ const DDisciplina = () => {
   // Função para confirmar a seleção e enviar ao backend
   const handleConfirmarSelecao = async () => {
     if (selectedDisciplinas.length === 0) {
-      setNotification({
-        type: 'warning',
-        message: 'Nenhuma disciplina selecionada',
-        details: 'Selecione pelo menos uma disciplina para confirmar'
-      });
+      toast.warning('Nenhuma disciplina selecionada');
       return;
     }
 
     try {
       setLoading(true);
-      
-      // Obter o ID do docente (você pode precisar ajustar isso conforme sua autenticação)
-      const docenteId = 14595546; // Exemplo - ajustar conforme necessário
-      
+
+      // Recupera o docente logado do localStorage
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const docenteId = usuario?.id; 
+
       if (!docenteId) {
         throw new Error('ID do docente não encontrado');
       }
 
-      // Enviar cada disciplina selecionada
+      // Envia cada disciplina selecionada
       const promises = selectedDisciplinas.map(async (aid) => {
         await axios.post('http://localhost:5000/api/inscricao/add', {
           aid,
@@ -158,24 +148,18 @@ const DDisciplina = () => {
 
       await Promise.all(promises);
 
-      setNotification({
-        type: 'success',
-        message: 'Inscrições confirmadas com sucesso!',
-        details: `Você foi inscrito em ${selectedDisciplinas.length} disciplina(s)`
-      });
+      toast.success(
+        `Inscrições confirmadas com sucesso! \nVocê foi inscrito em ${selectedDisciplinas.length} disciplina(s)`
+      );
 
-      // Limpar seleções após confirmação
+      // Limpa seleções
       setSelectedDisciplinas([]);
       setDisciplinas(prev => prev.map(d => ({ ...d, selected: false })));
       setFilteredDisciplinas(prev => prev.map(d => ({ ...d, selected: false })));
 
     } catch (error) {
       console.error('Erro ao confirmar inscrições:', error);
-      setNotification({
-        type: 'error',
-        message: 'Erro ao confirmar inscrições',
-        details: error.response?.data?.message || error.message
-      });
+      toast.error('Erro ao confirmar inscrições');
     } finally {
       setLoading(false);
     }

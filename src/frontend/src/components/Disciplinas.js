@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import './Disciplinas.css';
 import axios from 'axios';
 
@@ -83,7 +84,7 @@ const Disciplinas = () => {
         setFilteredDisciplinas(dadosFormatados);
       } catch (error) {
         console.error("Erro ao carregar disciplinas:", error);
-        alert('Erro ao carregar disciplinas. Tente recarregar a página.');
+        toast.error('Erro ao carregar disciplinas. Tente recarregar a página.');
       } finally {
         setLoading(false);
       }
@@ -137,11 +138,11 @@ const Disciplinas = () => {
     }
   }, [selectedDisciplinas, filteredDisciplinas]);
 
-  // Função para confirmar seleção - Versão simplificada com alert
+  // Função para confirmar seleção
   const handleConfirmSelection = async () => {
     try {
       if (selectedDisciplinas.length === 0) {
-        alert('Selecione pelo menos uma disciplina');
+        toast.warning('Selecione pelo menos uma disciplina');
         return;
       }
 
@@ -162,7 +163,7 @@ const Disciplinas = () => {
       console.log('Resposta do servidor:', response.data); // Debug
       
       if (response.data.success) {
-        alert(`${selectedDisciplinas.length} disciplina(s) vinculada(s) ao período ${response.data.periodoUtilizado}`);
+        toast.success(`${selectedDisciplinas.length} disciplina(s) vinculada(s) ao período ${response.data.periodoUtilizado}`);
         setSelectedDisciplinas([]);
         setSelectAll(false);
         
@@ -184,7 +185,7 @@ const Disciplinas = () => {
         errorMsg = error.message;
       }
       
-      alert(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setSaving(false);
     }

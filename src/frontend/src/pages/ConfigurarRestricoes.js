@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './ConfigurarDisciplinas.css';
@@ -82,7 +83,7 @@ function ConfigurarRestricoes() {
       setTotalHorarios(data.totalHorarios);
       setShowRestricaoPopup(true);
     } catch (error) {
-      alert('Erro ao buscar restrição de horário');
+      toast.error('Erro ao buscar restrição de horário');
     }
   };
 
@@ -103,27 +104,27 @@ function ConfigurarRestricoes() {
         throw new Error('Erro ao salvar restrição');
       }
 
-      alert('Restrição atualizada com sucesso!');
+      toast.success('Restrição atualizada com sucesso!');
       setShowRestricaoPopup(false);
     } catch (error) {
-      alert(`Erro: ${error.message}`);
+      toast.error(`Erro: ${error.message}`);
     }
   };
 
   // Salvar data limite
   const handleSalvarDataLimite = async () => {
     if (!dataLimite) {
-      alert('Selecione uma data válida!');
+      toast.warning('Selecione uma data válida!');
       return;
     }
 
     setIsLoading(true);
     try {
       await definirDataLimite(periodo, dataLimite);
-      alert('Data limite configurada com sucesso!');
+      toast.success('Data limite configurada com sucesso!');
       setShowDataLimitePopup(false);
     } catch (error) {
-      alert(`Erro: ${error.response?.data?.error || error.message}`);
+      toast.error(`Erro: ${error.response?.data?.error || error.message}`);
     } finally {
       setIsLoading(false);
     }

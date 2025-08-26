@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
@@ -88,8 +89,7 @@ function ConfigurarUsuarios() {
 
     await apiUsuarios.adicionarDocente(usuario);
     
-    // Mensagem de sucesso via alert
-    alert('Usuário adicionado com sucesso!');
+    toast.success('Usuário adicionado com sucesso!');
     
     setUsuario({
       numeroUSP: '',
@@ -105,8 +105,7 @@ function ConfigurarUsuarios() {
     
   } catch (error) {
     console.error('Erro ao adicionar usuário:', error);
-    // Mensagem de erro via alert
-    alert(error.message || 'Erro ao adicionar usuário');
+    toast.error(error.message || 'Erro ao adicionar usuário');
   }}
 
   return (

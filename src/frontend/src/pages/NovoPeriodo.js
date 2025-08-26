@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './NovoPeriodo.css';
-import { criarPeriodo } from '../services/apiPeriodo'; // Importação do serviço
+import { criarPeriodo } from '../services/apiPeriodo';
 
 function NovoPeriodo() {
   const [showPopup, setShowPopup] = useState(false);
@@ -60,18 +61,18 @@ function NovoPeriodo() {
   // Função modificada para integrar com o backend
   const handleAddPeriodo = async () => {
     if (!/^\d{4}\/[12]$/.test(periodo)) {
-      alert('Formato inválido! Use AAAA/S (Ex: 2025/1 ou 2026/2)');
+      toast.warning('Formato inválido! Use AAAA/S (Ex: 2025/1 ou 2026/2)');
       return;
     }
 
     try {
       // Chamada à API
       await criarPeriodo(periodo);
-      alert(`Período ${periodo} criado com sucesso!`);
+      toast.success(`Período ${periodo} criado com sucesso!`);
       setPeriodo('');
       setShowPopup(false);
     } catch (error) {
-      alert(`Erro ao criar período: ${error.response?.data?.error || error.message}`);
+      toast.error(`Erro ao criar período: ${error.response?.data?.error || error.message}`);
     }
   };
 

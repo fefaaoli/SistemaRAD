@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from "react-toastify";
 import axios from 'axios';
 import './MinhasDisciplinas.css';
 
@@ -13,7 +14,8 @@ const DisciplinasManager = () => {
   const [error, setError] = useState(null);
   const itemsPerPage = 20;
 
-  const docenteId = 14595546; // substitua pelo ID real do docente logado
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const docenteId = usuario?.id || usuario?.docenteId;
 
   const formatarTipo = (tipo) => {
     const tipos = {
@@ -39,8 +41,8 @@ const DisciplinasManager = () => {
             turma: formatarTurma(d.turma),
             tipo: formatarTipo(d.tipo),
             comentario: d.comentario || '',
-            idioma_en: d.idioma_en ? true : false,
-            apoio_leia: d.apoio_leia ? true : false,
+            idioma_en: !!d.idioma_en,
+            apoio_leia: !!d.apoio_leia,
             max_alunos: d.max_alunos || ''
           }));
           setDisciplinas(data);
@@ -55,8 +57,10 @@ const DisciplinasManager = () => {
         setLoading(false);
       }
     };
-    fetchDisciplinas();
-  }, []);
+    if (docenteId) {
+      fetchDisciplinas();
+    }
+  }, [docenteId]);
 
   useEffect(() => {
     const results = disciplinas.filter(d =>
@@ -76,13 +80,13 @@ const DisciplinasManager = () => {
       });
       if (response.data.success) {
         setDisciplinas(prev => prev.filter(d => d.id !== disciplinaId));
-        alert('Disciplina removida com sucesso!');
+        toast.success('Disciplina removida com sucesso!');
       } else {
-        alert('Erro ao remover disciplina');
+        toast.error('Erro ao remover disciplina');
       }
     } catch (err) {
       console.error(err);
-      alert('Erro ao remover disciplina');
+      toast.error('Erro ao remover disciplina');
     } finally {
       setLoading(false);
     }
@@ -112,13 +116,13 @@ const DisciplinasManager = () => {
           d.id === disciplinaEditando.id ? { ...d, ...disciplinaEditando } : d
         ));
         setShowEditModal(false);
-        alert('Informações sobre disciplina atualizadas!');
+        toast.success('Informações sobre disciplina atualizadas!');
       } else {
-        alert('Erro ao salvar comentário/metadados');
+        toast.error('Erro ao salvar comentário/metadados');
       }
     } catch (err) {
       console.error(err);
-      alert('Erro ao salvar comentário/metadados');
+      toast.error('Erro ao salvar comentário/metadados');
     } finally {
       setLoading(false);
     }

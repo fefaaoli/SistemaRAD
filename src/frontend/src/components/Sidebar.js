@@ -161,6 +161,17 @@ const SideBar = () => {
         </div>
         )}
 
+        {isAdmin() && (
+        <button
+          className={`button4 ${isOpen ? 'expanded' : ''}`}
+          onMouseEnter={handleMouseEnterButton}
+          onClick={handleExportarDados}
+        >
+          <img className="icon" src="document-download0.svg" alt="Exportar Dados" />
+          {isOpen && <span className="button-label">Exportar Dados</span>}
+        </button> 
+        )}
+
         {/* AGENDA DOCENTES */}
         <div
           onMouseEnter={() => {
@@ -187,33 +198,22 @@ const SideBar = () => {
             </div>
           )}
         </div>
-
-        {isAdmin() && (
-        <button
-          className={`button4 ${isOpen ? 'expanded' : ''}`}
-          onMouseEnter={handleMouseEnterButton}
-          onClick={handleExportarDados}
-        >
-          <img className="icon" src="document-download0.svg" alt="Exportar Dados" />
-          {isOpen && <span className="button-label">Exportar Dados</span>}
-        </button> 
-        )}
       </div>
 
       <div 
-  className="frame-25"
-  onMouseEnter={handleMouseEnterButton} // Adiciona o mesmo handler dos outros botões
-  onMouseLeave={handleMouseLeaveSidebar} // Mantém a consistência
->
-  <img className="mask-group2" src="mask-group1.svg" alt="Logo lateral" />
-  {isOpen && (
-    <div className="user-info">
-      <div className="user-name">{nome}</div>
-      <div className="user-role">{perfil}</div>
-      <img src="chevron-right0.svg" alt="Fechar Sidebar" />
-    </div>
-  )}
-</div>
+        className="frame-25"
+        onMouseEnter={handleMouseEnterButton} // Adiciona o mesmo handler dos outros botões
+        onMouseLeave={handleMouseLeaveSidebar} // Mantém a consistência
+      >
+        <img className="mask-group2" src="mask-group1.svg" alt="Logo lateral" />
+        {isOpen && (
+          <div className="user-info">
+            <div className="user-name">{nome}</div>
+            <div className="user-role">{perfil}</div>
+            <img src="chevron-right0.svg" alt="Fechar Sidebar" />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

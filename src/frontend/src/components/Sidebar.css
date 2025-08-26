@@ -79,21 +79,6 @@
 .button3 {
   all: unset;
   background: var(--neutral-100, #f8f9fa);
-  border-radius: 0px 0px 0px 0px;
-  padding: 16px;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  justify-content: flex-start;
-  flex-shrink: 0;
-  position: relative;
-  
-}
-
-.button4 {
-  all: unset;
-  background: var(--neutral-100, #f8f9fa);
   border-radius: 0px 0px 8px 8px;
   padding: 16px;
   display: flex;
@@ -104,6 +89,20 @@
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
+}
+
+.button4 {
+  all: unset;
+  background: var(--neutral-100, #f8f9fa);
+  border-radius: 0px 0px 0px 0px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
 }
 
 .button1, .button2, .button3, .button4 {

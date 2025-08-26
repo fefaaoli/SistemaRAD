@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from "react-toastify";
 import './Horario.css';
 
 function Horario() {
@@ -127,7 +128,7 @@ function Horario() {
 
   const confirmarSelecao = () => {
     if (!periodoAtual) {
-      alert('Nenhum período definido para salvar os horários');
+      toast.warning('Nenhum período definido para salvar os horários');
       return;
     }
 
@@ -158,11 +159,11 @@ function Horario() {
       return res.json();
     })
     .then(() => {
-      alert('Horários salvos com sucesso!');
+      toast.success('Horários salvos com sucesso!');
     })
     .catch(err => {
       console.error('Erro:', err);
-      alert(err.message);
+      toast.error(err.message);
     });
   };
 

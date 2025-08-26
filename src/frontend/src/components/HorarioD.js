@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from "react-toastify";
 import './HorarioD.css';
 
 function HorarioD() {
@@ -8,8 +9,8 @@ function HorarioD() {
   const [maxIndisponiveis, setMaxIndisponiveis] = useState(4); // Valor padrão inicial
   const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
 
-  // ID do docente fixo (substitui login/autenticação)
-  const docenteId = '14595546'; // <--- aqui você coloca o número USP do docente
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const docenteId = usuario?.id || usuario?.docenteId;
 
   // Calcula o total de checkboxes marcados como indisponível
   useEffect(() => {
@@ -104,7 +105,7 @@ function HorarioD() {
         if (horario.id === horarioId) {
           const tentandoMarcar = !horario.dias[diaIndex];
           if (tentandoMarcar && totalIndisponiveis >= maxIndisponiveis) {
-            alert(`Você só pode marcar ${maxIndisponiveis} horários como indisponíveis!`);
+            toast.warning(`Você só pode marcar ${maxIndisponiveis} horários como indisponíveis!`);
             return horario;
           }
           
@@ -138,10 +139,10 @@ function HorarioD() {
         });
       }
 
-      alert("Restrições salvas com sucesso!");
+      toast.error("Restrições salvas com sucesso!");
     } catch (error) {
       console.error('Erro:', error);
-      alert("Erro ao salvar restrições. Por favor, tente novamente.");
+      toast.error("Erro ao salvar restrições. Por favor, tente novamente.");
     }
   };
 
