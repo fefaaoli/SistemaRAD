@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="7.4.4">
+  <Institution_Name>FEA-RP / Departamento de Administração</Institution_Name>
+  <Comments>Default comments</Comments>
+  <Hours_List>
+    <Number>4</Number>
+    <Name>08:00 às 09:40</Name>
+    <Name>10:00 às 11:40</Name>
+    <Name>19:00 às 20:40</Name>
+    <Name>20:50 às 22:30</Name>
+  </Hours_List>
+  <Days_List>
+    <Number>5</Number>
+    <Name>2a feira</Name>
+    <Name>3a feira</Name>
+    <Name>4a feira</Name>
+    <Name>5a feira</Name>
+    <Name>6a feira</Name>
+  </Days_List>
+  <Semesters_List>
+    <Name4>Finanças e Negócios obrigatória</Name4>
+    <Name4>8° semestre Diurno obrigatória</Name4>
+    <Name4>8° semestre Noturno obrigatória</Name4>
+    <Name4>4º semestre Diurno obrigatória</Name4>
+    <Name4>4º semestre Noturno obrigatória</Name4>
+    <Name4>4° semestre Diurno obrigatória</Name4>
+    <Name4>4° semestre Noturno obrigatória</Name4>
+    <Name4>6° semestre Diurno obrigatória</Name4>
+    <Name4>6° semestre Noturno obrigatória</Name4>
+    <Name4>2º semestre Diurno obrigatória</Name4>
+    <Name4>2º semestre Noturno obrigatória</Name4>
+    <Name4>2° semestre Diurno obrigatória</Name4>
+    <Name4>2° semestre Noturno obrigatória</Name4>
+    <Name4>MAN Obrigatória</Name4>
+    <Name4>Contábeis Obrigatória</Name4>
+    <Name4>10° semestre Diurno op. eletiva</Name4>
+    <Name4>10° semestre Noturno op. eletiva</Name4>
+    <Name4>10º semestre Diurno op. eletiva</Name4>
+    <Name4>10º semestre Noturno op. eletiva</Name4>
+    <Name4>7º semestre Diurno op. eletiva</Name4>
+    <Name4>7º semestre Noturno op. eletiva</Name4>
+    <Name4>4º semestre Diurno op. eletiva</Name4>
+    <Name4>4º semestre Noturno op. eletiva</Name4>
+    <Name4>6º semestre Diurno op. eletiva</Name4>
+    <Name4>6º semestre Noturno op. eletiva</Name4>
+    <Name4>8º semestre Diurno op. eletiva</Name4>
+    <Name4>8º semestre Noturno op. eletiva</Name4>
+    <Name4>9° semestre Diurno op. eletiva </Name4>
+    <Name4>9° semestre Noturno op. eletiva </Name4>
+    <Name4>8° semestre Diurno op. eletiva </Name4>
+    <Name4>8° semestre Noturno op. eletiva </Name4>
+    <Name4>7° semestre Diurno op. eletiva </Name4>
+    <Name4>7° semestre Noturno op. eletiva </Name4>
+    <Name4>9º semestre Diurno op. eletiva</Name4>
+    <Name4>9º semestre Noturno op. eletiva</Name4>
+    <Name4>5° semestre Diurno op. eletiva</Name4>
+    <Name4>5° semestre Noturno op. eletiva</Name4>
+    <Name4>9º semestre Diurno op. livre</Name4>
+    <Name4>9º semestre Noturno op. livre</Name4>
+  </Semesters_List>
+  <Users_List>
+    <Name5>Janaina de Moura Engracia Giraldi</Name5>
+    <Name5>Silvia Inês Dallavalle de Pádua</Name5>
+    <Name5>Marcos Fava Neves</Name5>
+    <Name5>Jose Francisco Ferreira Ribeiro</Name5>
+    <Name5>Márcia Mazzeo Grande</Name5>
+    <Name5>Paulo Sergio Miranda Mendonca</Name5>
+    <Name5>Joao Luiz Passador</Name5>
+    <Name5>Simone Vasconcelos Ribeiro Galina</Name5>
+    <Name5>Claudia Souza Passador</Name5>
+    <Name5>Perla Calil Pongeluppe Wadhy Rebehy</Name5>
+    <Name5>Tabajara Pimenta Júnior</Name5>
+    <Name5>Marina Toledo Lourenção Rocha</Name5>
+    <Name5>Alexandre Bevilacqua Leoneti</Name5>
+    <Name5>Alexandre Aparecido Dias</Name5>
+    <Name5>Sérgio Takahashi</Name5>
+    <Name5>Elizabeth Krauter</Name5>
+    <Name5>Gilberto Aparecido Prataviera</Name5>
+    <Name5>Erasmo Jose Gomes</Name5>
+    <Name5>Geciâne Silveira Porto</Name5>
+    <Name5>Adriana Cristina Ferreira Caldana</Name5>
+    <Name5>Ildeberto Aparecido Rodello</Name5>
+    <Name5>Carlos Alberto Gabrielli Barreto Campello</Name5>
+    <Name5>Luciana Romano Morilas</Name5>
+  </Users_List>
+  <Disciplines_List>
+    <Name6>RAD0111 - Teoria da Administração</Name6>
+    <Name6>RAD1107 -  Elaboração de Projetos</Name6>
+    <Name6>RAD1107 -  Elaboração de Projetos</Name6>
+    <Name6>RAD1108 - Design Estratégico de Negócios</Name6>
+    <Name6>RAD1108 - Design Estratégico de Negócios</Name6>
+    <Name6>RAD1204 - Administração de Recursos Humanos</Name6>
+    <Name6>RAD1204 - Administração de Recursos Humanos</Name6>
+    <Name6>RAD1302 -  Análise Financeira</Name6>
+    <Name6>RAD1302 -  Análise Financeira</Name6>
+    <Name6>RAD1304 -  Administração Financeira II</Name6>
+    <Name6>RAD1304 -  Administração Financeira II</Name6>
+    <Name6>RAD1308 - Planejamento e Administração Estratégica</Name6>
+    <Name6>RAD1308 - Planejamento e Administração Estratégica</Name6>
+    <Name6>RAD1309 - Administração Pública </Name6>
+    <Name6>RAD1309 - Administração Pública </Name6>
+    <Name6>RAD1401 -  Marketing I</Name6>
+    <Name6>RAD1401 -  Marketing I</Name6>
+    <Name6>RAD1402 -  Comportamento do Consumidor</Name6>
+    <Name6>RAD1402 -  Comportamento do Consumidor</Name6>
+    <Name6>RAD1407 - Teoria das Organizações </Name6>
+    <Name6>RAD1407 - Teoria das Organizações </Name6>
+    <Name6>RAD1501 - Administração de Operações I</Name6>
+    <Name6>RAD1501 - Administração de Operações I</Name6>
+    <Name6>RAD1504 -  Gestão da Qualidade I</Name6>
+    <Name6>RAD1504 -  Gestão da Qualidade I</Name6>
+    <Name6>RAD1506 -  Introdução à Estatística para Administração</Name6>
+    <Name6>RAD1506 -  Introdução à Estatística para Administração</Name6>
+    <Name6>RAD1510 - Pesquisa Operacional II</Name6>
+    <Name6>RAD1510 -  Pesquisa Operacional II</Name6>
+    <Name6>RAD1510 -  Pesquisa Operacional II</Name6>
+    <Name6>RAD1513 - Administração da Produção e Operações</Name6>
+    <Name6>RAD1602 -  Ética e Política</Name6>
+    <Name6>RAD1602 -  Ética e Política</Name6>
+    <Name6>RAD1603 -  Técnicas de Pesquisa I</Name6>
+    <Name6>RAD1603 -  Técnicas de Pesquisa I</Name6>
+    <Name6>RAD1605 -  Direito Comercial</Name6>
+    <Name6>RAD1605 -  Direito Comercial</Name6>
+    <Name6>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Name6>
+    <Name6>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Name6>
+    <Name6>RAD1609 -  Orçamento Empresarial</Name6>
+    <Name6>RAD1609 -  Orçamento Empresarial</Name6>
+    <Name6>RAD1703 -  Direito do Trabalho</Name6>
+    <Name6>RAD1703 -  Direito do Trabalho</Name6>
+    <Name6>RCC1921 - Contabilidade de Custos</Name6>
+    <Name6>RCC1921 - Contabilidade de Custos</Name6>
+    <Name6>REC2104 - Teoria Econômica</Name6>
+    <Name6>REC2104 - Teoria Econômica</Name6>
+    <Name6>8101040 - Desenvolvimento de Competências Interculturais</Name6>
+    <Name6>8101040 - Desenvolvimento de Competências Interculturais</Name6>
+    <Name6>8101050  - Formação de Gestores Responsáveis</Name6>
+    <Name6>8101050 - Formação de Gestores Responsáveis</Name6>
+    <Name6>PRG0017 - Como Criar Uma Startup</Name6>
+    <Name6>PRG0017 - Como Criar Uma Startup</Name6>
+    <Name6>RAD1205 - Administração de Recursos Humanos II</Name6>
+    <Name6>RAD1205 - Administração de Recursos Humanos II</Name6>
+    <Name6>RAD1509 - Estatística multivariada para a tomada de decisão</Name6>
+    <Name6>RAD1509 - Estatística multivariada para a tomada de decisão</Name6>
+    <Name6>RAD1511 - Estatística não-paramétrica para a tomada de decisão</Name6>
+    <Name6>RAD1511 - Estatística não-paramétrica para a tomada de decisão</Name6>
+    <Name6>RAD2101 - Gestão Tecnológica</Name6>
+    <Name6>RAD2101 - Gestão Tecnológica</Name6>
+    <Name6>RAD2102 - Mudança Organizacional</Name6>
+    <Name6>RAD2102 - Mudança Organizacional</Name6>
+    <Name6>RAD2103 -  Empreendedorismo</Name6>
+    <Name6>RAD2103 -  Empreendedorismo</Name6>
+    <Name6>RAD2104 -  Administração de Organizações da Sociedade Civil</Name6>
+    <Name6>RAD2104 -  Administração de Organizações da Sociedade Civil</Name6>
+    <Name6>RAD2105 -  Criação de Novos Negócios</Name6>
+    <Name6>RAD2105 -  Criação de Novos Negócios</Name6>
+    <Name6>RAD2107 -  Administração de Projetos</Name6>
+    <Name6>RAD2107 -  Administração de Projetos</Name6>
+    <Name6>RAD2108 -  Enfoque Sistêmico na Administração</Name6>
+    <Name6>RAD2108 -  Enfoque Sistêmico na Administração</Name6>
+    <Name6>RAD2111 - Desenvolvimento Regional e o Agronegócio </Name6>
+    <Name6>RAD2111 - Desenvolvimento Regional e o Agronegócio </Name6>
+    <Name6>RAD2114 -  Finanças Comportamentais</Name6>
+    <Name6>RAD2114 -  Finanças Comportamentais</Name6>
+    <Name6>RAD2116 -  Gestão de Operações em Serviços</Name6>
+    <Name6>RAD2116 -  Gestão de Operações em Serviços</Name6>
+    <Name6>RAD2117 -  Gestão da Criatividade</Name6>
+    <Name6>RAD2117 -  Gestão da Criatividade</Name6>
+    <Name6>RAD2119 -  Tecnologia da Informação Aplicada à Administração</Name6>
+    <Name6>RAD2119 -  Tecnologia da Informação Aplicada à Administração</Name6>
+    <Name6>RAD2200 - Estudo de Casos no Agronegócio</Name6>
+    <Name6>RAD2200 - Estudo de Casos no Agronegócio</Name6>
+    <Name6>RAD2201 - Cultura e Poder nas Organizações</Name6>
+    <Name6>RAD2201 - Cultura e Poder nas Organizações</Name6>
+    <Name6>RAD2202 -  Seminários de Liderança</Name6>
+    <Name6>RAD2202 -  Seminários de Liderança</Name6>
+    <Name6>RAD2208 -  Gestão de Varejo e Serviços</Name6>
+    <Name6>RAD2208 -  Gestão de Varejo e Serviços</Name6>
+    <Name6>RAD2210 -  Trabalho e Subjetividade na Organização</Name6>
+    <Name6>RAD2210 -  Trabalho e Subjetividade na Organização</Name6>
+    <Name6>RAD2211 - Introdução aos Agronegócios</Name6>
+    <Name6>RAD2211 - Introdução aos Agronegócios</Name6>
+    <Name6>RAD2213 -  Planejamento Estratégico nas Organizações</Name6>
+    <Name6>RAD2213 -  Planejamento Estratégico nas Organizações</Name6>
+    <Name6>RAD2214 -  Cooperação e Gestão de Redes</Name6>
+    <Name6>RAD2214 -  Cooperação e Gestão de Redes</Name6>
+    <Name6>RAD2215 -  Mapeamento de Processos</Name6>
+    <Name6>RAD2215 -  Mapeamento de Processos</Name6>
+    <Name6>RAD2221 -  Sistema Brasileiro de Inovação: Estrutura, Características </Name6>
+    <Name6>RAD2221 -  Sistema Brasileiro de Inovação: Estrutura, Características </Name6>
+    <Name6>RAD2222 -  Governança Corporativa</Name6>
+    <Name6>RAD2222 -  Governança Corporativa</Name6>
+    <Name6>RAD2223 -  Análise de Viabilidade Econômico-Financeira de Projetos de </Name6>
+    <Name6>RAD2223 -  Análise de Viabilidade Econômico-Financeira de Projetos de </Name6>
+    <Name6>RAD2224 -  Estudo de Casos em Administração Estratégica</Name6>
+    <Name6>RAD2224 -  Estudo de Casos em Administração Estratégica</Name6>
+    <Name6>RAD2225 -  Estudo de Casos em Administração de Marketing</Name6>
+    <Name6>RAD2225 -  Estudo de Casos em Administração de Marketing</Name6>
+    <Name6>RAD2226 -  Gestão de Marketing de Lugares</Name6>
+    <Name6>RAD2226 -  Gestão de Marketing de Lugares</Name6>
+    <Name6>RAD2229 -  Economia e Gestão em Artes e Cultura</Name6>
+    <Name6>RAD2229 -  Economia e Gestão em Artes e Cultura</Name6>
+    <Name6>RAD2300 - Gestão pelo Diálogo</Name6>
+    <Name6>RAD2300 - Gestão pelo Diálogo</Name6>
+    <Name6>RAD2301 -  Mercado de Capitais II</Name6>
+    <Name6>RAD2301 -  Mercado de Capitais II</Name6>
+    <Name6>RAD2303 -  Avaliação de Empresas</Name6>
+    <Name6>RAD2303 -  Avaliação de Empresas</Name6>
+    <Name6>RAD2310 - Empreendedorismo Social e Finanças Sociais</Name6>
+    <Name6>RAD2310 - Empreendedorismo Social e Finanças Sociais</Name6>
+    <Name6>RAD2311 - Estratégia e Design Thinking</Name6>
+    <Name6>RAD2311 - Estratégia e Design Thinking</Name6>
+    <Name6>RAD2314 - Mindfulness para a vida profissional: foco, senso de propósi</Name6>
+    <Name6>RAD2314 - Mindfulness para a vida profissional: foco, senso de propósi</Name6>
+    <Name6>RAD2315 - Indicadores para Gestão</Name6>
+    <Name6>RAD2315 - Indicadores para Gestão</Name6>
+    <Name6>RAD2316 - Mindfulness e Teoria U para Projetos Colaborativos</Name6>
+    <Name6>RAD2316 - Mindfulness e Teoria U para Projetos Colaborativos</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2318 - Região Metropolitana de Ribeirão Preto: Sociedade, Economia,</Name6>
+    <Name6>RAD2318 - Região Metropolitana de Ribeirão Preto: Sociedade, Economia,</Name6>
+    <Name6>RAD2319 - Estudo de Caso em Organizações e Gestão de Operações</Name6>
+    <Name6>RAD2319 - Estudo de Caso em Organizações e Gestão de Operações</Name6>
+    <Name6>RAD2400 - Laboratório de Diagnóstico Organizacional</Name6>
+    <Name6>RAD2400 - Laboratório de Diagnóstico Organizacional</Name6>
+    <Name6>RAD2401 -  Comércio Eletrônico</Name6>
+    <Name6>RAD2401 -  Comércio Eletrônico</Name6>
+    <Name6>RAD2402 - Estratégias em Agronegócios</Name6>
+    <Name6>RAD2402 - Estratégias em Agronegócios</Name6>
+    <Name6>RAD2403 -  Gerência de Promoção e Vendas</Name6>
+    <Name6>RAD2403 -  Gerência de Promoção e Vendas</Name6>
+    <Name6>RAD2404 -  Tópicos Avançados de Marketing</Name6>
+    <Name6>RAD2404 -  Tópicos Avançados de Marketing</Name6>
+    <Name6>RAD2405 - Decisões de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2405 - Decisões de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2406 - Estratégias de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2406 - Estratégias de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2407 - Gestão de competências e carreiras nas organizações</Name6>
+    <Name6>RAD2407 - Gestão de competências e carreiras nas organizações</Name6>
+    <Name6>RAD2409 - Negócios baseado em Propósito, uma abordagem Integral</Name6>
+    <Name6>RAD2409 - Negócios baseado em Propósito, uma abordagem Integral</Name6>
+    <Name6>RAD2502 -  Gestão Internacional de Operações</Name6>
+    <Name6>RAD2502 -  Gestão Internacional de Operações</Name6>
+    <Name6>RAD2506 -  Tópicos Avançados de Métodos Quantitativos</Name6>
+    <Name6>RAD2506 -  Tópicos Avançados de Métodos Quantitativos</Name6>
+    <Name6>RAD2509 - Business Analytics</Name6>
+    <Name6>RAD2509 - Business Analytics</Name6>
+    <Name6>RAD2601 -  Direito Administrativo</Name6>
+    <Name6>RAD2601 -  Direito Administrativo</Name6>
+    <Name6>RAD2602 -  Tópicos Avançados de Economia de Empresas</Name6>
+    <Name6>RAD2602 -  Tópicos Avançados de Economia de Empresas</Name6>
+    <Name6>RAD2603 -  Direito Internacional</Name6>
+    <Name6>RAD2603 -  Direito Internacional</Name6>
+    <Name6>RAD2604 -  Tópicos Avançados de Sistemas de Informação</Name6>
+    <Name6>RAD2604 -  Tópicos Avançados de Sistemas de Informação</Name6>
+    <Name6>RAD2605 - Introdução à ciência de dados</Name6>
+    <Name6>RAD2605 - Introdução à ciência de dados</Name6>
+    <Name6>RAD2607 - Ciência de Dados I</Name6>
+    <Name6>RAD2607 - Ciência de Dados I</Name6>
+    <Name6>RAD2608 - Ciência de Dados II</Name6>
+    <Name6>RAD2608 - Ciência de Dados II</Name6>
+    <Name6>RAD2609 - Estudos em Economia e Estratégia</Name6>
+    <Name6>RAD2609 - Estudos em Economia e Estratégia</Name6>
+    <Name6>RAD2701 - Economia e gestão de negócios na América Latina</Name6>
+    <Name6>RAD2701 - Economia e gestão de negócios na América Latina</Name6>
+    <Name6>RAD2702 - Remuneração</Name6>
+    <Name6>RAD2702 - Remuneração</Name6>
+    <Name6>RAD2703 - Sociologia do Consumo</Name6>
+    <Name6>RAD2703 - Sociologia do Consumo</Name6>
+    <Name6>RAD2704 - Inovação e Gerenciamento de Projetos em Organizações Pública</Name6>
+    <Name6>RAD2704 - Inovação e Gerenciamento de Projetos em Organizações Pública</Name6>
+    <Name6>RAD2705 - Responsabilidade Social nas Organizações</Name6>
+    <Name6>RAD2705 - Responsabilidade Social nas Organizações</Name6>
+    <Name6>RAD2706 - Gestão da Inovação</Name6>
+    <Name6>RAD2706 - Gestão da Inovação</Name6>
+    <Name6>RAD2707 - Meio Ambiente e Sustentabilidade</Name6>
+    <Name6>RAD2707 - Meio Ambiente e Sustentabilidade</Name6>
+    <Name6>RAD2708 - Estrutura Organizacional</Name6>
+    <Name6>RAD2708 - Estrutura Organizacional</Name6>
+    <Name6>RAD2709 - Finanças Internacionais</Name6>
+    <Name6>RAD2709 - Finanças Internacionais</Name6>
+    <Name6>RAD2801 - Mercado de Capitais I</Name6>
+    <Name6>RAD2801 - Mercado de Capitais I</Name6>
+    <Name6>RAD2802 - Planejamento e Gestão Estratégica de Marketing</Name6>
+    <Name6>RAD2802 - Planejamento e Gestão Estratégica de Marketing</Name6>
+    <Name6>RAD2803 - Métodos de votação e teoria da escolha social</Name6>
+    <Name6>RAD2803 - Métodos de votação e teoria da escolha social</Name6>
+    <Name6>RAD2804 - Administração de Operações II</Name6>
+    <Name6>RAD2804 - Administração de Operações II</Name6>
+    <Name6>RAD2807 - Tomada de Decisão nas Organizações</Name6>
+    <Name6>RAD2807 - Tomada de Decisão nas Organizações</Name6>
+    <Name6>RAD2808 - Teoria dos Jogos e Tomada de Decisão em Grupo</Name6>
+    <Name6>RAD2808 - Teoria dos Jogos e Tomada de Decisão em Grupo</Name6>
+    <Name6>RAD2809 - Redes econômicas e sociais</Name6>
+    <Name6>RAD2809 - Redes econômicas e sociais</Name6>
+    <Name6>RAD2810 - Análise de Dados para Gestão de Negócios</Name6>
+    <Name6>RAD2810 - Análise de Dados para Gestão de Negócios</Name6>
+    <Name6>RAD2901 - Pesquisa aplicada em administração para a elaboração de trab</Name6>
+    <Name6>RAD2901 - Pesquisa aplicada em administração para a elaboração de trab</Name6>
+    <Name6>RAD2313 - International Law Applied to Business</Name6>
+    <Name6>RAD2313 - International Law Applied to Business</Name6>
+  </Disciplines_List>
+  <Teacher_Subject_List>
+    <TeacherEntry>
+      <Teacher>Perla Calil Pongeluppe Wadhy Rebehy</Teacher>
+      <Subject>RAD1107 -  Elaboração de Projetos</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1610580</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Sérgio Takahashi</Teacher>
+      <Subject>RAD1108 - Design Estratégico de Negócios</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>94580</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Sérgio Takahashi</Teacher>
+      <Subject>RAD1108 - Design Estratégico de Negócios</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>94580</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Adriana Cristina Ferreira Caldana</Teacher>
+      <Subject>RAD1204 - Administração de Recursos Humanos</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>477548</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marina Toledo Lourenção Rocha</Teacher>
+      <Subject>RAD1204 - Administração de Recursos Humanos</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>7142641</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Carlos Alberto Gabrielli Barreto Campello</Teacher>
+      <Subject>RAD1302 -  Análise Financeira</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>389780</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Elizabeth Krauter</Teacher>
+      <Subject>RAD1302 -  Análise Financeira</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3522168</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Carlos Alberto Gabrielli Barreto Campello</Teacher>
+      <Subject>RAD1304 -  Administração Financeira II</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>389780</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Tabajara Pimenta Júnior</Teacher>
+      <Subject>RAD1304 -  Administração Financeira II</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1823261</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Claudia Souza Passador</Teacher>
+      <Subject>RAD1309 - Administração Pública </Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>233723</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Claudia Souza Passador</Teacher>
+      <Subject>RAD1309 - Administração Pública </Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>233723</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Janaina de Moura Engracia Giraldi</Teacher>
+      <Subject>RAD1401 -  Marketing I</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>1153611</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Paulo Sergio Miranda Mendonca</Teacher>
+      <Subject>RAD1401 -  Marketing I</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>1497316</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Paulo Sergio Miranda Mendonca</Teacher>
+      <Subject>RAD1402 -  Comportamento do Consumidor</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1497316</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Paulo Sergio Miranda Mendonca</Teacher>
+      <Subject>RAD1402 -  Comportamento do Consumidor</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1497316</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Aparecido Dias</Teacher>
+      <Subject>RAD1407 - Teoria das Organizações </Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3748712</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Aparecido Dias</Teacher>
+      <Subject>RAD1407 - Teoria das Organizações </Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3748712</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Simone Vasconcelos Ribeiro Galina</Teacher>
+      <Subject>RAD1501 - Administração de Operações I</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>3004368</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Erasmo Jose Gomes</Teacher>
+      <Subject>RAD1501 - Administração de Operações I</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>626418</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Márcia Mazzeo Grande</Teacher>
+      <Subject>RAD1504 -  Gestão da Qualidade I</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1434819</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Márcia Mazzeo Grande</Teacher>
+      <Subject>RAD1504 -  Gestão da Qualidade I</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1434819</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Gilberto Aparecido Prataviera</Teacher>
+      <Subject>RAD1506 -  Introdução à Estatística para Administração</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>886169</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Gilberto Aparecido Prataviera</Teacher>
+      <Subject>RAD1506 -  Introdução à Estatística para Administração</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>886169</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Bevilacqua Leoneti</Teacher>
+      <Subject>RAD1510 - Pesquisa Operacional II</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>5113951</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Jose Francisco Ferreira Ribeiro</Teacher>
+      <Subject>RAD1510 -  Pesquisa Operacional II</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>89816</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Jose Francisco Ferreira Ribeiro</Teacher>
+      <Subject>RAD1510 -  Pesquisa Operacional II</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>89816</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Erasmo Jose Gomes</Teacher>
+      <Subject>RAD1513 - Administração da Produção e Operações</Subject>
+      <Duration>4</Duration>
+      <Total_Duration>4</Total_Duration>
+      <Id>626418</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Joao Luiz Passador</Teacher>
+      <Subject>RAD1602 -  Ética e Política</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>773006</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Joao Luiz Passador</Teacher>
+      <Subject>RAD1602 -  Ética e Política</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>773006</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Geciâne Silveira Porto</Teacher>
+      <Subject>RAD1603 -  Técnicas de Pesquisa I</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>2179042</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Geciâne Silveira Porto</Teacher>
+      <Subject>RAD1603 -  Técnicas de Pesquisa I</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>2179042</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Luciana Romano Morilas</Teacher>
+      <Subject>RAD1605 -  Direito Comercial</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>6627128</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Luciana Romano Morilas</Teacher>
+      <Subject>RAD1605 -  Direito Comercial</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>6627128</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Silvia Inês Dallavalle de Pádua</Teacher>
+      <Subject>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3178752</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Ildeberto Aparecido Rodello</Teacher>
+      <Subject>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3049323</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Perla Calil Pongeluppe Wadhy Rebehy</Teacher>
+      <Subject>RAD1609 -  Orçamento Empresarial</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1610580</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Elizabeth Krauter</Teacher>
+      <Subject>RAD1609 -  Orçamento Empresarial</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3522168</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Adriana Cristina Ferreira Caldana</Teacher>
+      <Subject>8101050  - Formação de Gestores Responsáveis</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>477548</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Bevilacqua Leoneti</Teacher>
+      <Subject>RAD1509 - Estatística multivariada para a tomada de decisão</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>5113951</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Simone Vasconcelos Ribeiro Galina</Teacher>
+      <Subject>RAD2103 -  Empreendedorismo</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3004368</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Elizabeth Krauter</Teacher>
+      <Subject>RAD2114 -  Finanças Comportamentais</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3522168</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Ildeberto Aparecido Rodello</Teacher>
+      <Subject>RAD2119 -  Tecnologia da Informação Aplicada à Administração</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3049323</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marcos Fava Neves</Teacher>
+      <Subject>RAD2211 - Introdução aos Agronegócios</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>2796916</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Silvia Inês Dallavalle de Pádua</Teacher>
+      <Subject>RAD2215 -  Mapeamento de Processos</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3178752</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Silvia Inês Dallavalle de Pádua</Teacher>
+      <Subject>RAD2215 -  Mapeamento de Processos</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3178752</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Elizabeth Krauter</Teacher>
+      <Subject>RAD2222 -  Governança Corporativa</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3522168</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Bevilacqua Leoneti</Teacher>
+      <Subject>RAD2317 - Teoria dos Jogos Aplicada à Administração</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>5113951</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Ildeberto Aparecido Rodello</Teacher>
+      <Subject>RAD2401 -  Comércio Eletrônico</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3049323</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Ildeberto Aparecido Rodello</Teacher>
+      <Subject>RAD2401 -  Comércio Eletrônico</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>3049323</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marcos Fava Neves</Teacher>
+      <Subject>RAD2402 - Estratégias em Agronegócios</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>2796916</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Luciana Romano Morilas</Teacher>
+      <Subject>RAD2603 -  Direito Internacional</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>6627128</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Carlos Alberto Gabrielli Barreto Campello</Teacher>
+      <Subject>RAD2709 - Finanças Internacionais</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>389780</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Tabajara Pimenta Júnior</Teacher>
+      <Subject>RAD2801 - Mercado de Capitais I</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>1823261</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marcos Fava Neves</Teacher>
+      <Subject>RAD2802 - Planejamento e Gestão Estratégica de Marketing</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>2796916</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Luciana Romano Morilas</Teacher>
+      <Subject>RAD2313 - International Law Applied to Business</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>6627128</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+  </Teacher_Subject_List>
+  <Restrictions_List>
+    <TeacherEntry>
+      <Teacher>Janaina de Moura Engracia Giraldi</Teacher>
+      <Number_of_Not_Available_Times>4</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Silvia Inês Dallavalle de Pádua</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>3</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Pereira Salgado Junior</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marcos Fava Neves</Teacher>
+      <Number_of_Not_Available_Times>3</Number_of_Not_Available_Times>
+      <Day>3</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Jose Francisco Ferreira Ribeiro</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Márcia Mazzeo Grande</Teacher>
+      <Number_of_Not_Available_Times>4</Number_of_Not_Available_Times>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Paulo Sergio Miranda Mendonca</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>4</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Joao Luiz Passador</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Simone Vasconcelos Ribeiro Galina</Teacher>
+      <Number_of_Not_Available_Times>4</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Claudia Souza Passador</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Perla Calil Pongeluppe Wadhy Rebehy</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>4</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>3</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Tabajara Pimenta Júnior</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Marina Toledo Lourenção Rocha</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>3</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Bevilacqua Leoneti</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>3</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Alexandre Aparecido Dias</Teacher>
+      <Number_of_Not_Available_Times>1</Number_of_Not_Available_Times>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Sérgio Takahashi</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Gilberto Aparecido Prataviera</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>3</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Elizabeth Krauter</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Erasmo Jose Gomes</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Geciâne Silveira Porto</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>5</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>3</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Adriana Cristina Ferreira Caldana</Teacher>
+      <Number_of_Not_Available_Times>4</Number_of_Not_Available_Times>
+      <Day>4</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Ildeberto Aparecido Rodello</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>2</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>3</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+      <Day>5</Day>
+      <Hour>4</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Carlos Alberto Gabrielli Barreto Campello</Teacher>
+      <Number_of_Not_Available_Times>3</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>1</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+    <TeacherEntry>
+      <Teacher>Luciana Romano Morilas</Teacher>
+      <Number_of_Not_Available_Times>5</Number_of_Not_Available_Times>
+      <Day>1</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>1</Hour>
+      <Active>1</Active>
+      <Day>2</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+      <Day>4</Day>
+      <Hour>2</Hour>
+      <Active>1</Active>
+    </TeacherEntry>
+  </Restrictions_List>
+</fet>

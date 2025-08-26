@@ -14,8 +14,13 @@ app.get('/', (req, res) => {
   res.send('Backend da Gestão de Horários está rodando! 🚀');
 });
 
+app.use(express.urlencoded({ extended: true })); // Para parsing de application/x-www-form-urlencoded
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); // Para forms HTML
+
+const authRoutes = require('./routes/authRoutes');
+app.use('/api/auth', authRoutes);
 
 const periodoRoutes = require('./routes/periodos');
 app.use('/api/admin/periodos', periodoRoutes); // Cria um novo período e insere os horários padrão
@@ -43,6 +48,9 @@ app.use('/indisponibilidades', indisponibilidadeRoutes);
 
 const docenteRoutes = require('./routes/docenteRoutes');
 app.use('/api/docentes', docenteRoutes);
+
+const exportRoutes = require('./routes/exportRoutes');
+app.use('/api', exportRoutes);
 
 // Importe o agendador
 const { iniciarAgendamento } = require('./services/agendador');

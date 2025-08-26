@@ -20,7 +20,9 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.0",
-    "sequelize": "^6.37.7"
+    "react-toastify": "^11.0.5",
+    "sequelize": "^6.37.7",
+    "xmlbuilder2": "^3.1.1"
   },
   "keywords": [],
   "author": "",

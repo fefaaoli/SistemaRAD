@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database'); // Ajuste o caminho conforme sua estrutura
+const sequelize = require('../database');
 
 const Usuario = sequelize.define('usuarios', {
     id: {
@@ -32,11 +32,10 @@ const Usuario = sequelize.define('usuarios', {
     senha: {
         type: DataTypes.STRING(255),
         allowNull: false,
-        defaultValue: 'senha_temporaria'
     }
 }, {
-    timestamps: false, // Se você não usa campos de timestamp
-    tableName: 'usuarios' // Nome exato da tabela no banco
+    timestamps: false, 
+    tableName: 'usuarios' 
 });
 
 module.exports = Usuario;

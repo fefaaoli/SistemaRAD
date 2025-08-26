@@ -12,9 +12,37 @@ function Login() {
     setShowPassword(!showPassword);
   };
 
-  const handleLogin = () => {
-    // Aqui você pode adicionar lógica de autenticação futuramente
-    navigate('/dashboard');
+  const handleLogin = async () => {
+    // Obter valores dos inputs
+    const email = document.querySelector('.input-text[type="text"]').value;
+    const senha = document.querySelector('.input-text[type="password"]').value;
+    
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Salva o token no localStorage
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.usuario));
+        
+        // Redireciona para o dashboard
+        navigate('/dashboard');
+      } else {
+        // Exibe mensagem de erro sem alterar a estrutura
+        alert(data.message || 'Erro ao fazer login');
+      }
+    } catch (error) {
+      alert('Erro de conexão com o servidor');
+      console.error('Erro no login:', error);
+    }
   };
 
   return (
