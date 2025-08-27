@@ -6,11 +6,11 @@ function HorarioD() {
   const [horarios, setHorarios] = useState([]);
   const [diasSemana, setDiasSemana] = useState([]);
   const [periodoAtual, setPeriodoAtual] = useState('');
-  const [maxIndisponiveis, setMaxIndisponiveis] = useState(4); // Valor padrão inicial
+  const [maxIndisponiveis, setMaxIndisponiveis] = useState(5); // Valor padrão inicial
   const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
 
-  const usuario = JSON.parse(localStorage.getItem("usuario"));
-  const docenteId = usuario?.id || usuario?.docenteId;
+  // ID do docente fixo (substitui login/autenticação)
+  const docenteId = '14595546'; // <--- aqui você coloca o número USP do docente
 
   // Calcula o total de checkboxes marcados como indisponível
   useEffect(() => {
@@ -139,7 +139,7 @@ function HorarioD() {
         });
       }
 
-      toast.error("Restrições salvas com sucesso!");
+      toast.success("Restrições salvas com sucesso!");
     } catch (error) {
       console.error('Erro:', error);
       toast.error("Erro ao salvar restrições. Por favor, tente novamente.");

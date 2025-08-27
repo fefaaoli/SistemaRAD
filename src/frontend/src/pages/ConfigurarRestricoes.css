@@ -1,0 +1,11 @@
+.restricao {
+  border: none;
+  outline: none;
+  font-family: "Inter-Regular", sans-serif;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: -0.02em;
+  color: #6c757d;
+  background: transparent;
+}

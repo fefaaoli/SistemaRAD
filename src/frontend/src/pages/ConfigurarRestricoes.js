@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import './ConfigurarDisciplinas.css';
+import './ConfigurarRestricoes.css';
 import './NovoPeriodo.css';
 import { definirDataLimite } from '../services/apiPeriodo';
 
@@ -21,9 +22,6 @@ function ConfigurarRestricoes() {
   const [minSlotsDisponiveis, setMinSlotsDisponiveis] = useState('');
   const [maxIndisponiveis, setMaxIndisponiveis] = useState('');
   const [totalHorarios, setTotalHorarios] = useState('');
-
-  // Período fixo (ou você pode usar um dinâmico se tiver disponível)
-  const periodo = '2025/1';
 
   // Buscar o período atual
   useEffect(() => {
@@ -75,7 +73,7 @@ function ConfigurarRestricoes() {
   // Abrir popup e buscar dados da restrição
   const handleAbrirRestricao = async () => {
     try {
-      const res = await fetch(`http://localhost:5000/api/admin/restricoes/horario?periodo=${periodo}`);
+      const res = await fetch(`http://localhost:5000/api/admin/restricoes/horario?periodo=${periodoAtual}`);
       const data = await res.json();
 
       setMinSlotsDisponiveis(data.minSlotsDisponiveis);
@@ -91,7 +89,7 @@ function ConfigurarRestricoes() {
   const handleSalvarRestricao = async () => {
     try {
       const body = {
-        minSlotsDisponiveis: parseInt(minSlotsDisponiveis)
+        restricao: parseInt(minSlotsDisponiveis) // <--- aqui
       };
 
       const res = await fetch('http://localhost:5000/api/admin/restricoes/horario', {
@@ -120,7 +118,7 @@ function ConfigurarRestricoes() {
 
     setIsLoading(true);
     try {
-      await definirDataLimite(periodo, dataLimite);
+      await definirDataLimite(periodoAtual, dataLimite);
       toast.success('Data limite configurada com sucesso!');
       setShowDataLimitePopup(false);
     } catch (error) {
@@ -207,19 +205,21 @@ function ConfigurarRestricoes() {
             <div className="popup-periodo-body">
               <div className="popup-periodo-content">
                 <div className="popup-text-input-field">
-                  <div className="popup-label">Quantidade mínima de slots de horário disponíveis:</div>
-                  <div className="popup-text-input">
+                  <div className="popup-label">Restrição:</div>
+                  <div className="popup-text-input" style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                    <span className='restricao'>Restrição:</span>
                     <input
                       type="number"
                       value={minSlotsDisponiveis}
                       onChange={(e) => setMinSlotsDisponiveis(e.target.value)}
                       className="popup-input-text"
+                      placeholder="digite o número"
                     />
                   </div>
                 </div>
 
                 <div className="popup-label" style={{ marginTop: '10px' }}>
-                  Limite de horários indisponíveis permitido: <strong>{maxIndisponiveis}</strong> (de um total de {totalHorarios})
+                  Horários disponíveis para seleção pelos docentes: <strong>{maxIndisponiveis}</strong> (de um total de {totalHorarios})
                 </div>
               </div>
               
