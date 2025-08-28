@@ -9,8 +9,8 @@ function HorarioD() {
   const [maxIndisponiveis, setMaxIndisponiveis] = useState(5); // Valor padrão inicial
   const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
 
-  // ID do docente fixo (substitui login/autenticação)
-  const docenteId = '14595546'; // <--- aqui você coloca o número USP do docente
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const docenteId = usuario?.id || usuario?.docenteId;
 
   // Calcula o total de checkboxes marcados como indisponível
   useEffect(() => {

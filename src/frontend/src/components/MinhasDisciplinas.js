@@ -102,19 +102,36 @@ const DisciplinasManager = () => {
 
     try {
       setLoading(true);
-      // Chamada ao backend para salvar comentário/metadados
-      const response = await axios.post('http://localhost:5000/api/inscricao/comentario', {
+
+      // Monta o payload sem max_alunos por padrão
+      const payload = {
         did: docenteId,
         aid: disciplinaEditando.id,
         comentario: disciplinaEditando.comentario,
         idioma_en: disciplinaEditando.idioma_en,
         apoio_leia: disciplinaEditando.apoio_leia,
-        max_alunos: disciplinaEditando.max_alunos
-      });
+      };
+
+      // Só adiciona max_alunos se realmente tiver valor
+      if (
+        disciplinaEditando.max_alunos !== null &&
+        disciplinaEditando.max_alunos !== ''
+      ) {
+        payload.max_alunos = disciplinaEditando.max_alunos;
+      }
+
+      // Chamada ao backend
+      const response = await axios.post(
+        'http://localhost:5000/api/inscricao/comentario',
+        payload
+      );
+
       if (response.data.success) {
-        setDisciplinas(prev => prev.map(d =>
-          d.id === disciplinaEditando.id ? { ...d, ...disciplinaEditando } : d
-        ));
+        setDisciplinas(prev =>
+          prev.map(d =>
+            d.id === disciplinaEditando.id ? { ...d, ...disciplinaEditando } : d
+          )
+        );
         setShowEditModal(false);
         toast.success('Informações sobre disciplina atualizadas!');
       } else {

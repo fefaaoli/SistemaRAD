@@ -7,6 +7,8 @@ import './Login.css';
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
   const navigate = useNavigate(); 
 
   const togglePasswordVisibility = () => {
@@ -14,30 +16,20 @@ function Login() {
   };
 
   const handleLogin = async () => {
-    // Obter valores dos inputs
-    const email = document.querySelector('.input-text[type="text"]').value;
-    const senha = document.querySelector('.input-text[type="password"]').value;
-    
     try {
       const response = await fetch('http://localhost:5000/api/auth/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Salva o token no localStorage
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
-        
-        // Redireciona para o dashboard
         navigate('/dashboard');
       } else {
-        // Exibe mensagem de erro sem alterar a estrutura
         toast.error(data.message || 'Erro ao fazer login');
       }
     } catch (error) {
@@ -75,6 +67,8 @@ function Login() {
                   className="input-text"
                   type="text"
                   placeholder="user@usp.br"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -86,6 +80,8 @@ function Login() {
                   className="input-text"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Digite sua senha"
+                  value={senha}
+                  onChange={(e) => setSenha(e.target.value)}
                 />
                 <img
                   className="eye-off"
