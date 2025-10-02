@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api/admin';
+const API_URL = `${process.env.REACT_APP_API_URL}/api/admin`;
 
 export const apiUsuarios = {
   async listarDocentes() {
@@ -9,10 +9,12 @@ export const apiUsuarios = {
       
       // Transforme os dados da API para o formato esperado pelo frontend
       return data.map(usuario => ({
-        numeroUSP: usuario.id.toString(), // Garanta que é string
+        numeroUSP: usuario.id.toString(),
         nome: usuario.nome,
-        departamento: usuario.setor,
-        funcao: usuario.admin === 1 ? 'Administrador' : 'Docente'
+        email: usuario.email,         // inclui email
+        setor: usuario.setor,
+        abvsetor: usuario.abvsetor,   // inclui abreviação do setor
+        funcao: usuario.admin === 1 ? 'Administrador' : 'Docente',
       }));
       
     } catch (error) {
@@ -32,7 +34,7 @@ export const apiUsuarios = {
           id: dados.numeroUSP,
           nome: dados.nome,
           email: dados.email,
-          setor: dados.departamento,
+          setor: dados.setor,
           admin: dados.funcao === 'Administrador' ? 1 : 0,
           senha: dados.senha || 'senha_temporaria' // Em produção, gere uma senha segura
         })
@@ -52,21 +54,26 @@ export const apiUsuarios = {
 
   async atualizarDocente(id, dados) {
     try {
-      // Converta os dados do frontend para o formato da API
+      // Prepara os dados que serão enviados para a API
       const dadosParaAPI = {
         nome: dados.nome,
-        setor: dados.departamento,
-        admin: dados.funcao === 'Administrador' ? 1 : 0
+        email: dados.email,
+        setor: dados.setor,
+        abvsetor: dados.abvsetor,
+        admin: dados.funcao === 'Administrador' ? 1 : 0,
       };
+
+      // Inclui a senha somente se estiver preenchida
+      if (dados.senha && dados.senha.trim() !== "") {
+        dadosParaAPI.senha = dados.senha;
+      }
 
       const response = await fetch(`${API_URL}/usuarios/${id}`, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dadosParaAPI)
       });
-      
+
       if (!response.ok) throw new Error('Erro ao atualizar docente');
       return await response.json();
     } catch (error) {

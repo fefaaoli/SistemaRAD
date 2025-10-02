@@ -7,8 +7,11 @@ const verificarPrazo = require('../middlewares/verificarPrazo'); // Importa o mi
 // Rota para DEFINIR data limite (PUT)
 router.put('/prazos', ConfigController.definirDataLimite);
 
-// Rota para CONSULTAR data limite (GET)
+// Rota para CONSULTAR data limite de um período específico (GET)
 router.get('/prazos/:periodo', ConfigController.consultarDataLimite);
+
+// Rota para CONSULTAR a última data limite registrada (GET)
+router.get('/ultima-data-limite', ConfigController.consultarUltimaDataLimite);
 
 // Exemplo de rota protegida (usando o middleware):
 router.put('/outra-rota', verificarPrazo, (req, res) => {

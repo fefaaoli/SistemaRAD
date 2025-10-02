@@ -1,0 +1,19 @@
+/* Animações para o modal */
+.edit-modal-overlay-frame {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.edit-modal-overlay-frame.fade-out {
+  opacity: 0;
+}
+
+.edit-modal-frame {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.edit-modal-frame.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+}

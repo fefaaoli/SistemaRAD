@@ -9,6 +9,9 @@ function HorarioD() {
   const [maxIndisponiveis, setMaxIndisponiveis] = useState(5); // Valor padrão inicial
   const [totalIndisponiveis, setTotalIndisponiveis] = useState(0);
 
+  const [showModal, setShowModal] = useState(false);
+  const [selecionados, setSelecionados] = useState([]);
+
   const usuario = JSON.parse(localStorage.getItem("usuario"));
   const docenteId = usuario?.id || usuario?.docenteId;
 
@@ -63,14 +66,14 @@ function HorarioD() {
   useEffect(() => {
     const carregarDados = async () => {
       try {
-        const responsePeriodo = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const responsePeriodo = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
         if (!responsePeriodo.ok) throw new Error('Erro ao carregar período');
         
         const { periodo } = await responsePeriodo.json();
         setPeriodoAtual(periodo);
 
         const responseHorarios = await fetch(
-          `http://localhost:5000/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
+          `${process.env.REACT_APP_API_URL}/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
         );
         if (!responseHorarios.ok) throw new Error('Erro ao carregar horários');
 
@@ -78,7 +81,7 @@ function HorarioD() {
         processarDadosBackend(dataHorarios);
 
         const responseRestricao = await fetch(
-          `http://localhost:5000/api/admin/restricoes/horario?periodo=${encodeURIComponent(periodo)}`
+          `${process.env.REACT_APP_API_URL}/api/admin/restricoes/horario?periodo=${encodeURIComponent(periodo)}`
         );
         if (responseRestricao.ok) {
           const { maxIndisponiveis } = await responseRestricao.json();
@@ -118,28 +121,39 @@ function HorarioD() {
     });
   };
 
-  const handleConfirm = async () => {
-    try {
-      // Mapeia horários indisponíveis no formato do backend
-      const indisponibilidades = horarios.flatMap(horario => {
-        return horario.dias
-          .map((selecionado, diaIndex) => selecionado ? {
-            docente: docenteId, // <--- adiciona automaticamente
-            hordem: horario.id, // ou outro identificador que o backend espera
-            dordem: diaIndex + 1, // mapeia o dia para dordem (1=Segunda, 2=Terça,...)
-          } : null)
-          .filter(Boolean);
-      });
+  const handleConfirm = () => {
+    const indisponibilidades = horarios.flatMap(horario => {
+      return horario.dias
+        .map((selecionado, diaIndex) => selecionado ? {
+          periodo: horario.periodo,
+          dia: diasSemana[diaIndex],
+          docente: docenteId,
+          hordem: horario.id,
+          dordem: diaIndex + 1,
+        } : null)
+        .filter(Boolean);
+    });
 
-      for (const indisponibilidade of indisponibilidades) {
-        await fetch('http://localhost:5000/indisponibilidades', {
+    if (indisponibilidades.length === 0) {
+      toast.warning("Nenhum horário selecionado!");
+      return;
+    }
+
+    setSelecionados(indisponibilidades);
+    setShowModal(true);
+  };
+
+  const salvarRestricoes = async () => {
+    try {
+      for (const item of selecionados) {
+        await fetch(`${process.env.REACT_APP_API_URL}/indisponibilidades`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(indisponibilidade)
+          body: JSON.stringify(item)
         });
       }
-
       toast.success("Restrições salvas com sucesso!");
+      setShowModal(false);
     } catch (error) {
       console.error('Erro:', error);
       toast.error("Erro ao salvar restrições. Por favor, tente novamente.");
@@ -170,10 +184,7 @@ function HorarioD() {
                         checked={selecionado}
                         onChange={() => toggleDia(horario.id, diaIndex)}
                         className="horario-checkbox-input"
-                        disabled={
-                          !selecionado && 
-                          totalIndisponiveis >= maxIndisponiveis
-                        }
+                        disabled={!selecionado && totalIndisponiveis >= maxIndisponiveis}
                       />
                       <span className="horario-checkbox-custom"></span>
                     </label>
@@ -183,6 +194,7 @@ function HorarioD() {
             ))}
           </div>
           
+          {/* botão confirmar */}
           <div className="horario-confirm-container">
             <button 
               className="horario-confirm-button" 
@@ -195,6 +207,48 @@ function HorarioD() {
           </div>
         </div>
       </div>
+
+      {/* MODAL DE CONFIRMAÇÃO */}
+      {showModal && (
+        <div className="popup-overlay">
+          <div className="popup-periodo-container">
+            <div className="popup-periodo-header">
+              <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone confirmar"/>
+              <div className="popup-periodo-title">Confirmar Seleção</div>
+            </div>
+            <div className="popup-bodyE">
+              <p className='popup-label'>Você selecionou os seguintes horários como indisponíveis:</p>
+              <ul className="popup-label">
+                {selecionados.map((s, i) => (
+                  <li key={i}>
+                    <strong>{s.dia}</strong> - {s.periodo}
+                  </li>
+                ))}
+              </ul>
+              <div className="popup-disciplina-actions">
+                <button 
+                  type="button" 
+                  className="popup-cancel-button"
+                  onClick={() => setShowModal(false)} 
+                  disabled={false}
+                >
+                  <div className="popup-button-text">Cancelar</div>
+                  <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
+                </button>
+                <button 
+                  type="button" 
+                  className="popup-confirm-button"
+                  onClick={async () => { await salvarRestricoes(); setShowModal(false); }}
+                  disabled={false}
+                >
+                  <div className="popup-button-text">Confirmar</div>
+                  <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

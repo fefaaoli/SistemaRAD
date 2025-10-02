@@ -15,7 +15,7 @@ function ConfigurarDisciplinas() {
   useEffect(() => {
     async function fetchPeriodo() {
       try {
-        const response = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
         if (!response.ok) {
           throw new Error('Erro ao buscar período');
         }
@@ -32,7 +32,7 @@ function ConfigurarDisciplinas() {
       try {
         const token = localStorage.getItem('token'); // pega o token do login
 
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`, // manda o token no header
           }
@@ -56,6 +56,10 @@ function ConfigurarDisciplinas() {
 
     fetchPeriodo();
     fetchUsuario();
+  }, []);
+
+  useEffect(() => {
+    setAbaAtiva('selecionar');
   }, []);
 
   return (

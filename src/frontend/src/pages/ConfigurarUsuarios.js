@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
-import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import { apiUsuarios } from '../services/apiUsuarios';
 import './ConfigurarDisciplinas.css';
 import './ConfigurarUsuarios.css';
+import AltDocentes from '../components/AltDocentes';
 
 function ConfigurarUsuarios() {
-  const navigate = useNavigate();
   const [showAddUsuarioPopup, setShowAddUsuarioPopup] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -19,7 +18,7 @@ function ConfigurarUsuarios() {
   useEffect(() => {
     async function fetchPeriodo() {
       try {
-        const response = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
         if (!response.ok) {
           throw new Error('Erro ao buscar período');
         }
@@ -36,7 +35,7 @@ function ConfigurarUsuarios() {
       try {
         const token = localStorage.getItem('token'); // pega o token do login
 
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`, // manda o token no header
           }
@@ -66,7 +65,7 @@ function ConfigurarUsuarios() {
     numeroUSP: '',
     nome: '',
     email: '',
-    departamento: '',
+    setor: '',
     funcao: 'Docente',
     senha: ''
   });
@@ -83,7 +82,7 @@ function ConfigurarUsuarios() {
     
   try {
     // Validação básica
-    if (!usuario.numeroUSP || !usuario.nome || !usuario.email || !usuario.departamento) {
+    if (!usuario.numeroUSP || !usuario.nome || !usuario.email || !usuario.setor) {
       throw new Error('Preencha todos os campos obrigatórios');
     }
 
@@ -95,7 +94,7 @@ function ConfigurarUsuarios() {
       numeroUSP: '',
       nome: '',
       email: '',
-      departamento: '',
+      setor: '',
       funcao: 'Docente',
       senha: ''
     });
@@ -127,10 +126,18 @@ function ConfigurarUsuarios() {
         </div>
 
         <div className="content-area">
-          <div className="frame-48">
-            <div className="frame-41">
-              <div className="frame-44">
-                <div className="frame-2333">
+
+          <div class="frame-2318config">
+            <div class="frame-config">
+              <div class="tabconfig">
+                <div class="tab-labelconfig">Configuração de Usuários</div>
+              </div>
+            </div>
+        </div>
+
+          <div className="frame-48AD">
+
+                <div className="frame-2333AD">
                   <button 
                     className="transaction-item" 
                     onClick={() => setShowAddUsuarioPopup(true)}
@@ -146,25 +153,10 @@ function ConfigurarUsuarios() {
                       </div>
                     </div>
                   </button>
-
-                  <button 
-                    className="transaction-item2" 
-                    onClick={() => navigate('/gerenciar-usuarios')}
-                    aria-label="Gerenciar Usuários"
-                  >
-                    <div className="frame-19">
-                      <img className="pencil" src="pencil0.svg" alt="Ícone de edição" />
-                    </div>
-                    <div className="frame-34">
-                      <div className="editar-disciplinas">Gerenciar Usuários</div>
-                      <div className="edi-o-das-disciplinas-para-o-semestre-vigente">
-                        Edição e remoção de usuários existentes.
-                      </div>
-                    </div>
-                  </button>
                 </div>
-              </div>
-            </div>
+
+              <AltDocentes />
+
           </div>
         </div>
 
@@ -236,8 +228,8 @@ function ConfigurarUsuarios() {
                     <div className="popup-input-wrapperCU">
                       <input
                         type="text"
-                        name="departamento"
-                        value={usuario.departamento}
+                        name="setor"
+                        value={usuario.setor}
                         onChange={handleInputChange}
                         className="popup-input-text"
                         required

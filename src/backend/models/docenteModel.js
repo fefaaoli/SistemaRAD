@@ -37,7 +37,7 @@ static async obterDetalhado(docenteId, periodo) {
         const [docente] = await db.query(
             `SELECT id, nome, id AS numero_usp, setor AS departamento
              FROM usuarios
-             WHERE id = :docenteId AND admin = 0`,
+             WHERE id = :docenteId`,
             {
                 replacements: { docenteId },
                 type: db.QueryTypes.SELECT

@@ -15,7 +15,7 @@ function NovoPeriodo() {
   useEffect(() => {
     async function fetchPeriodo() {
       try {
-        const response = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
         if (!response.ok) {
           throw new Error('Erro ao buscar período');
         }
@@ -32,7 +32,7 @@ function NovoPeriodo() {
       try {
         const token = localStorage.getItem('token'); // pega o token do login
 
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`, // manda o token no header
           }
@@ -137,8 +137,24 @@ function NovoPeriodo() {
                     <input
                       type="text"
                       value={periodo}
-                      onChange={(e) => setPeriodo(e.target.value)}
-                      placeholder="aaaa/s"
+                      onChange={(e) => {
+                        let valor = e.target.value;
+
+                        // Remove qualquer caractere que não seja número ou "/"
+                        valor = valor.replace(/[^0-9/]/g, '');
+
+                        // Limita o formato AAAA/S
+                        if (valor.length === 6) {
+                          const [ano, sem] = valor.split('/');
+                          if (sem && !['1','2'].includes(sem)) {
+                            // Se semestre não for 1 ou 2, mantém o anterior ou limpa
+                            valor = `${ano}/`;
+                          }
+                        }
+
+                        setPeriodo(valor);
+                      }}
+                      placeholder="aaaa/semestre"
                       className="popup-input-text"
                     />
                   </div>

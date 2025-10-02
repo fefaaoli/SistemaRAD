@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import axios from 'axios';
 import './GerenciarDisciplinas.css';
+import DisciplinasEditar from '../components/DisciplinasEditar';
 
 function GerenciarDisciplinas() {
-  const navigate = useNavigate();
   const [showAddDisciplinaPopup, setShowAddDisciplinaPopup] = useState(false);
   const [formData, setFormData] = useState({
     codigo: '',
@@ -40,7 +39,7 @@ function GerenciarDisciplinas() {
         comentario: '' // Adicione se necessário
       };
 
-      const response = await axios.post('http://localhost:5000/api/admin/disciplinas', disciplinaData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas`, disciplinaData);
       
       console.log('Disciplina criada:', response.data);
       setShowAddDisciplinaPopup(false);
@@ -64,15 +63,9 @@ function GerenciarDisciplinas() {
     }
   };
 
-  const handleEditarDisciplinas = () => {
-    navigate('/editar-disciplinas');
-  };
-
   return (
-    <div className="frame-48">
-      <div className="frame-41">
-        <div className="frame-44">
-          <div className="frame-2333">
+    <div className="frame-48AD">
+          <div className="frame-2333AD">
             {/* Botão 1: Adicionar Disciplinas */}
             <button 
               className="transaction-item" 
@@ -83,32 +76,16 @@ function GerenciarDisciplinas() {
                 <img className="plus" src="plus0.svg" alt="Ícone de adição" />
               </div>
               <div className="frame-34">
-                <div className="adicionar-disciplinas">Adicionar Disciplinas</div>
+                <div className="adicionar-disciplinas">Adicionar Disciplina</div>
                 <div className="inclus-o-de-novas-disciplinas-para-o-semestre-vigente">
-                  Inclusão de novas disciplinas para o semestre vigente.
-                </div>
-              </div>
-            </button>
-
-            {/* Botão 2: Editar Disciplinas */}
-            <button 
-              className="transaction-item2" 
-              onClick={handleEditarDisciplinas}
-              aria-label="Editar Disciplinas"
-            >
-              <div className="frame-19">
-                <img className="pencil" src="pencil0.svg" alt="Ícone de edição" />
-              </div>
-              <div className="frame-34">
-                <div className="editar-disciplinas">Editar Disciplinas</div>
-                <div className="edi-o-das-disciplinas-para-o-semestre-vigente">
-                  Edição das disciplinas para o semestre vigente.
+                  Cadastro de novas disciplinas no sistema.
                 </div>
               </div>
             </button>
           </div>
-        </div>
-      </div>
+
+
+      <DisciplinasEditar/>
 
       {/* Pop-up de Adicionar Disciplina */}
       {showAddDisciplinaPopup && (
@@ -124,35 +101,47 @@ function GerenciarDisciplinas() {
                 <form onSubmit={handleSubmit}>
                   <div className="popup-disciplina-content">
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Código</div>
+                      <div className="popup-input-label">Código *</div>
                       <div className="popup-input-wrapper">
                         <input
                           type="text"
                           name="codigo"
                           value={formData.codigo}
-                          onChange={handleInputChange}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              codigo: e.target.value.slice(0, 10) // máx. 10 chars
+                            })
+                          }
                           className="popup-input-text"
                           required
+                          maxLength={10}
                         />
                       </div>
                     </div>
                     
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Disciplina</div>
+                      <div className="popup-input-label">Disciplina *</div>
                       <div className="popup-input-wrapper">
                         <input
                           type="text"
                           name="disciplina"
                           value={formData.disciplina}
-                          onChange={handleInputChange}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              disciplina: e.target.value.slice(0, 60) // máx. 60 chars
+                            })
+                          }
                           className="popup-input-text"
                           required
+                          maxLength={60}
                         />
                       </div>
                     </div>
                     
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Turma</div>
+                      <div className="popup-input-label">Turma *</div>
                       <div className="popup-input-wrapper">
                         <select
                           name="turma"
@@ -177,7 +166,7 @@ function GerenciarDisciplinas() {
                     </div>
                     
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Turno</div>
+                      <div className="popup-input-label">Turno *</div>
                       <div className="popup-input-wrapper">
                         <select
                           name="turno"
@@ -194,7 +183,7 @@ function GerenciarDisciplinas() {
                     </div>
                     
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Tipo de Disciplina</div>
+                      <div className="popup-input-label">Tipo de Disciplina *</div>
                       <div className="popup-input-wrapper">
                         <select
                           name="tipo"
@@ -212,15 +201,20 @@ function GerenciarDisciplinas() {
                     </div>
                     
                     <div className="popup-input-field">
-                      <div className="popup-input-label">Créditos</div>
+                      <div className="popup-input-label">Créditos *</div>
                       <div className="popup-input-wrapper">
                         <input
                           type="number"
                           name="creditos"
                           value={formData.creditos}
-                          onChange={handleInputChange}
+                          onChange={(e) => {
+                            const value = parseInt(e.target.value, 10);
+                            if (value >= 0 && value <= 10) {
+                              setFormData({ ...formData, creditos: value });
+                            }
+                          }}
                           className="popup-input-text"
-                          min="1"
+                          min="0"
                           max="10"
                           required
                         />

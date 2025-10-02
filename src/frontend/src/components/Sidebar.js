@@ -26,7 +26,7 @@ const SideBar = () => {
     try {
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:5000/api/exportar-fet', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/exportar-fet`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -90,12 +90,17 @@ const SideBar = () => {
     navigate('/dados-docentes');
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigate('/'); 
+  };
+
   useEffect(() => {
     async function fetchUsuario() {
       try {
         const token = localStorage.getItem('token'); // pega o token do login
 
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
           headers: {
             'Authorization': `Bearer ${token}`, // manda o token no header
           }
@@ -161,17 +166,6 @@ const SideBar = () => {
         </div>
         )}
 
-        {isAdmin() && (
-        <button
-          className={`button4 ${isOpen ? 'expanded' : ''}`}
-          onMouseEnter={handleMouseEnterButton}
-          onClick={handleExportarDados}
-        >
-          <img className="icon" src="document-download0.svg" alt="Exportar Dados" />
-          {isOpen && <span className="button-label">Exportar Dados</span>}
-        </button> 
-        )}
-
         {/* AGENDA DOCENTES */}
         <div
           onMouseEnter={() => {
@@ -198,6 +192,27 @@ const SideBar = () => {
             </div>
           )}
         </div>
+
+        {isAdmin() && (
+        <button
+          className={`button4 ${isOpen ? 'expanded' : ''}`}
+          onMouseEnter={handleMouseEnterButton}
+          onClick={handleExportarDados}
+        >
+          <img className="icon" src="document-download0.svg" alt="Exportar Dados" />
+          {isOpen && <span className="button-label">Exportar Dados</span>}
+        </button> 
+        )}
+
+        <button
+        className={`button5 ${isOpen ? 'expanded' : ''}`}
+        onMouseEnter={handleMouseEnterButton}
+        onClick={handleLogout}
+      >
+        <img className="icon" src="/logout.png" alt="Logout" />
+        {isOpen && <span className="button-label">Sair</span>}
+        </button>
+
       </div>
 
       <div 
@@ -205,7 +220,7 @@ const SideBar = () => {
         onMouseEnter={handleMouseEnterButton} // Adiciona o mesmo handler dos outros botões
         onMouseLeave={handleMouseLeaveSidebar} // Mantém a consistência
       >
-        <img className="mask-group2" src="mask-group1.svg" alt="Logo lateral" />
+        <img className="mask-group2" src="/user-circle.svg" alt="Logo lateral" />
         {isOpen && (
           <div className="user-info">
             <div className="user-name">{nome}</div>
@@ -214,6 +229,7 @@ const SideBar = () => {
           </div>
         )}
       </div>
+
     </div>
   );
 };

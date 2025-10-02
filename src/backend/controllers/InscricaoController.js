@@ -19,8 +19,9 @@ class InscricaoController {
       await addInscricao(aid, did, periodo);
       res.status(201).json({ success: true, message: 'Disciplina adicionada!', periodo });
     } catch (error) {
-      res.status(500).json({ success: false, message: error.message || 'Erro ao adicionar disciplina' });
-    }
+        console.error("🚨 ERRO em /api/inscricao/add:", error); // <<< ADICIONADO
+        res.status(500).json({ success: false, message: error.message || 'Erro ao adicionar disciplina' });
+      }
   }
 
   static async remove(req, res) {

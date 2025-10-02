@@ -17,7 +17,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha }),
@@ -25,12 +25,12 @@ function Login() {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok && data.token) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
         navigate('/dashboard');
       } else {
-        toast.error(data.message || 'Erro ao fazer login');
+        toast.error(data.message || 'Email ou senha incorretos');
       }
     } catch (error) {
       toast.error('Erro de conexão com o servidor');

@@ -27,7 +27,7 @@ const UsuarioController = {
                 id, 
                 nome,
                 email,
-                setor,
+                setor: setor,
                 abvsetor: req.body.abvsetor || 'ND',
                 senha: req.body.senha,
                 admin: admin || 0

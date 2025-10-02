@@ -5,7 +5,7 @@ const app = express();
 
 // Configurações básicas
 app.use(cors({
-  origin: 'http://localhost:3000', // Porta padrão do React
+  origin: ["http://localhost:3000", "http://143.107.158.74:3000"], // Porta padrão do React
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 })); // Permite conexão com o frontend
 

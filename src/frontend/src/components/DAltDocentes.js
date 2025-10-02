@@ -17,7 +17,15 @@ const DAltDocentes = () => {
   useEffect(() => {
     const fetchDocentes = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/docentes');
+        const token = localStorage.getItem('token');
+        
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
         if (!response.ok) {
           throw new Error('Erro ao carregar docentes');
         }
@@ -37,7 +45,15 @@ const DAltDocentes = () => {
   // Buscar detalhes do docente
   const fetchDocenteDetalhes = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/docentes/${id}/detalhes`);
+      const token = localStorage.getItem('token');
+      
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes/${id}/detalhes`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
       if (!response.ok) {
         throw new Error('Erro ao carregar detalhes do docente');
       }
@@ -103,7 +119,39 @@ const DAltDocentes = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading) return <div className="d-alt-docentes-loading">Carregando...</div>;
+    if (loading) {
+    const spinnerStyle = {
+      border: '6px solid #f3f3f3',
+      borderTop: '6px solid #49a0b6',
+      borderRadius: '50%',
+      width: '30px',
+      height: '30px',
+      animation: 'spin 1s linear infinite',
+      margin: '50px auto'
+    };
+
+    const loadingContainerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '200px'
+    };
+
+  return (
+    <div style={loadingContainerStyle}>
+      <div style={spinnerStyle}></div>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
+
   if (error) return <div className="d-alt-docentes-error">Erro: {error}</div>;
 
   return (
@@ -114,7 +162,7 @@ const DAltDocentes = () => {
             <div className="d-alt-docentes-search-input">
               <input
                 type="text"
-                placeholder="Buscar Docente"
+                placeholder="Buscar Docente por Número USP ou Nome"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />

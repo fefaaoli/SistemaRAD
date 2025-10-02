@@ -79,7 +79,7 @@
 .button3 {
   all: unset;
   background: var(--neutral-100, #f8f9fa);
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 0px 0px;
   padding: 16px;
   display: flex;
   flex-direction: row;
@@ -105,7 +105,35 @@
   position: relative;
 }
 
-.button1, .button2, .button3, .button4 {
+.button4 {
+  all: unset;
+  background: var(--neutral-100, #f8f9fa);
+  border-radius: 0px 0px 0px 0px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.button5 {
+  all: unset;
+  background: var(--neutral-100, #f8f9fa);
+  border-radius: 0px 0px 8px 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.button1, .button2, .button3, .button4, .button5 {
   width: 100%;
   box-sizing: border-box;
 }
@@ -113,14 +141,16 @@
 .button1:hover .button-label,
 .button2:hover .button-label, 
 .button3:hover .button-label,
-.button4:hover .button-label {
+.button4:hover .button-label,
+.button5:hover .button-label {
   color: #6DB3C5;
 }
 
 .side-navigation-bar:not(.expanded) .button1,
 .side-navigation-bar:not(.expanded) .button2,
 .side-navigation-bar:not(.expanded) .button3,
-.side-navigation-bar:not(.expanded) .button4 {
+.side-navigation-bar:not(.expanded) .button4, 
+.side-navigation-bar:not(.expanded) .button5 {
   width: auto;
   justify-content: center;
 }

@@ -15,7 +15,7 @@ const DisciplinasEditar = () => {
   const [disciplinaDeletando, setDisciplinaDeletando] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const itemsPerPage = 20;
+  const itemsPerPage = 10;
 
   // Função para formatar o tipo da disciplina
   const formatarTipo = (tipo) => {
@@ -41,7 +41,7 @@ const DisciplinasEditar = () => {
   useEffect(() => {
     const carregarDisciplinas = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/admin/disciplinas');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas`);
         
         const dadosFormatados = response.data.map(item => ({
           id: item.id,
@@ -76,15 +76,29 @@ const DisciplinasEditar = () => {
     }
   };
 
-  // Filtro de busca
-  useEffect(() => {
-    const results = disciplinas.filter(disciplina =>
-      disciplina.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      disciplina.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredDisciplinas(results);
-    setCurrentPage(1);
-  }, [searchTerm, disciplinas]);
+// Função auxiliar para normalizar texto
+const normalizeText = (text) => {
+  return text
+    .normalize("NFD") // separa caracteres e acentos
+    .replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .replace(/ç/g, "c") // trata cedilha
+    .toLowerCase()
+    .trim(); // remove espaços no início/fim
+};
+
+// Filtro de busca
+useEffect(() => {
+  const term = normalizeText(searchTerm);
+
+  const results = disciplinas.filter(disciplina => {
+    const nome = normalizeText(disciplina.nome);
+    const codigo = normalizeText(disciplina.codigo);
+    return nome.includes(term) || codigo.includes(term);
+  });
+
+  setFilteredDisciplinas(results);
+  setCurrentPage(1);
+}, [searchTerm, disciplinas]);
 
   // Handlers
   const handleEditarClick = (disciplina) => {
@@ -100,7 +114,7 @@ const DisciplinasEditar = () => {
   const handleConfirmarDelecao = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:5000/api/admin/disciplinas/${disciplinaDeletando.id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas/${disciplinaDeletando.id}`);
       
       // Atualiza o estado local
       setDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
@@ -129,7 +143,7 @@ const DisciplinasEditar = () => {
         cred: dadosAtualizados.cred
       };
 
-      await axios.put(`http://localhost:5000/api/admin/disciplinas/${dadosAtualizados.id}`, dadosAPI);
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas/${dadosAtualizados.id}`, dadosAPI);
       
       // Atualiza o estado local
       setDisciplinas(prev => prev.map(d => 
@@ -154,14 +168,38 @@ const DisciplinasEditar = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading && disciplinas.length === 0) {
-    return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <p>Carregando disciplinas...</p>
-      </div>
-    );
-  }
+  if (loading) {
+    const spinnerStyle = {
+      border: '6px solid #f3f3f3',
+      borderTop: '6px solid #49a0b6',
+      borderRadius: '50%',
+      width: '30px',
+      height: '30px',
+      animation: 'spin 1s linear infinite',
+      margin: '50px auto'
+    };
+
+    const loadingContainerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '200px'
+    };
+
+  return (
+    <div style={loadingContainerStyle}>
+      <div style={spinnerStyle}></div>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
 
   if (error) {
     return (
@@ -180,7 +218,7 @@ const DisciplinasEditar = () => {
             <div className="search-input">
               <input
                 type="text"
-                placeholder="Buscar Disciplina"
+                placeholder="Busque por Código ou Disciplina"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -277,31 +315,33 @@ const DisciplinasEditar = () => {
                 handleSalvarEdicao(disciplinaEditando);
               }}>
                 <div className="form-group">
-                  <label>Código</label>
+                  <label>Código *</label>
                   <input
                     type="text"
                     value={disciplinaEditando.codigo}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      codigo: e.target.value
+                      codigo: e.target.value.slice(0, 10) // corta se passar
                     })}
                     required
+                    maxLength={10}
                   />
                 </div>
                 <div className="form-group">
-                  <label>Disciplina</label>
+                  <label>Disciplina *</label>
                   <input
                     type="text"
                     value={disciplinaEditando.nome}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      nome: e.target.value
+                      nome: e.target.value.slice(0, 60)
                     })}
                     required
+                    maxLength={60}
                   />
                 </div>
                 <div className="form-group">
-                  <label>Turma</label>
+                  <label>Turma *</label>
                   <select
                     value={disciplinaEditando.turma}
                     onChange={(e) => setDisciplinaEditando({
@@ -323,7 +363,7 @@ const DisciplinasEditar = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Tipo</label>
+                  <label>Tipo *</label>
                   <select
                     value={disciplinaEditando.tipo}
                     onChange={(e) => setDisciplinaEditando({
@@ -338,7 +378,7 @@ const DisciplinasEditar = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Turno</label>
+                  <label>Turno*</label>
                   <select
                     value={disciplinaEditando.turno}
                     onChange={(e) => setDisciplinaEditando({
@@ -352,16 +392,18 @@ const DisciplinasEditar = () => {
                   </select>
                 </div>
                 <div className="form-group">
-                  <label>Créditos</label>
+                  <label>Créditos *</label>
                   <input
                     type="number"
-                    value={disciplinaEditando.cred || ''}
-                    onChange={(e) => setDisciplinaEditando({
-                      ...disciplinaEditando,
-                      cred: parseInt(e.target.value) || 0
-                    })}
-                    min="1"
-                    max="10"
+                    value={disciplinaEditando.cred ?? ''}
+                    onChange={(e) => {
+                      const value = parseInt(e.target.value, 10);
+                      if (value >= 0 && value <= 10) {
+                        setDisciplinaEditando({ ...disciplinaEditando, cred: value });
+                      }
+                    }}
+                    min={0}
+                    max={10}
                     required
                   />
                 </div>

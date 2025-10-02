@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './AltDocentes.css';
+import { toast } from "react-toastify";
 import { apiUsuarios } from '../services/apiUsuarios';
+
+const normalizeString = (str) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+};
 
 const AltDocentes = () => {
   const [docentes, setDocentes] = useState([]);
@@ -12,8 +22,8 @@ const AltDocentes = () => {
   const [docenteEditando, setDocenteEditando] = useState(null);
   const [docenteDeletando, setDocenteDeletando] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const itemsPerPage = 20;
+  const [error] = useState(null);
+  const itemsPerPage = 10;
 
   // Carrega docentes da API
   useEffect(() => {
@@ -23,20 +33,20 @@ const AltDocentes = () => {
         setDocentes(dados);
         setFilteredDocentes(dados);
       } catch (err) {
-        setError('Falha ao carregar docentes. Usando dados locais.');
+        toast.error('Falha ao carregar docentes. Usando dados locais.');
         console.error(err);
         // Dados mockados de fallback
         const mockDocentes = [
           {
             numeroUSP: '1234567',
             nome: 'Carlos Silva',
-            departamento: 'Departamento de Informática',
+            setor: 'Departamento de Informática',
             funcao: 'Docente'
           },
           {
             numeroUSP: '7654321',
             nome: 'Ana Oliveira',
-            departamento: 'Departamento de Matemática',
+            setor: 'Departamento de Matemática',
             funcao: 'Administrador'
           }
         ];
@@ -52,13 +62,15 @@ const AltDocentes = () => {
 
   // Filtro de busca
   useEffect(() => {
+    const normalizedSearch = normalizeString(searchTerm);
+
     const results = docentes.filter(docente => {
-      const searchLower = searchTerm.toLowerCase();
       return (
-        docente.nome.toLowerCase().includes(searchLower) ||
-        String(docente.numeroUSP).toLowerCase().includes(searchLower)
+        normalizeString(docente.nome).includes(normalizedSearch) ||
+        normalizeString(String(docente.numeroUSP)).includes(normalizedSearch)
       );
     });
+
     setFilteredDocentes(results);
     setCurrentPage(1);
   }, [searchTerm, docentes]);
@@ -82,7 +94,7 @@ const AltDocentes = () => {
       ));
       setShowEditPopup(false);
     } catch (err) {
-      setError('Falha ao atualizar docente. Tente novamente.');
+      toast.error('Falha ao atualizar docente. Tente novamente.');
       console.error(err);
     }
   };
@@ -94,7 +106,7 @@ const AltDocentes = () => {
           setDocentes(prev => prev.filter(d => d.numeroUSP !== docenteDeletando.numeroUSP));
           setShowDeletePopup(false);
       } catch (err) {
-          setError('Falha ao remover docente. Tente novamente.');
+          toast.error('Falha ao remover docente. Tente novamente.');
           console.error('Erro detalhado:', err);
       } finally {
           setLoading(false);
@@ -110,8 +122,37 @@ const AltDocentes = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
-    return <div className="docentes-loading">Carregando...</div>;
-  }
+    const spinnerStyle = {
+      border: '6px solid #f3f3f3',
+      borderTop: '6px solid #49a0b6',
+      borderRadius: '50%',
+      width: '30px',
+      height: '30px',
+      animation: 'spin 1s linear infinite',
+      margin: '50px auto'
+    };
+
+    const loadingContainerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '200px'
+    };
+
+  return (
+    <div style={loadingContainerStyle}>
+      <div style={spinnerStyle}></div>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
 
   return (
     <div className="docentes-alt-container">
@@ -123,7 +164,7 @@ const AltDocentes = () => {
             <div className="docentes-search-input">
               <input
                 type="text"
-                placeholder="Buscar Docente"
+                placeholder="Buscar Docente por Número USP ou Nome"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -149,7 +190,7 @@ const AltDocentes = () => {
               <div className="docentes-table-row" key={index}>
                 <div className="docentes-cell-numero">{docente.numeroUSP}</div>
                 <div className="docentes-cell-nome">{docente.nome}</div>
-                <div className="docentes-cell-departamento">{docente.departamento}</div>
+                <div className="docentes-cell-departamento">{docente.setor}</div>
                 <div className="docentes-cell-funcao">{docente.funcao}</div>
                 <div className="docentes-cell-editar">
                   <button 
@@ -216,51 +257,91 @@ const AltDocentes = () => {
                 e.preventDefault();
                 handleSalvarEdicao(docenteEditando);
               }}>
+                {/* Número USP */}
                 <div className="docentes-form-group">
-                  <label>Número USP</label>
+                  <label>Número USP *</label>
                   <input
                     type="text"
-                    value={docenteEditando.numeroUSP}
+                    value={docenteEditando.numeroUSP || ""}
                     readOnly
                   />
                 </div>
+
+                {/* Nome */}
                 <div className="docentes-form-group">
-                  <label>Nome</label>
+                  <label>Nome *</label>
                   <input
                     type="text"
-                    value={docenteEditando.nome}
+                    value={docenteEditando.nome || ""}
                     onChange={(e) => setDocenteEditando({
                       ...docenteEditando,
                       nome: e.target.value
                     })}
                     required
+                    maxLength={100}
                   />
                 </div>
+
+                {/* Email */}
                 <div className="docentes-form-group">
-                  <label>Departamento</label>
+                  <label>Email *</label>
                   <input
-                    type="text"
-                    value={docenteEditando.departamento}
+                    type="email"
+                    value={docenteEditando.email || ""}
                     onChange={(e) => setDocenteEditando({
                       ...docenteEditando,
-                      departamento: e.target.value
+                      email: e.target.value
                     })}
                     required
+                    maxLength={100}
                   />
                 </div>
+
+                {/* Setor / Departamento */}
                 <div className="docentes-form-group">
-                  <label>Função</label>
+                  <label>Setor *</label>
+                  <input
+                    type="text"
+                    value={docenteEditando.setor || ""}
+                    onChange={(e) => setDocenteEditando({
+                      ...docenteEditando,
+                      setor: e.target.value
+                    })}
+                    required
+                    maxLength={50}
+                  />
+                </div>
+
+                {/* Função / Admin */}
+                <div className="docentes-form-group">
+                  <label>Função *</label>
                   <select
-                    value={docenteEditando.funcao}
+                    value={docenteEditando.funcao || "Docente"}
                     onChange={(e) => setDocenteEditando({
                       ...docenteEditando,
                       funcao: e.target.value
                     })}
+                    required
                   >
                     <option value="Docente">Docente</option>
                     <option value="Administrador">Administrador</option>
                   </select>
                 </div>
+
+                {/* Senha */}
+                <div className="docentes-form-group">
+                  <label>Senha</label>
+                  <input
+                    type="password"
+                    value={docenteEditando.senha || ""}
+                    onChange={(e) => setDocenteEditando({
+                      ...docenteEditando,
+                      senha: e.target.value
+                    })}
+                    maxLength={255}
+                  />
+                </div>
+
                 <div className="popup-periodo-actionsD">
                   <button 
                     type="button"

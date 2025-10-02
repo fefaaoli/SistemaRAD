@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="7.4.4">
+  <Institution_Name>FEA-RP / Departamento de Administração</Institution_Name>
+  <Comments>Default comments</Comments>
+  <Hours_List>
+    <Number>4</Number>
+    <Name>08:00 às 09:40</Name>
+    <Name>10:00 às 11:40</Name>
+    <Name>19:00 às 20:40</Name>
+    <Name>20:50 às 22:30</Name>
+  </Hours_List>
+  <Days_List>
+    <Number>5</Number>
+    <Name>2a feira</Name>
+    <Name>3a feira</Name>
+    <Name>4a feira</Name>
+    <Name>5a feira</Name>
+    <Name>6a feira</Name>
+  </Days_List>
+  <Semesters_List/>
+  <Users_List/>
+  <Disciplines_List/>
+  <Teacher_Subject_List/>
+  <Restrictions_List/>
+</fet>

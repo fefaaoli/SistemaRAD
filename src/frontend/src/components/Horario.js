@@ -54,7 +54,7 @@ function Horario() {
     const carregarPeriodoRecente = async () => {
       try {
         // 1. Busca o período mais recente
-        const responsePeriodo = await fetch('http://localhost:5000/api/admin/horarios/periodo-recente');
+        const responsePeriodo = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
         if (!responsePeriodo.ok) throw new Error('Erro ao carregar período');
         
         const { periodo } = await responsePeriodo.json();
@@ -62,7 +62,7 @@ function Horario() {
 
         // 2. Busca os horários do período
         const responseHorarios = await fetch(
-          `http://localhost:5000/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
+          `${process.env.REACT_APP_API_URL}/api/admin/horarios?periodo=${encodeURIComponent(periodo)}`
         );
         if (!responseHorarios.ok) throw new Error('Erro ao carregar horários');
 
@@ -115,17 +115,6 @@ function Horario() {
     setEditandoId(null);
   };
 
-  const toggleDia = (horarioId, diaIndex) => {
-    setHorarios(horarios.map(horario => {
-      if (horario.id === horarioId) {
-        const novosDias = [...horario.dias];
-        novosDias[diaIndex] = !novosDias[diaIndex];
-        return { ...horario, dias: novosDias };
-      }
-      return horario;
-    }));
-  };
-
   const confirmarSelecao = () => {
     if (!periodoAtual) {
       toast.warning('Nenhum período definido para salvar os horários');
@@ -146,7 +135,7 @@ function Horario() {
     }))
   ];
 
-    fetch('http://localhost:5000/api/admin/horarios/salvar', {
+    fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/salvar`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -229,7 +218,7 @@ function Horario() {
                         type="checkbox" 
                         className="schedule-checkbox-input"
                         checked={selecionado}
-                        onChange={() => toggleDia(horario.id, diaIndex)}
+                        disabled
                       />
                       <span className="schedule-checkbox-custom"></span>
                     </label>

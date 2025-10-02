@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -21,7 +21,7 @@ import DisciplinasDocentes from './pages/DisciplinasDocentes';
 
 function App() {
   return (
-      <Router>
+      <Router> {/* Adicione basename aqui */}
 
       {/* Container do Toastify */}
       <ToastContainer
@@ -54,12 +54,9 @@ function App() {
         <Route path="/gerenciar-usuarios" element={<GerenciarUsuarios />} />
         <Route path="/disciplinas-docentes" element={<DisciplinasDocentes />} />
 
-        {/* Adicione outras rotas conforme necessário */}
-        {/* Exemplo:
-        <Route path="/gerenciar-disciplinas" element={<GerenciarDisciplinas />} />
-        <Route path="/configurar-horarios" element={<ConfigurarHorarios />} />
-        */}
-      </Routes>
+        {/* Adicione uma rota fallback para evitar 404 */}
+        <Route path="*" element={<Login />} />
+        </Routes>
     </Router>
   );
 }

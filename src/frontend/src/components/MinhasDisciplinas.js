@@ -32,7 +32,7 @@ const DisciplinasManager = () => {
     const fetchDisciplinas = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/inscricao/list/${docenteId}`);
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/inscricao/list/${docenteId}`);
         if (response.data.success) {
           const data = response.data.data.map(d => ({
             id: d.aid,
@@ -72,12 +72,12 @@ const DisciplinasManager = () => {
   }, [searchTerm, disciplinas]);
 
   const handleRemoverDisciplina = async (disciplinaId) => {
-    if (!window.confirm('Tem certeza que deseja remover esta disciplina?')) return;
     setLoading(true);
     try {
-      const response = await axios.delete('http://localhost:5000/api/inscricao/remove', {
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/api/inscricao/remove`, {
         data: { aid: disciplinaId, did: docenteId }
       });
+
       if (response.data.success) {
         setDisciplinas(prev => prev.filter(d => d.id !== disciplinaId));
         toast.success('Disciplina removida com sucesso!');
@@ -122,7 +122,7 @@ const DisciplinasManager = () => {
 
       // Chamada ao backend
       const response = await axios.post(
-        'http://localhost:5000/api/inscricao/comentario',
+        `${process.env.REACT_APP_API_URL}/api/inscricao/comentario`,
         payload
       );
 
@@ -151,14 +151,38 @@ const DisciplinasManager = () => {
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  if (loading && disciplinas.length === 0) {
-    return (
-      <div className="loading-frame">
-        <div className="loading-spinner"></div>
-        <p>Carregando disciplinas...</p>
-      </div>
-    );
-  }
+    if (loading) {
+    const spinnerStyle = {
+      border: '6px solid #f3f3f3',
+      borderTop: '6px solid #49a0b6',
+      borderRadius: '50%',
+      width: '30px',
+      height: '30px',
+      animation: 'spin 1s linear infinite',
+      margin: '50px auto'
+    };
+
+    const loadingContainerStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '200px'
+    };
+
+  return (
+    <div style={loadingContainerStyle}>
+      <div style={spinnerStyle}></div>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
 
   if (error) {
     return (
@@ -275,7 +299,7 @@ const DisciplinasManager = () => {
                   </select>
                 </div>
                 <div className="form-group-frame">
-                  <label>Necessita do Leia</label>
+                  <label>Necessita do LEIA</label>
                   <select
                     value={disciplinaEditando.apoio_leia ? 'Sim' : 'Não'}
                     onChange={(e) => setDisciplinaEditando({

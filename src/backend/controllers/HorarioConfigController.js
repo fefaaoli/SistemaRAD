@@ -70,6 +70,27 @@ class AdminConfigController {
       res.status(500).json({ error: 'Erro ao atualizar configuração' });
     }
   }
+
+  static async getUltimaRestricaoRegistrada(req, res) {
+    try {
+      const config = await Config.findOne({
+        where: { nome: 'restricao' },
+        order: [['createdAt', 'DESC']] // Pega a última registrada
+      });
+
+      if (!config) {
+        return res.status(404).json({ error: 'Nenhuma restrição registrada' });
+      }
+
+      res.json({
+        valor: parseInt(config.valor),
+        dataRegistro: config.createdAt
+      });
+    } catch (error) {
+      console.error('Erro no getUltimaRestricaoRegistrada:', error);
+      res.status(500).json({ error: 'Erro ao buscar última restrição' });
+    }
+  }
 }
 
 module.exports = AdminConfigController;
