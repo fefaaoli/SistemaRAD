@@ -5,6 +5,9 @@ const horarioController = require('../controllers/horarioController');
 // Listar períodos disponíveis
 router.get('/periodo-recente', horarioController.getPeriodoMaisRecente);
 
+// Listar todos os períodos
+router.get('/periodos', horarioController.getAllPeriodos); 
+
 // Listar horários de um período
 router.get('/', horarioController.getHorariosPorPeriodo);
 

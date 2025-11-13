@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'; 
 import './DAltDocentes.css';
 
-const DAltDocentes = () => {
+const DAltDocentes = ({ periodo }) => {
   // Estados
   const [docentes, setDocentes] = useState([]);
   const [filteredDocentes, setFilteredDocentes] = useState([]);
@@ -15,39 +15,44 @@ const DAltDocentes = () => {
 
   // Buscar docentes da API
   useEffect(() => {
-    const fetchDocentes = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!response.ok) {
-          throw new Error('Erro ao carregar docentes');
-        }
-        const data = await response.json();
-        setDocentes(data.docentes);
-        setFilteredDocentes(data.docentes);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
+      const fetchDocentes = async () => {
+        if (!periodo) return; // <-- Adicionado: Não faz nada se o período ainda não foi carregado
 
-    fetchDocentes();
-  }, []);
+        setLoading(true); // <-- Adicionado: Mostra o loading ao trocar de período
+        try {
+          const token = localStorage.getItem('token');
+          
+          // Adicionamos o período como um "query parameter" na URL
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes?periodo=${periodo}`, { // <-- MUDANÇA AQUI
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          
+          if (!response.ok) {
+            throw new Error('Erro ao carregar docentes');
+          }
+          const data = await response.json();
+          setDocentes(data.docentes);
+          setFilteredDocentes(data.docentes);
+          
+        } catch (err) {
+          setError(err.message);
+        } finally {
+          setLoading(false); // <-- Movido para o 'finally' para garantir que sempre pare o loading
+        }
+      };
+
+      fetchDocentes();
+    }, [periodo]); // <-- MUDANÇA AQUI: O useEffect agora depende do 'periodo'
 
   // Buscar detalhes do docente
   const fetchDocenteDetalhes = async (id) => {
     try {
       const token = localStorage.getItem('token');
       
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes/${id}/detalhes`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes/${id}/detalhes?periodo=${periodo}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

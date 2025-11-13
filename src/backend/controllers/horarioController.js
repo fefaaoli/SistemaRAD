@@ -23,6 +23,30 @@ exports.getPeriodoMaisRecente = async (req, res) => {
   }
 };
 
+// GET - Listar todos os períodos disponíveis
+exports.getAllPeriodos = async (req, res) => {
+  try {
+    const rows = await db.query(
+      'SELECT DISTINCT periodo FROM exp_horario ORDER BY periodo DESC',
+      {
+        type: QueryTypes.SELECT
+      }
+    );
+    
+    if (rows.length === 0) {
+      return res.json([]); 
+    }
+    
+    const periodos = rows.map(row => row.periodo);
+    
+    res.json(periodos);
+
+  } catch (error) {
+    console.error('Erro ao buscar todos os períodos:', error);
+    res.status(500).json({ error: 'Erro interno ao buscar períodos' });
+  }
+};
+
 // GET - Listar horários padrão por período
 exports.getHorariosPorPeriodo = async (req, res) => {
   console.log('Query params:', req.query);   // <-- log de debug importante!

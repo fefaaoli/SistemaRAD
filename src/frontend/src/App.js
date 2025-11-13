@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PeriodoProvider } from './context/PeriodoContext';
 
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
@@ -21,7 +22,8 @@ import DisciplinasDocentes from './pages/DisciplinasDocentes';
 
 function App() {
   return (
-      <Router> {/* Adicione basename aqui */}
+  <PeriodoProvider>
+    <Router>
 
       {/* Container do Toastify */}
       <ToastContainer
@@ -58,6 +60,9 @@ function App() {
         <Route path="*" element={<Login />} />
         </Routes>
     </Router>
+
+  </PeriodoProvider>
+  
   );
 }
 

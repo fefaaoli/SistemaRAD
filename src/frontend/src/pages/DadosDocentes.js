@@ -1,29 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import { usePeriodo } from '../context/PeriodoContext';
 import SideBar from '../components/Sidebar';
 import Footer from '../components/Footer';
 import DAltDocentes from '../components/DAltDocentes';
 import './ConfigurarDisciplinas.css';
 
 function DadosDocentes() {
-  const [periodoAtual, setPeriodoAtual] = useState('Carregando...');
+  const { periodoSelecionado } = usePeriodo()
   const [nome, setNome] = useState('Carregando...');
   const [perfil, setPerfil] = useState('Carregando...');
 
   useEffect(() => {
-    async function fetchPeriodo() {
-      try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/admin/horarios/periodo-recente`);
-        if (!response.ok) {
-          throw new Error('Erro ao buscar período');
-        }
-
-        const data = await response.json();
-        setPeriodoAtual(data.periodo);
-      } catch (error) {
-        console.error('Erro ao buscar período:', error);
-        setPeriodoAtual('Indisponível');
-      }
-    }
 
     async function fetchUsuario() {
       try {
@@ -51,7 +38,6 @@ function DadosDocentes() {
       }
     }
 
-    fetchPeriodo();
     fetchUsuario();
   }, []);
 
@@ -66,7 +52,7 @@ function DadosDocentes() {
               <div className="frame-2320">
                 <div className="perfil-de-administrador">Perfil de {perfil}</div>
                 <div className="per-odo-letivo-atual-2025-01">
-                  Período Letivo Atual: {periodoAtual}
+                  Período Letivo Atual: {periodoSelecionado || 'Carregando...'}
                 </div>
               </div>
             </div>
@@ -85,7 +71,7 @@ function DadosDocentes() {
 
         <div className="configurar-disciplinas">Dados Docentes</div>
 
-        <DAltDocentes />
+        <DAltDocentes periodo={periodoSelecionado}/>
 
         <Footer />
       </div>
