@@ -46,6 +46,94 @@ module.exports = {
     }
   },
 
+  // Substitui todas as restrições antigas pelas novas
+  async substituirRestricoes(req, res) {
+    const t = await sequelize.transaction(); // Inicia transação
+
+    try {
+      const { docente, restricoes } = req.body; 
+      // 'restricoes' deve ser um array de objetos: [{ hordem: 1, dordem: 1 }, ...]
+      
+      const periodo = await getUltimoPeriodo();
+
+      if (!periodo) {
+        await t.rollback();
+        return res.status(400).json({ error: 'Nenhum período cadastrado.' });
+      }
+
+      // 1. Deleta TODAS as restrições desse docente neste período
+      await ExpRestricao.destroy({
+        where: { docente, periodo },
+        transaction: t
+      });
+
+      // 2. Prepara os dados para inserção em massa
+      if (restricoes && restricoes.length > 0) {
+        const dadosParaInserir = restricoes.map(r => ({
+          docente,
+          periodo,
+          hordem: r.hordem,
+          dordem: r.dordem
+        }));
+
+        // 3. Insere os novos
+        await ExpRestricao.bulkCreate(dadosParaInserir, { transaction: t });
+      }
+
+      await t.commit(); // Confirma as alterações no banco
+      res.status(200).json({ message: 'Restrições atualizadas com sucesso.' });
+
+    } catch (err) {
+      await t.rollback(); // Desfaz tudo se der erro
+      console.error(err);
+      res.status(500).json({ error: 'Erro ao atualizar restrições.' });
+    }
+  },
+  
+  // Substitui todas as restrições antigas pelas novas
+  async substituirRestricoes(req, res) {
+    const t = await sequelize.transaction(); // Inicia transação
+
+    try {
+      const { docente, restricoes } = req.body; 
+      // 'restricoes' deve ser um array de objetos: [{ hordem: 1, dordem: 1 }, ...]
+      
+      const periodo = await getUltimoPeriodo();
+
+      if (!periodo) {
+        await t.rollback();
+        return res.status(400).json({ error: 'Nenhum período cadastrado.' });
+      }
+
+      // 1. Deleta TODAS as restrições desse docente neste período
+      await ExpRestricao.destroy({
+        where: { docente, periodo },
+        transaction: t
+      });
+
+      // 2. Prepara os dados para inserção em massa
+      if (restricoes && restricoes.length > 0) {
+        const dadosParaInserir = restricoes.map(r => ({
+          docente,
+          periodo,
+          hordem: r.hordem,
+          dordem: r.dordem
+        }));
+
+        // 3. Insere os novos
+        await ExpRestricao.bulkCreate(dadosParaInserir, { transaction: t });
+      }
+
+      await t.commit(); // Confirma as alterações no banco
+      res.status(200).json({ message: 'Restrições atualizadas com sucesso.' });
+
+    } catch (err) {
+      await t.rollback(); // Desfaz tudo se der erro
+      console.error(err);
+      res.status(500).json({ error: 'Erro ao atualizar restrições.' });
+    }
+  },
+
   // Listar restrições de um docente no período atual
   async getRestricoesByDocente(req, res) {
     try {

@@ -82,10 +82,6 @@ const SideBar = () => {
     navigate('/restricoes-horario');
   };
 
-  const handleDisciplinasDocentes = () => {
-    navigate('/disciplinas-docentes');
-  };
-
   const handleDadosDocentes = () => {
     navigate('/dados-docentes');
   };
@@ -184,7 +180,6 @@ const SideBar = () => {
               <div className={`dropdown-menu ${isOpen ? 'expanded' : 'collapsed'}`}>
                 <button className="dropdown-item" onClick={handleSelecaoDisciplinas}>Seleção de Disciplinas</button>
                 <button className="dropdown-item" onClick={handleRestricoesHorario}>Restrições de Horário</button>
-                <button className="dropdown-item" onClick={handleDisciplinasDocentes}>Minhas Disciplinas</button>
                 {isAdmin() && (
                 <button className="dropdown-item" onClick={handleDadosDocentes}>Dados Docentes</button>
                 )}

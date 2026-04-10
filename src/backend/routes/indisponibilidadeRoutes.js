@@ -9,6 +9,9 @@ router.post('/', indisponibilidadeController.createRestricao);
 // Listar restrições de um docente
 router.get('/:docente', indisponibilidadeController.getRestricoesByDocente);
 
+// Rota para SUBSTITUIR/SALVAR LOTE
+router.post('/lote', indisponibilidadeController.substituirRestricoes);
+
 // Remover restrição
 router.delete('/', indisponibilidadeController.deleteRestricao);
 

@@ -5,6 +5,7 @@ import './DDisciplinas.css';
 import axios from 'axios';
 
 const DDisciplina = () => {
+  // Estados originais
   const [disciplinas, setDisciplinas] = useState([]);
   const [filteredDisciplinas, setFilteredDisciplinas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -18,13 +19,27 @@ const DDisciplina = () => {
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const itemsPerPage = 20;
 
-  // Funções de formatação
+  // NOVOS Estados para Filtro e Ordenação
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+  const [tempFilters, setTempFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+  const [sortConfig, setSortConfig] = useState({ key: 'nome', direction: 'asc' });
+
+  // Funções de formatação blindadas
   const formatarTipo = (tipo) => {
+    if (!tipo) return 'indefinido';
     const tipos = { 'optativa_eletiva': 'op. eletiva', 'optativa_livre': 'op. livre', 'obrigatoria': 'obrigatória' };
     return (tipos[tipo] || tipo).toLowerCase();
   };
-  const formatarTurma = (turma) => turma.toLowerCase();
-  const formatarTurno = (turma) => turma.includes('N') ? 'noturno' : 'diurno';
+  
+  const formatarTurma = (turma) => turma ? String(turma).toLowerCase() : 'indefinido';
+  
+  // CORRIGIDO: Agora lê corretamente o turno em vez de deduzir pelo "N" ou "D" da turma
+  const formatarTurno = (turno) => {
+    if (!turno) return 'indefinido';
+    const map = { 'Diurno': 'diurno', 'Noturno': 'noturno', 'Indefinido': 'indefinido' };
+    return map[turno] || String(turno).toLowerCase();
+  };
 
   // Busca disciplinas
   useEffect(() => {
@@ -35,11 +50,11 @@ const DDisciplina = () => {
         const dadosFormatados = response.data.map(item => ({
           id: item.id,
           aid: item.id,
-          codigo: item.cod,
-          nome: item.nome || item.disciplina,
+          codigo: item.cod || '',
+          nome: item.nome || item.disciplina || '',
           turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: formatarTurno(item.turma),
+          turno: formatarTurno(item.turno), // ALTERADO AQUI
           selected: false
         }));
         setDisciplinas(dadosFormatados);
@@ -53,15 +68,70 @@ const DDisciplina = () => {
     fetchDisciplinasAtivas();
   }, []);
 
-  // Filtrar disciplinas
+  // Função auxiliar para normalizar texto
+  const normalizeText = (text) => {
+    return text ? String(text).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ç/g, "c").toLowerCase().trim() : '';
+  };
+
+  // NOVO: Lógica unificada de Filtros, Busca e Ordenação Segura
   useEffect(() => {
-    const results = disciplinas.filter(d =>
-      d.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      d.codigo.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    let results = [...disciplinas];
+
+    // 1. Filtro de Tipo (Apenas Optativas)
+    if (activeFilters.apenasOptativas) {
+      results = results.filter(d => d.tipo === 'op. eletiva' || d.tipo === 'op. livre');
+    }
+
+    // 2. Filtro de Semestre
+    if (activeFilters.semestre !== 'todos') {
+      results = results.filter(d => {
+        const semestre = parseInt(String(d.turma).split(' ')[0]);
+        if (isNaN(semestre)) return false; 
+        
+        if (activeFilters.semestre === 'impar') return semestre % 2 !== 0;
+        if (activeFilters.semestre === 'par') return semestre % 2 === 0;
+        return true;
+      });
+    }
+
+    // 3. Filtro de Busca por Texto
+    if (searchTerm) {
+      const term = normalizeText(searchTerm);
+      results = results.filter(d => {
+        const nome = normalizeText(d.nome);
+        const codigo = normalizeText(d.codigo);
+        return nome.includes(term) || codigo.includes(term);
+      });
+    }
+
+    // 4. Ordenação Blindada
+    results.sort((a, b) => {
+      if (sortConfig.key === 'turma') {
+        let numA = parseInt(String(a.turma).split(' ')[0]);
+        let numB = parseInt(String(b.turma).split(' ')[0]);
+        
+        if (isNaN(numA)) numA = 999;
+        if (isNaN(numB)) numB = 999;
+        
+        if (numA < numB) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (numA > numB) return sortConfig.direction === 'asc' ? 1 : -1;
+        
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        return nomeA.localeCompare(nomeB, 'pt-BR');
+      } else {
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        
+        return sortConfig.direction === 'asc' 
+          ? nomeA.localeCompare(nomeB, 'pt-BR') 
+          : nomeB.localeCompare(nomeA, 'pt-BR');
+      }
+    });
+
     setFilteredDisciplinas(results);
     setCurrentPage(1);
-  }, [searchTerm, disciplinas]);
+  }, [searchTerm, activeFilters, disciplinas, sortConfig]);
 
   // Paginação
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -73,7 +143,7 @@ const DDisciplina = () => {
   // Seleção/deseleção
   const handleSelectDisciplina = (disciplinaId) => {
     setDisciplinas(prev => prev.map(d => d.id === disciplinaId ? { ...d, selected: !d.selected } : d));
-    setFilteredDisciplinas(prev => prev.map(d => d.id === disciplinaId ? { ...d, selected: !d.selected } : d));
+    // A lista filtrada se atualizará automaticamente pelo useEffect devido à alteração no 'disciplinas'
     setSelectedDisciplinas(prev => prev.includes(disciplinaId) ? prev.filter(id => id !== disciplinaId) : [...prev, disciplinaId]);
   };
 
@@ -158,15 +228,41 @@ const DDisciplina = () => {
     setIsAnimatingOut(false);
   };
 
+  // Funções dos Novos Controles
+  const requestSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const abrirPopupFiltro = () => {
+    setTempFilters(activeFilters);
+    setShowFilterPopup(true);
+  };
+
+  const aplicarFiltros = () => {
+    setActiveFilters(tempFilters);
+    setShowFilterPopup(false);
+  };
+
   // Render modal de edição
   const renderEditModal = () => {
     if (!showEditModal && !isAnimatingOut) return null;
+
+    // Formatar o turno para o título
+    const turnoFormatado = disciplinaEditando?.turno || formatarTurno(disciplinaEditando?.turma || '');
+    const tituloModal = disciplinaEditando 
+      ? `${disciplinaEditando.nome} (${turnoFormatado})`
+      : '';
 
     return (
       <div className={`edit-modal-overlay-frame ${isAnimatingOut ? 'fade-out' : ''}`}>
         <div className={`edit-modal-frame ${isAnimatingOut ? 'fade-out' : ''}`}>
           <div className="modal-header-frame">
-            <div className="modal-title-frame">Editar Disciplina: {disciplinaEditando.nome}</div>
+            {/* Título modificado aqui */}
+            <div className="modal-title-frame">{tituloModal}</div>
           </div>
           <div className="modal-body-frame">
             <form onSubmit={(e) => { e.preventDefault(); handleSalvarEdicao(); }}>
@@ -218,7 +314,7 @@ const DDisciplina = () => {
     );
   };
 
-    if (loading) {
+  if (loading) {
     const spinnerStyle = {
       border: '6px solid #f3f3f3',
       borderTop: '6px solid #49a0b6',
@@ -236,20 +332,20 @@ const DDisciplina = () => {
       height: '200px'
     };
 
-  return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    return (
+      <div style={loadingContainerStyle}>
+        <div style={spinnerStyle}></div>
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   return (
     <div className="disciplinas-container">
@@ -274,14 +370,93 @@ const DDisciplina = () => {
               <img className="search-icon" src="search0.svg" alt="Buscar" />
             </div>
           </div>
+          {/* BOTÃO DE FILTRO */}
+          <div className="filter-button" onClick={abrirPopupFiltro}>
+            <img className="filter-icon" src="filter0.svg" alt="Filtrar" />
+          </div>
         </div>
         
+        {/* NOVO POPUP DE FILTRO ADICIONADO AQUI */}
+        {showFilterPopup && (
+          <div className="popup-overlay">
+            <div className="popup-periodo-container">
+              <div className="popup-periodo-header">
+                <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone filtrar"/>
+                <div className="popup-periodo-title">Filtrar Disciplinas</div>
+              </div>
+              <div className="popup-bodyE">
+                <form onSubmit={(e) => { e.preventDefault(); aplicarFiltros(); }}>
+                  <div className="form-group">
+                    <div className="filter-options">
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="todos"
+                          checked={tempFilters.semestre === 'todos'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'todos' })} />
+                        Todos os semestres
+                      </label>
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="impar"
+                          checked={tempFilters.semestre === 'impar'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'impar' })} />
+                        Semestres ímpares (1º, 3º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="par"
+                          checked={tempFilters.semestre === 'par'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'par' })} />
+                        Semestres pares (2º, 4º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input 
+                          type="radio"
+                          checked={tempFilters.apenasOptativas}
+                          onClick={() => setTempFilters({ ...tempFilters, apenasOptativas: !tempFilters.apenasOptativas })}
+                          onChange={() => {}} 
+                        />
+                        Apenas optativas
+                      </label>
+                    </div>
+                  </div>
+                  <div className="popup-disciplina-actions">
+                    <button type="button" className="popup-cancel-button"
+                      onClick={() => setShowFilterPopup(false)} disabled={loading}>
+                      <div className="popup-button-text">Cancelar</div>
+                      <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
+                    </button>
+                    <button type="submit" className="popup-confirm-button" disabled={loading}>
+                      <div className="popup-button-text">Aplicar Filtro</div>
+                      <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="disciplinas-list-container">
           <div className="disciplinas-table">
             <div className="disciplinas-table-header">
               <div className="header-codigo">Código</div>
-              <div className="header-nome">Disciplina</div>
-              <div className="header-turma">Turma</div>
+              
+              {/* CABEÇALHOS CLICÁVEIS DE ORDENAÇÃO */}
+              <div 
+                className="header-nome" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('nome')}
+                title="Clique para ordenar por Ordem Alfabética"
+              >
+                Disciplina {sortConfig.key === 'nome' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+              <div 
+                className="header-turma" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('turma')}
+                title="Clique para ordenar por Semestre"
+              >
+                Turma {sortConfig.key === 'turma' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+
               <div className="header-tipo">Tipo</div>
               <div className="header-turno">Turno</div>
               <div className="header-checkbox"></div>

@@ -13,10 +13,16 @@ const Disciplinas = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false); // NOVO
-  const [filterOption, setFilterOption] = useState('todos');
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectAll, setSelectAll] = useState(false);
   const itemsPerPage = 10;
+
+  // Estados de Filtro
+  const [activeFilters, setActiveFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+  const [tempFilters, setTempFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+
+  // Estado para gerenciar a ordenação (padrão: alfabética por nome)
+  const [sortConfig, setSortConfig] = useState({ key: 'nome', direction: 'asc' });
 
   // Lógica de paginação
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -24,39 +30,27 @@ const Disciplinas = () => {
   const currentItems = filteredDisciplinas.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
 
-  // Função para formatar o tipo da disciplina
+  // FUNÇÕES DE FORMATAÇÃO BLINDADAS CONTRA NULOS
   const formatarTipo = (tipo) => {
+    if (!tipo) return 'indefinido';
     const tipos = {
       'optativa_eletiva': 'op. eletiva',
       'optativa_livre': 'op. livre',
       'obrigatoria': 'obrigatória'
     };
-    return tipos[tipo] || tipo;
+    return tipos[tipo] || String(tipo);
   };
 
-  // Função para formatar a turma
-  const formatarTurma = (turma) => turma.toLowerCase();
+  const formatarTurma = (turma) => turma ? String(turma).toLowerCase() : 'indefinido';
 
-  // Função para formatar o turno
-  const formatarTurno = (turma) => turma.includes('N') ? 'noturno' : 'diurno';
-
-  // Função para aplicar filtro de semestre
-  const aplicarFiltroSemestre = () => {
-    let resultados = disciplinas;
-    if (filterOption === 'impar') {
-      resultados = disciplinas.filter(disciplina => {
-        const semestre = parseInt(disciplina.turma.split(' ')[0]);
-        return semestre % 2 !== 0;
-      });
-    } else if (filterOption === 'par') {
-      resultados = disciplinas.filter(disciplina => {
-        const semestre = parseInt(disciplina.turma.split(' ')[0]);
-        return semestre % 2 === 0;
-      });
-    }
-    setFilteredDisciplinas(resultados);
-    setCurrentPage(1);
-    setShowFilterPopup(false);
+  const formatarTurno = (turno) => {
+    if (!turno) return 'indefinido';
+    const map = {
+      'Diurno': 'diurno',
+      'Noturno': 'noturno',
+      'Indefinido': 'indefinido'
+    };
+    return map[turno] || String(turno).toLowerCase();
   };
 
   // Busca disciplinas
@@ -67,11 +61,11 @@ const Disciplinas = () => {
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas`);
         const dadosFormatados = response.data.map(item => ({
           id: item.id,
-          codigo: item.cod,
-          nome: item.disciplina,
+          codigo: item.cod || '',
+          nome: item.disciplina || '',
           turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: formatarTurno(item.turma)
+          turno: formatarTurno(item.turno)
         }));
         setDisciplinas(dadosFormatados);
         setFilteredDisciplinas(dadosFormatados);
@@ -85,29 +79,101 @@ const Disciplinas = () => {
     fetchDisciplinas();
   }, []);
 
-  // Normalizar texto
+  // Normalizar texto para a busca
   const normalizeText = (text) =>
-    text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ç/g, "c").toLowerCase().trim();
+    text ? String(text).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ç/g, "c").toLowerCase().trim() : '';
 
-  // Filtro de busca
+  // Lógica unificada de Filtros, Busca e ORDENAÇÃO SEGUROS
   useEffect(() => {
-    const term = normalizeText(searchTerm);
-    const results = disciplinas.filter(disciplina => {
-      const nome = normalizeText(disciplina.nome);
-      const codigo = normalizeText(disciplina.codigo);
-      return nome.includes(term) || codigo.includes(term);
+    let results = [...disciplinas];
+
+    // 1. Filtro de Tipo (Apenas Optativas)
+    if (activeFilters.apenasOptativas) {
+      results = results.filter(disciplina => 
+        disciplina.tipo === 'op. eletiva' || disciplina.tipo === 'op. livre'
+      );
+    }
+
+    // 2. Filtro de Semestre
+    if (activeFilters.semestre !== 'todos') {
+      results = results.filter(disciplina => {
+        const semestre = parseInt(disciplina.turma.split(' ')[0]);
+        if (isNaN(semestre)) return false; 
+        
+        if (activeFilters.semestre === 'impar') return semestre % 2 !== 0;
+        if (activeFilters.semestre === 'par') return semestre % 2 === 0;
+        return true;
+      });
+    }
+
+    // 3. Filtro de Busca por Texto
+    if (searchTerm) {
+      const term = normalizeText(searchTerm);
+      results = results.filter(disciplina => {
+        const nome = normalizeText(disciplina.nome);
+        const codigo = normalizeText(disciplina.codigo);
+        return nome.includes(term) || codigo.includes(term);
+      });
+    }
+
+    // 4. Lógica de Ordenação Blindada
+    results.sort((a, b) => {
+      if (sortConfig.key === 'turma') {
+        // Isola o número do semestre
+        let numA = parseInt(String(a.turma).split(' ')[0]);
+        let numB = parseInt(String(b.turma).split(' ')[0]);
+        
+        // Se a turma não tiver número (ex: "contábeis", "indefinido"), ganha nota 999 para ir pro final da lista
+        if (isNaN(numA)) numA = 999;
+        if (isNaN(numB)) numB = 999;
+        
+        if (numA < numB) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (numA > numB) return sortConfig.direction === 'asc' ? 1 : -1;
+        
+        // Desempate: se for o mesmo semestre, ordena por ordem alfabética segura
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        return nomeA.localeCompare(nomeB, 'pt-BR');
+      } else {
+        // Ordena alfabeticamente pelo nome de forma segura
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        
+        return sortConfig.direction === 'asc' 
+          ? nomeA.localeCompare(nomeB, 'pt-BR') 
+          : nomeB.localeCompare(nomeA, 'pt-BR');
+      }
     });
+
     setFilteredDisciplinas(results);
     setCurrentPage(1);
     setSelectAll(false);
-  }, [searchTerm, disciplinas]);
+  }, [searchTerm, activeFilters, disciplinas, sortConfig]);
 
-  // Checkbox individual
+  // Mudar a ordenação ao clicar no cabeçalho
+  const requestSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  // Funções de pop-up e controles
+  const abrirPopupFiltro = () => {
+    setTempFilters(activeFilters);
+    setShowFilterPopup(true);
+  };
+
+  const aplicarFiltros = () => {
+    setActiveFilters(tempFilters);
+    setShowFilterPopup(false);
+  };
+
   const handleCheckboxChange = (id) => {
     setSelectedDisciplinas(prev => prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]);
   };
 
-  // Selecionar/Deselecionar todos
   const handleSelectAllChange = () => {
     if (selectAll) {
       setSelectedDisciplinas([]);
@@ -118,7 +184,6 @@ const Disciplinas = () => {
     setSelectAll(!selectAll);
   };
 
-  // Atualiza selectAll
   useEffect(() => {
     if (filteredDisciplinas.length > 0) {
       const allSelected = filteredDisciplinas.every(d => selectedDisciplinas.includes(d.id));
@@ -128,7 +193,6 @@ const Disciplinas = () => {
     }
   }, [selectedDisciplinas, filteredDisciplinas]);
 
-  // Confirmar seleção (API)
   const handleConfirmSelection = async () => {
     try {
       if (selectedDisciplinas.length === 0) {
@@ -182,20 +246,13 @@ const Disciplinas = () => {
       height: '200px'
     };
 
-  return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    return (
+      <div style={loadingContainerStyle}>
+        <div style={spinnerStyle}></div>
+        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
 
   return (
     <div className="disciplinas-container">
@@ -213,7 +270,7 @@ const Disciplinas = () => {
               <img className="search-icon" src="search0.svg" alt="Buscar" />
             </div>
           </div>
-          <div className="filter-button" onClick={() => setShowFilterPopup(true)}>
+          <div className="filter-button" onClick={abrirPopupFiltro}>
             <img className="filter-icon" src="filter0.svg" alt="Filtrar" />
           </div>
         </div>
@@ -227,26 +284,35 @@ const Disciplinas = () => {
                 <div className="popup-periodo-title">Filtrar Disciplinas</div>
               </div>
               <div className="popup-bodyE">
-                <form onSubmit={(e) => { e.preventDefault(); aplicarFiltroSemestre(); }}>
+                <form onSubmit={(e) => { e.preventDefault(); aplicarFiltros(); }}>
                   <div className="form-group">
                     <div className="filter-options">
                       <label className="filter-option">
-                        <input type="radio" name="filterOption" value="todos"
-                          checked={filterOption === 'todos'}
-                          onChange={() => setFilterOption('todos')} />
+                        <input type="radio" name="filterSemestre" value="todos"
+                          checked={tempFilters.semestre === 'todos'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'todos' })} />
                         Todos os semestres
                       </label>
                       <label className="filter-option">
-                        <input type="radio" name="filterOption" value="impar"
-                          checked={filterOption === 'impar'}
-                          onChange={() => setFilterOption('impar')} />
+                        <input type="radio" name="filterSemestre" value="impar"
+                          checked={tempFilters.semestre === 'impar'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'impar' })} />
                         Semestres ímpares (1º, 3º, ...)
                       </label>
                       <label className="filter-option">
-                        <input type="radio" name="filterOption" value="par"
-                          checked={filterOption === 'par'}
-                          onChange={() => setFilterOption('par')} />
+                        <input type="radio" name="filterSemestre" value="par"
+                          checked={tempFilters.semestre === 'par'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'par' })} />
                         Semestres pares (2º, 4º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input 
+                          type="radio"
+                          checked={tempFilters.apenasOptativas}
+                          onClick={() => setTempFilters({ ...tempFilters, apenasOptativas: !tempFilters.apenasOptativas })}
+                          onChange={() => {}} 
+                        />
+                        Apenas optativas
                       </label>
                     </div>
                   </div>
@@ -272,8 +338,27 @@ const Disciplinas = () => {
           <div className="disciplinas-table">
             <div className="disciplinas-table-header">
               <div className="header-codigo">Código</div>
-              <div className="header-nome">Disciplina</div>
-              <div className="header-turma">Turma</div>
+              
+              {/* CABEÇALHO NOME CLICÁVEL */}
+              <div 
+                className="header-nome" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('nome')}
+                title="Clique para ordenar por Ordem Alfabética"
+              >
+                Disciplina {sortConfig.key === 'nome' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+              
+              {/* CABEÇALHO TURMA CLICÁVEL */}
+              <div 
+                className="header-turma" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('turma')}
+                title="Clique para ordenar por Semestre"
+              >
+                Turma {sortConfig.key === 'turma' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+              
               <div className="header-tipo"><div className="tipo-text">Tipo</div></div>
               <div className="header-turno">Turno</div>
               <div className="header-checkbox">
@@ -298,7 +383,7 @@ const Disciplinas = () => {
                 </div>
               ))
             ) : (
-              <div className="no-results">Nenhuma disciplina encontrada para "{searchTerm}"</div>
+              <div className="no-results">Nenhuma disciplina encontrada</div>
             )}
           </div>
 
@@ -320,7 +405,7 @@ const Disciplinas = () => {
               ))}
             </div>
             <button className="pagination-button"
-              disabled={currentPage === totalPages || saving}
+              disabled={currentPage === totalPages || saving || totalPages === 0}
               onClick={() => paginate(currentPage + 1)}>
               <div className="pagination-text">Próxima</div>
               <img className="chevron-right" src="chevron-right0.svg" alt="Próxima" />
@@ -350,9 +435,18 @@ const Disciplinas = () => {
             <div className="popup-bodyE">
               <p className='popup-label'>Você selecionou as seguintes disciplinas:</p>
               <ul className="popup-label">
-                {disciplinas.filter(d => selectedDisciplinas.includes(d.id)).map(d => (
-                  <li key={d.id}><strong>{d.codigo}</strong> - {d.nome} ({d.turma}, {d.turno})</li>
-                ))}
+                {disciplinas
+                  .filter(d => selectedDisciplinas.includes(d.id))
+                  .sort((a, b) => {
+                    let numA = parseInt(String(a.turma).split(' ')[0]);
+                    let numB = parseInt(String(b.turma).split(' ')[0]);
+                    if (isNaN(numA)) numA = 999;
+                    if (isNaN(numB)) numB = 999;
+                    return numA - numB;
+                  })
+                  .map(d => (
+                    <li key={d.id}><strong>{d.codigo}</strong> - {d.nome} ({d.turma}, {d.turno})</li>
+                  ))}
               </ul>
               <div className="popup-disciplina-actions">
                 <button type="button" className="popup-cancel-button"

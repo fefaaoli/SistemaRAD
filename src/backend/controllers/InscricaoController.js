@@ -19,7 +19,7 @@ class InscricaoController {
       await addInscricao(aid, did, periodo);
       res.status(201).json({ success: true, message: 'Disciplina adicionada!', periodo });
     } catch (error) {
-        console.error("🚨 ERRO em /api/inscricao/add:", error); // <<< ADICIONADO
+        console.error("🚨 ERRO em /api/inscricao/add:", error);
         res.status(500).json({ success: false, message: error.message || 'Erro ao adicionar disciplina' });
       }
   }
@@ -28,9 +28,19 @@ class InscricaoController {
     const { aid, did } = req.body;
     try {
       const periodo = await InscricaoController.getUltimoPeriodo();
+
+      // CORREÇÃO: Primeiro deletamos os comentários/metadados associados a esta inscrição
+      // Isso evita que o banco bloqueie a remoção por causa de "Foreign Key Constraint"
+      await InscricaoComentarioModel.destroy({
+        where: { aid, did, periodo }
+      });
+
+      // Em seguida, removemos a inscrição principal
       await removeInscricao(aid, did, periodo);
+
       res.status(200).json({ success: true, message: 'Disciplina removida!', periodo });
     } catch (error) {
+      console.error("🚨 ERRO ao remover disciplina:", error);
       res.status(500).json({ success: false, message: error.message || 'Erro ao remover disciplina' });
     }
   }
@@ -48,7 +58,8 @@ class InscricaoController {
 
   // NOVAS FUNÇÕES PARA COMENTÁRIOS E METADADOS
   static async addComentario(req, res) {
-    const { did, aid, comentario, idioma_en, apoio_leia, max_alunos } = req.body;
+    // Lembrete: Mantive o "turno" aqui que havíamos consertado na etapa anterior!
+    const { did, aid, comentario, idioma_en, apoio_leia, max_alunos, turno } = req.body;
 
     try {
       const periodo = await InscricaoController.getUltimoPeriodo();
@@ -66,7 +77,8 @@ class InscricaoController {
         comentario,
         idioma_en: idioma_en ? 1 : 0,
         apoio_leia: apoio_leia ? 1 : 0,
-        max_alunos: max_alunos || null
+        max_alunos: max_alunos || null,
+        turno: turno || null
       });
 
       res.status(201).json({ success: true, message: 'Comentário/metadados salvos com sucesso!', periodo });

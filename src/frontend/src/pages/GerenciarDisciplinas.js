@@ -22,7 +22,7 @@ function GerenciarDisciplinas() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -33,10 +33,11 @@ function GerenciarDisciplinas() {
         cod: formData.codigo,
         disciplina: formData.disciplina,
         turma: formData.turma, 
+        turno: formData.turno, // 👈 AQUI ESTÁ A CORREÇÃO! Faltava essa linha.
         tipo: formData.tipo === 'Optativa Eletiva' ? 'optativa_eletiva' : 
               formData.tipo === 'Optativa Livre' ? 'optativa_livre' : 'obrigatoria',
         cred: parseInt(formData.creditos),
-        comentario: '' // Adicione se necessário
+        comentario: '' 
       };
 
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas`, disciplinaData);

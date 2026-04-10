@@ -4,7 +4,7 @@ import './DisciplinasEditar.css';
 import axios from 'axios';
 
 const DisciplinasEditar = () => {
-  // Estados
+  // Estados originais
   const [disciplinas, setDisciplinas] = useState([]);
   const [filteredDisciplinas, setFilteredDisciplinas] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,8 +17,15 @@ const DisciplinasEditar = () => {
   const [error, setError] = useState(null);
   const itemsPerPage = 10;
 
-  // Função para formatar o tipo da disciplina
+  // NOVOS Estados para Filtro e Ordenação
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+  const [tempFilters, setTempFilters] = useState({ semestre: 'todos', apenasOptativas: false });
+  const [sortConfig, setSortConfig] = useState({ key: 'nome', direction: 'asc' });
+
+  // Funções de formatação blindadas
   const formatarTipo = (tipo) => {
+    if (!tipo) return 'indefinido';
     const tipos = {
       'optativa_eletiva': 'op. eletiva',
       'optativa_livre': 'op. livre',
@@ -27,14 +34,19 @@ const DisciplinasEditar = () => {
     return (tipos[tipo] || tipo).toLowerCase();
   };
 
-  // Função para formatar a turma
   const formatarTurma = (turma) => {
-    return turma.toLowerCase();
+    return turma ? String(turma).toLowerCase() : 'indefinido';
   };
 
-  // Função para formatar o turno
-  const formatarTurno = (turma) => {
-    return turma.includes('N') ? 'noturno' : 'diurno';
+  // CORRIGIDO: Agora lê corretamente o turno em vez de deduzir pelo "N" da turma
+  const formatarTurno = (turno) => {
+    if (!turno) return 'indefinido';
+    const map = {
+      'Diurno': 'diurno',
+      'Noturno': 'noturno',
+      'Indefinido': 'indefinido'
+    };
+    return map[turno] || String(turno).toLowerCase();
   };
 
   // Carrega disciplinas da API
@@ -45,11 +57,11 @@ const DisciplinasEditar = () => {
         
         const dadosFormatados = response.data.map(item => ({
           id: item.id,
-          codigo: item.cod,
-          nome: item.disciplina,
+          codigo: item.cod || '',
+          nome: item.disciplina || '',
           turma: formatarTurma(item.turma),
           tipo: formatarTipo(item.tipo),
-          turno: formatarTurno(item.turma),
+          turno: formatarTurno(item.turno), // ALTERADO AQUI
           cred: item.cred
         }));
         
@@ -76,31 +88,98 @@ const DisciplinasEditar = () => {
     }
   };
 
-// Função auxiliar para normalizar texto
-const normalizeText = (text) => {
-  return text
-    .normalize("NFD") // separa caracteres e acentos
-    .replace(/[\u0300-\u036f]/g, "") // remove acentos
-    .replace(/ç/g, "c") // trata cedilha
-    .toLowerCase()
-    .trim(); // remove espaços no início/fim
-};
+  // Função auxiliar para normalizar texto
+  const normalizeText = (text) => {
+    return text ? String(text)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/ç/g, "c")
+      .toLowerCase()
+      .trim() : '';
+  };
 
-// Filtro de busca
-useEffect(() => {
-  const term = normalizeText(searchTerm);
+  // NOVO: Lógica unificada de Filtros, Busca e Ordenação
+  useEffect(() => {
+    let results = [...disciplinas];
 
-  const results = disciplinas.filter(disciplina => {
-    const nome = normalizeText(disciplina.nome);
-    const codigo = normalizeText(disciplina.codigo);
-    return nome.includes(term) || codigo.includes(term);
-  });
+    // 1. Filtro de Tipo (Apenas Optativas)
+    if (activeFilters.apenasOptativas) {
+      results = results.filter(disciplina => 
+        disciplina.tipo === 'op. eletiva' || disciplina.tipo === 'op. livre'
+      );
+    }
 
-  setFilteredDisciplinas(results);
-  setCurrentPage(1);
-}, [searchTerm, disciplinas]);
+    // 2. Filtro de Semestre
+    if (activeFilters.semestre !== 'todos') {
+      results = results.filter(disciplina => {
+        const semestre = parseInt(String(disciplina.turma).split(' ')[0]);
+        if (isNaN(semestre)) return false; 
+        
+        if (activeFilters.semestre === 'impar') return semestre % 2 !== 0;
+        if (activeFilters.semestre === 'par') return semestre % 2 === 0;
+        return true;
+      });
+    }
 
-  // Handlers
+    // 3. Filtro de Busca por Texto
+    if (searchTerm) {
+      const term = normalizeText(searchTerm);
+      results = results.filter(disciplina => {
+        const nome = normalizeText(disciplina.nome);
+        const codigo = normalizeText(disciplina.codigo);
+        return nome.includes(term) || codigo.includes(term);
+      });
+    }
+
+    // 4. Ordenação
+    results.sort((a, b) => {
+      if (sortConfig.key === 'turma') {
+        let numA = parseInt(String(a.turma).split(' ')[0]);
+        let numB = parseInt(String(b.turma).split(' ')[0]);
+        
+        if (isNaN(numA)) numA = 999;
+        if (isNaN(numB)) numB = 999;
+        
+        if (numA < numB) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (numA > numB) return sortConfig.direction === 'asc' ? 1 : -1;
+        
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        return nomeA.localeCompare(nomeB, 'pt-BR');
+      } else {
+        const nomeA = a.nome ? String(a.nome).trim() : '';
+        const nomeB = b.nome ? String(b.nome).trim() : '';
+        
+        return sortConfig.direction === 'asc' 
+          ? nomeA.localeCompare(nomeB, 'pt-BR') 
+          : nomeB.localeCompare(nomeA, 'pt-BR');
+      }
+    });
+
+    setFilteredDisciplinas(results);
+    setCurrentPage(1);
+  }, [searchTerm, activeFilters, disciplinas, sortConfig]);
+
+  // Funções dos Novos Controles
+  const requestSort = (key) => {
+    let direction = 'asc';
+    if (sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const abrirPopupFiltro = () => {
+    setTempFilters(activeFilters);
+    setShowFilterPopup(true);
+  };
+
+  const aplicarFiltros = () => {
+    setActiveFilters(tempFilters);
+    setShowFilterPopup(false);
+  };
+
+  // Handlers Originais mantidos intactos
   const handleEditarClick = (disciplina) => {
     setDisciplinaEditando(disciplina);
     setShowEditPopup(true);
@@ -116,7 +195,6 @@ useEffect(() => {
       setLoading(true);
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas/${disciplinaDeletando.id}`);
       
-      // Atualiza o estado local
       setDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
       setFilteredDisciplinas(prev => prev.filter(d => d.id !== disciplinaDeletando.id));
       
@@ -134,7 +212,6 @@ useEffect(() => {
     try {
       setLoading(true);
       
-      // Prepara os dados para a API
       const dadosAPI = {
         cod: dadosAtualizados.codigo,
         disciplina: dadosAtualizados.nome,
@@ -145,7 +222,6 @@ useEffect(() => {
 
       await axios.put(`${process.env.REACT_APP_API_URL}/api/admin/disciplinas/${dadosAtualizados.id}`, dadosAPI);
       
-      // Atualiza o estado local
       setDisciplinas(prev => prev.map(d => 
         d.id === dadosAtualizados.id ? dadosAtualizados : d
       ));
@@ -186,20 +262,20 @@ useEffect(() => {
       height: '200px'
     };
 
-  return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    return (
+      <div style={loadingContainerStyle}>
+        <div style={spinnerStyle}></div>
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -225,17 +301,93 @@ useEffect(() => {
               <img className="search-icon" src="search0.svg" alt="Buscar" />
             </div>
           </div>
-          <div className="filter-button">
+          {/* BOTÃO DE FILTRO AGORA É CLICÁVEL */}
+          <div className="filter-button" onClick={abrirPopupFiltro}>
             <img className="filter-icon" src="filter0.svg" alt="Filtrar" />
           </div>
         </div>
         
+        {/* NOVO POPUP DE FILTRO ADICIONADO AQUI */}
+        {showFilterPopup && (
+          <div className="popup-overlay">
+            <div className="popup-periodo-container">
+              <div className="popup-periodo-header">
+                <img className="lapisBRANCO" src="BRANCOpencil0.svg" alt="Ícone filtrar"/>
+                <div className="popup-periodo-title">Filtrar Disciplinas</div>
+              </div>
+              <div className="popup-bodyE">
+                <form onSubmit={(e) => { e.preventDefault(); aplicarFiltros(); }}>
+                  <div className="form-group">
+                    <div className="filter-options">
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="todos"
+                          checked={tempFilters.semestre === 'todos'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'todos' })} />
+                        Todos os semestres
+                      </label>
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="impar"
+                          checked={tempFilters.semestre === 'impar'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'impar' })} />
+                        Semestres ímpares (1º, 3º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input type="radio" name="filterSemestre" value="par"
+                          checked={tempFilters.semestre === 'par'}
+                          onChange={() => setTempFilters({ ...tempFilters, semestre: 'par' })} />
+                        Semestres pares (2º, 4º, ...)
+                      </label>
+                      <label className="filter-option">
+                        <input 
+                          type="radio"
+                          checked={tempFilters.apenasOptativas}
+                          onClick={() => setTempFilters({ ...tempFilters, apenasOptativas: !tempFilters.apenasOptativas })}
+                          onChange={() => {}} 
+                        />
+                        Apenas optativas
+                      </label>
+                    </div>
+                  </div>
+                  <div className="popup-disciplina-actions">
+                    <button type="button" className="popup-cancel-button"
+                      onClick={() => setShowFilterPopup(false)} disabled={loading}>
+                      <div className="popup-button-text">Cancelar</div>
+                      <img className="popup-cancel-icon" src="x0.svg" alt="Cancelar"/>
+                    </button>
+                    <button type="submit" className="popup-confirm-button" disabled={loading}>
+                      <div className="popup-button-text">Aplicar Filtro</div>
+                      <img className="popup-check-icon" src="check0.svg" alt="Confirmar"/>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="disciplinas-list-container">
           <div className="disciplinas-table">
             <div className="table-header">
               <div className="header-codigo">Código</div>
-              <div className="header-nome">Disciplina</div>
-              <div className="header-turma">Turma</div>
+              
+              {/* CABEÇALHOS CLICÁVEIS DE ORDENAÇÃO */}
+              <div 
+                className="header-nome" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('nome')}
+                title="Clique para ordenar por Ordem Alfabética"
+              >
+                Disciplina {sortConfig.key === 'nome' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+              <div 
+                className="header-turma" 
+                style={{ cursor: 'pointer', userSelect: 'none' }} 
+                onClick={() => requestSort('turma')}
+                title="Clique para ordenar por Semestre"
+              >
+                Turma {sortConfig.key === 'turma' ? (sortConfig.direction === 'asc' ? '↑' : '↓') : ''}
+              </div>
+
               <div className="header-tipo">Tipo</div>
               <div className="header-turno">Turno</div>
               <div className="header-editar">Editar</div>
@@ -291,7 +443,7 @@ useEffect(() => {
             
             <button 
               className="pagination-button" 
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPages || totalPages === 0}
               onClick={() => paginate(currentPage + 1)}
             >
               <div className="pagination-text">Próxima</div>
@@ -321,7 +473,7 @@ useEffect(() => {
                     value={disciplinaEditando.codigo}
                     onChange={(e) => setDisciplinaEditando({
                       ...disciplinaEditando,
-                      codigo: e.target.value.slice(0, 10) // corta se passar
+                      codigo: e.target.value.slice(0, 10)
                     })}
                     required
                     maxLength={10}

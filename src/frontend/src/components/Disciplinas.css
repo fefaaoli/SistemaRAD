@@ -1,3 +1,15 @@
+.filter-button:hover {
+  background-color: #e0e0e0; /* Um cinza mais claro, ajuste o hex se quiser mais claro/escuro */
+  cursor: pointer; /* Garante que a setinha do mouse vire uma "mãozinha" indicando clique */
+  transition: background-color 0.2s ease-in-out; /* Faz a mudança de cor ser suave em vez de "piscar" */
+}
+
+.header-nome:hover,
+.header-turma:hover {
+  color: #49a0b6;
+  transition: color 0.2s ease-in-out; /* Deixa a mudança de cor mais suave e elegante */
+}
+
 .disciplinas-container,
 .disciplinas-container * {
   box-sizing: border-box;

@@ -1,25 +1,25 @@
 const db = require('../database');
 
-
 class DocenteModel {
     static async listarResumido(periodo) {
         try {
             const query = `
             SELECT
-                u.id,
+                u.id_novo AS id,       -- Usado internamente para o clique/detalhes
+                u.id AS numero_usp,    -- Este é o número USP real (longo) que você quer exibir
                 u.nome,
                 u.setor,
                 COUNT(DISTINCT ei.aid) AS total_disciplinas,
                 COALESCE(ROUND(COUNT(DISTINCT er.hordem) / 4.0 * 100, 0), 0) AS percentual_restricao
             FROM exp_inscricao ei
-            JOIN usuarios u ON u.id = ei.did
-            LEFT JOIN exp_restricao er ON u.id = er.docente AND er.periodo = :periodo
+            JOIN usuarios u ON u.id_novo = ei.did 
+            LEFT JOIN exp_restricao er ON u.id_novo = er.docente AND er.periodo = :periodo
             WHERE ei.periodo = :periodo
-            GROUP BY u.id, u.nome;
+            GROUP BY u.id_novo, u.id, u.nome, u.setor;
             `;
 
             const results = await db.query(query, {
-                replacements: { periodo },
+                replacements: { periodo: String(periodo).trim() },
                 type: db.QueryTypes.SELECT
             });
 
@@ -30,28 +30,26 @@ class DocenteModel {
         }
     }
 
-    // A função obterDetalhado 
-static async obterDetalhado(docenteId, periodo) {
-    try {
-        // Dados básicos do docente
-        const [docente] = await db.query(
-            `SELECT id, nome, id AS numero_usp, setor AS departamento
-             FROM usuarios
-             WHERE id = :docenteId`,
-            {
-                replacements: { docenteId },
-                type: db.QueryTypes.SELECT
-            }
-        );
+    static async obterDetalhado(docenteId, periodo) {
+        try {
+            const [docente] = await db.query(
+                `SELECT id_novo AS id, nome, id AS numero_usp, setor AS departamento
+                 FROM usuarios
+                 WHERE id_novo = :docenteId`, 
+                {
+                    replacements: { docenteId },
+                    type: db.QueryTypes.SELECT
+                }
+            );
 
-        if (!docente) return null;
+            if (!docente) return null;
 
-        // Disciplinas selecionadas
         const disciplinas = await db.query(
             `SELECT 
                 a.cod AS codigo,
                 a.disciplina AS nome,
                 a.turma,
+                a.turno,      
                 COALESCE(ic.comentario, '') AS comentario,
                 COALESCE(ic.idioma_en, 0) AS leciona_ingles,
                 COALESCE(ic.apoio_leia, 0) AS apoio_leia,
@@ -67,32 +65,30 @@ static async obterDetalhado(docenteId, periodo) {
             }
         );
 
-        // Restrições de horário
-        const restricoes = await db.query(
-            `SELECT 
-                er.dordem AS dia,
-                er.hordem AS horario
-            FROM exp_restricao er
-            WHERE er.docente = :docenteId 
-            AND er.periodo = :periodo
-            ORDER BY er.dordem, er.hordem`,
-            {
-                replacements: { docenteId, periodo },
-                type: db.QueryTypes.SELECT
-            }
-        );
+            const restricoes = await db.query(
+                `SELECT 
+                    er.dordem AS dia,
+                    er.hordem AS horario
+                FROM exp_restricao er
+                WHERE er.docente = :docenteId 
+                AND er.periodo = :periodo
+                ORDER BY er.dordem, er.hordem`,
+                {
+                    replacements: { docenteId, periodo: String(periodo).trim() },
+                    type: db.QueryTypes.SELECT
+                }
+            );
 
-        return {
-            ...docente,
-            disciplinas,
-            restricoes_horario: restricoes
-        };
-    } catch (error) {
-        console.error('Erro no model obterDetalhado:', error);
-        throw error;
+            return {
+                ...docente,
+                disciplinas,
+                restricoes_horario: restricoes
+            };
+        } catch (error) {
+            console.error('Erro no model obterDetalhado:', error);
+            throw error;
+        }
     }
-}
-
 }
 
 module.exports = DocenteModel;

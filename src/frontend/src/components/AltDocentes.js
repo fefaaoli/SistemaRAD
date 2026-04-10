@@ -17,9 +17,15 @@ const AltDocentes = () => {
   const [filteredDocentes, setFilteredDocentes] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Popups e Edição
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  
   const [docenteEditando, setDocenteEditando] = useState(null);
+  // NOVO: Guarda o ID original para saber quem atualizar na API caso o nº mude
+  const [originalUSP, setOriginalUSP] = useState(null); 
+  
   const [docenteDeletando, setDocenteDeletando] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error] = useState(null);
@@ -35,20 +41,10 @@ const AltDocentes = () => {
       } catch (err) {
         toast.error('Falha ao carregar docentes. Usando dados locais.');
         console.error(err);
-        // Dados mockados de fallback
+        // Fallback data
         const mockDocentes = [
-          {
-            numeroUSP: '1234567',
-            nome: 'Carlos Silva',
-            setor: 'Departamento de Informática',
-            funcao: 'Docente'
-          },
-          {
-            numeroUSP: '7654321',
-            nome: 'Ana Oliveira',
-            setor: 'Departamento de Matemática',
-            funcao: 'Administrador'
-          }
+          { numeroUSP: '1234567', nome: 'Carlos Silva', setor: 'Departamento de Informática', funcao: 'Docente' },
+          { numeroUSP: '7654321', nome: 'Ana Oliveira', setor: 'Departamento de Matemática', funcao: 'Administrador' }
         ];
         setDocentes(mockDocentes);
         setFilteredDocentes(mockDocentes);
@@ -75,9 +71,11 @@ const AltDocentes = () => {
     setCurrentPage(1);
   }, [searchTerm, docentes]);
 
-  // Handlers
+  // --- HANDLERS ---
+
   const handleEditarClick = (docente) => {
-    setDocenteEditando(docente);
+    setOriginalUSP(docente.numeroUSP); // Salva o ID original (importante!)
+    setDocenteEditando({ ...docente }); // Cria cópia editável
     setShowEditPopup(true);
   };
 
@@ -88,13 +86,28 @@ const AltDocentes = () => {
 
   const handleSalvarEdicao = async (dadosAtualizados) => {
     try {
-      await apiUsuarios.atualizarDocente(dadosAtualizados.numeroUSP, dadosAtualizados);
+      // PREPARAÇÃO DO PAYLOAD:
+      // O backend espera { id: '...', nome: '...' }
+      // Aqui mapeamos 'numeroUSP' para 'id' para garantir que o backend entenda a troca
+      const payload = {
+        ...dadosAtualizados,
+        id: dadosAtualizados.numeroUSP // Manda o NOVO número como 'id'
+      };
+
+      // Chama a API:
+      // 1º Param: originalUSP (quem eu sou no banco agora)
+      // 2º Param: payload (os novos dados, incluindo o novo ID se tiver mudado)
+      await apiUsuarios.atualizarDocente(originalUSP, payload);
+      
       setDocentes(prev => prev.map(d => 
-        d.numeroUSP === dadosAtualizados.numeroUSP ? dadosAtualizados : d
+        // Atualiza na lista local procurando pelo ID original
+        d.numeroUSP === originalUSP ? dadosAtualizados : d
       ));
+      
+      toast.success('Docente atualizado com sucesso!');
       setShowEditPopup(false);
     } catch (err) {
-      toast.error('Falha ao atualizar docente. Tente novamente.');
+      toast.error('Falha ao atualizar docente. Verifique se o novo Número USP já existe.');
       console.error(err);
     }
   };
@@ -105,6 +118,7 @@ const AltDocentes = () => {
           await apiUsuarios.removerDocente(docenteDeletando.numeroUSP);
           setDocentes(prev => prev.filter(d => d.numeroUSP !== docenteDeletando.numeroUSP));
           setShowDeletePopup(false);
+          toast.success('Docente removido.');
       } catch (err) {
           toast.error('Falha ao remover docente. Tente novamente.');
           console.error('Erro detalhado:', err);
@@ -131,28 +145,8 @@ const AltDocentes = () => {
       animation: 'spin 1s linear infinite',
       margin: '50px auto'
     };
-
-    const loadingContainerStyle = {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '200px'
-    };
-
-  return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    return <div style={{display: 'flex', justifyContent: 'center', height: '200px', alignItems: 'center'}}><div style={spinnerStyle}></div></div>;
+  }
 
   return (
     <div className="docentes-alt-container">
@@ -257,13 +251,24 @@ const AltDocentes = () => {
                 e.preventDefault();
                 handleSalvarEdicao(docenteEditando);
               }}>
-                {/* Número USP */}
+                {/* Número USP - AGORA EDITÁVEL */}
                 <div className="docentes-form-group">
                   <label>Número USP *</label>
                   <input
                     type="text"
                     value={docenteEditando.numeroUSP || ""}
-                    readOnly
+                    maxLength={10} // 1. Limita o tamanho no HTML
+                    onChange={(e) => {
+                        // 2. Remove tudo que não for número (Regex)
+                        const apenasNumeros = e.target.value.replace(/\D/g, '');
+                        
+                        setDocenteEditando({
+                            ...docenteEditando,
+                            numeroUSP: apenasNumeros
+                        });
+                    }}
+                    required
+                    placeholder="Máximo 10 dígitos"
                   />
                 </div>
 
@@ -333,6 +338,7 @@ const AltDocentes = () => {
                   <label>Senha</label>
                   <input
                     type="password"
+                    placeholder="Deixe em branco para manter a atual"
                     value={docenteEditando.senha || ""}
                     onChange={(e) => setDocenteEditando({
                       ...docenteEditando,
@@ -366,7 +372,7 @@ const AltDocentes = () => {
         </div>
       )}
 
-      {/* Popup de Deleção */}
+      {/* Popup de Deleção (Mantive igual) */}
       {showDeletePopup && docenteDeletando && (
         <div className="edit-popup-overlay">
           <div className="edit-popup-container">

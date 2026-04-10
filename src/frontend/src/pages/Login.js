@@ -20,7 +20,10 @@ function Login() {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, senha }),
+        body: JSON.stringify({
+          email,    
+          senha
+        }),
       });
 
       const data = await response.json();
@@ -28,9 +31,12 @@ function Login() {
       if (response.ok && data.token) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+        toast.success("Login realizado!");
+
         navigate('/dashboard');
       } else {
-        toast.error(data.message || 'Email ou senha incorretos');
+        toast.error(data.message || 'Usuário ou senha incorretos');
       }
     } catch (error) {
       toast.error('Erro de conexão com o servidor');
@@ -52,26 +58,29 @@ function Login() {
             </div>
           </div>
         </div>
+
         <div className="modal">
           <div className="image">
             <img className="image-6-2" src="image-6-20.png" alt="Imagem 1" />
             <img className="image-6-22" src="image-6-21.png" alt="Imagem 2" />
             <img className="image-6-23" src="image-6-22.png" alt="Imagem 3" />
           </div>
+
           <div className="frame-2305">
             <div className="text-input-field">
-              <div className="label">Usuário</div>
+              <div className="label">Login FEA</div>
               <div className="text-input">
                 <img className="user-circle" src="user-circle0.svg" alt="Ícone de usuário" />
                 <input
                   className="input-text"
                   type="text"
-                  placeholder="user@usp.br"
+                  placeholder="Usuário"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
+
             <div className="text-input-field">
               <div className="label">Senha</div>
               <div className="text-input">
@@ -92,6 +101,7 @@ function Login() {
               </div>
             </div>
           </div>
+
           <div className="frame-29">
             <div className="button" onClick={handleLogin} style={{ cursor: 'pointer' }}>
               <div className="button-label">Entrar</div>

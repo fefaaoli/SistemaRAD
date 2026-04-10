@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fet version="7.4.4">
+  <Institution_Name>FEA-RP / Departamento de Administração</Institution_Name>
+  <Comments>Default comments</Comments>
+  <Hours_List>
+    <Number>4</Number>
+    <Name>08:00 às 09:40</Name>
+    <Name>10:00 às 11:40</Name>
+    <Name>19:00 às 20:40</Name>
+    <Name>20:50 às 22:30</Name>
+  </Hours_List>
+  <Days_List>
+    <Number>5</Number>
+    <Name>2a feira</Name>
+    <Name>3a feira</Name>
+    <Name>4a feira</Name>
+    <Name>5a feira</Name>
+    <Name>6a feira</Name>
+  </Days_List>
+  <Semesters_List>
+    <Name4>9° semestre diurno op. eletiva </Name4>
+    <Name4>9° semestre Noturno op. eletiva </Name4>
+    <Name4>6° semestre Diurno obrigatória</Name4>
+    <Name4>6° semestre Noturno obrigatória</Name4>
+    <Name4>Química obrigatória</Name4>
+    <Name4>4° semestre Diurno obrigatória</Name4>
+    <Name4>4° semestre Noturno obrigatória</Name4>
+    <Name4>8° semestre Noturno op. eletiva </Name4>
+    <Name4>1° semestre Diurno obrigatória</Name4>
+    <Name4>1° semestre Noturno obrigatória</Name4>
+    <Name4>8° semestre Diurno op. eletiva </Name4>
+    <Name4>10° semestre Diurno op. eletiva </Name4>
+    <Name4>10° semestre Noturno op. eletiva </Name4>
+    <Name4>3° semestre Diurno obrigatória</Name4>
+    <Name4>3° semestre Noturno obrigatória</Name4>
+    <Name4>2° semestre Diurno obrigatória</Name4>
+    <Name4>2° semestre Noturno obrigatória</Name4>
+    <Name4>7° semestre Diurno obrigatória</Name4>
+    <Name4>7° semestre Noturno obrigatória</Name4>
+    <Name4>7° semestre Diurno op. eletiva </Name4>
+    <Name4>7° semestre Noturno op. eletiva </Name4>
+    <Name4>8° semestre Diurno obrigatória</Name4>
+    <Name4>8° semestre Noturno obrigatória</Name4>
+    <Name4>5° semestre Diurno obrigatória</Name4>
+    <Name4>5° semestre Noturno obrigatória</Name4>
+    <Name4>Contábeis Obrigatória</Name4>
+    <Name4>MAN obrigatória</Name4>
+    <Name4>4º semestre Diurno obrigatória</Name4>
+    <Name4>4º semestre Noturno obrigatória</Name4>
+    <Name4>7º semestre Diurno op. eletiva</Name4>
+    <Name4>7º semestre Noturno op. eletiva</Name4>
+    <Name4>2º semestre Diurno obrigatória</Name4>
+    <Name4>2º semestre Noturno obrigatória</Name4>
+    <Name4>9º semestre Diurno op. eletiva</Name4>
+    <Name4>9º semestre Noturno op. eletiva</Name4>
+    <Name4>10º semestre Noturno op. eletiva</Name4>
+    <Name4>10º semestre Diurno op. eletiva</Name4>
+    <Name4>4º semestre Diurno op. eletiva</Name4>
+    <Name4>4º semestre Noturno op. eletiva</Name4>
+    <Name4>6º semestre Diurno op. eletiva</Name4>
+    <Name4>6º semestre Noturno op. eletiva</Name4>
+    <Name4>8º semestre Diurno op. eletiva</Name4>
+    <Name4>8º semestre Noturno op. eletiva</Name4>
+    <Name4>9º semestre Diurno op. livre</Name4>
+    <Name4>9º semestre Noturno op. livre</Name4>
+    <Name4>1º semestre optativa_eletiva</Name4>
+    <Name4>ECEC obrigatória</Name4>
+    <Name4>CID op. livre</Name4>
+    <Name4>9º semestre Noturno obrigatória</Name4>
+    <Name4>9º semestre Diurno obrigatória</Name4>
+    <Name4>5° semestre Diurno op. eletiva</Name4>
+    <Name4>5° semestre Noturno op. eletiva</Name4>
+    <Name4>Finanças e Negócios obrigatória</Name4>
+    <Name4>Economia Obrigatória</Name4>
+  </Semesters_List>
+  <Users_List>
+    <Name5>Usuário de Teste (ADM)</Name5>
+  </Users_List>
+  <Disciplines_List>
+    <Name6>RAD2104 -  Administração de Organizações da Sociedade Civil</Name6>
+    <Name6>RAD2104 -  Administração de Organizações da Sociedade Civil</Name6>
+    <Name6>RAD2107 -  Administração de Projetos</Name6>
+    <Name6>RAD2107 -  Administração de Projetos</Name6>
+    <Name6>RAD1304 -  Administração Financeira II</Name6>
+    <Name6>RAD1304 -  Administração Financeira II</Name6>
+    <Name6>RAD1512 -  Administração: Gestão e Logística</Name6>
+    <Name6>RAD2223 -  Análise de Viabilidade Econômico-Financeira de Projetos de </Name6>
+    <Name6>RAD2223 -  Análise de Viabilidade Econômico-Financeira de Projetos de </Name6>
+    <Name6>RAD1302 -  Análise Financeira</Name6>
+    <Name6>RAD1302 -  Análise Financeira</Name6>
+    <Name6>RAD2303 -  Avaliação de Empresas</Name6>
+    <Name6>RAD2303 -  Avaliação de Empresas</Name6>
+    <Name6>RAD2401 -  Comércio Eletrônico</Name6>
+    <Name6>RAD2401 -  Comércio Eletrônico</Name6>
+    <Name6>RAD1402 -  Comportamento do Consumidor</Name6>
+    <Name6>RAD1402 -  Comportamento do Consumidor</Name6>
+    <Name6>RAD1201 -  Comunicação e Trabalho em Grupo</Name6>
+    <Name6>RAD1201 -  Comunicação e Trabalho em Grupo</Name6>
+    <Name6>RAD2214 -  Cooperação e Gestão de Redes</Name6>
+    <Name6>RAD2214 -  Cooperação e Gestão de Redes</Name6>
+    <Name6>RAD2105 -  Criação de Novos Negócios</Name6>
+    <Name6>RAD2105 -  Criação de Novos Negócios</Name6>
+    <Name6>RAD1604 -  Desenvolvimento de Sistemas de Informação</Name6>
+    <Name6>RAD1604 -  Desenvolvimento de Sistemas de Informação</Name6>
+    <Name6>RAD2601 -  Direito Administrativo</Name6>
+    <Name6>RAD2601 -  Direito Administrativo</Name6>
+    <Name6>RAD1605 -  Direito Comercial</Name6>
+    <Name6>RAD1605 -  Direito Comercial</Name6>
+    <Name6>RAD1703 -  Direito do Trabalho</Name6>
+    <Name6>RAD1703 -  Direito do Trabalho</Name6>
+    <Name6>RAD2603 -  Direito Internacional</Name6>
+    <Name6>RAD2603 -  Direito Internacional</Name6>
+    <Name6>RAD1618 -  Direito Tributário</Name6>
+    <Name6>RAD1618 -  Direito Tributário</Name6>
+    <Name6>RAD1610 -  Economia de Empresas</Name6>
+    <Name6>RAD1610 -  Economia de Empresas</Name6>
+    <Name6>RAD2229 -  Economia e Gestão em Artes e Cultura</Name6>
+    <Name6>RAD2229 -  Economia e Gestão em Artes e Cultura</Name6>
+    <Name6>RAD1107 -  Elaboração de Projetos</Name6>
+    <Name6>RAD1107 -  Elaboração de Projetos</Name6>
+    <Name6>RAD2103 -  Empreendedorismo</Name6>
+    <Name6>RAD2103 -  Empreendedorismo</Name6>
+    <Name6>RAD2108 -  Enfoque Sistêmico na Administração</Name6>
+    <Name6>RAD2108 -  Enfoque Sistêmico na Administração</Name6>
+    <Name6>RAD2225 -  Estudo de Casos em Administração de Marketing</Name6>
+    <Name6>RAD2225 -  Estudo de Casos em Administração de Marketing</Name6>
+    <Name6>RAD2224 -  Estudo de Casos em Administração Estratégica</Name6>
+    <Name6>RAD2224 -  Estudo de Casos em Administração Estratégica</Name6>
+    <Name6>RAD1602 -  Ética e Política</Name6>
+    <Name6>RAD1602 -  Ética e Política</Name6>
+    <Name6>RAD1607 -  Filosofia</Name6>
+    <Name6>RAD1607 -  Filosofia</Name6>
+    <Name6>RAD2114 -  Finanças Comportamentais</Name6>
+    <Name6>RAD2114 -  Finanças Comportamentais</Name6>
+    <Name6>RAD2403 -  Gerência de Promoção e Vendas</Name6>
+    <Name6>RAD2403 -  Gerência de Promoção e Vendas</Name6>
+    <Name6>RAD2117 -  Gestão da Criatividade</Name6>
+    <Name6>RAD2117 -  Gestão da Criatividade</Name6>
+    <Name6>RAD1504 -  Gestão da Qualidade I</Name6>
+    <Name6>RAD1504 -  Gestão da Qualidade I</Name6>
+    <Name6>RAD2226 -  Gestão de Marketing de Lugares</Name6>
+    <Name6>RAD2226 -  Gestão de Marketing de Lugares</Name6>
+    <Name6>RAD2116 -  Gestão de Operações em Serviços</Name6>
+    <Name6>RAD2116 -  Gestão de Operações em Serviços</Name6>
+    <Name6>RAD2208 -  Gestão de Varejo e Serviços</Name6>
+    <Name6>RAD2208 -  Gestão de Varejo e Serviços</Name6>
+    <Name6>RAD1101 -  Gestão Empresarial</Name6>
+    <Name6>RAD1101 -  Gestão Empresarial</Name6>
+    <Name6>RAD2502 -  Gestão Internacional de Operações</Name6>
+    <Name6>RAD2502 -  Gestão Internacional de Operações</Name6>
+    <Name6>RAD2222 -  Governança Corporativa</Name6>
+    <Name6>RAD2222 -  Governança Corporativa</Name6>
+    <Name6>RAD1702 -  Instituições de Direito</Name6>
+    <Name6>RAD1506 -  Introdução à Estatística para Administração</Name6>
+    <Name6>RAD1506 -  Introdução à Estatística para Administração</Name6>
+    <Name6>RAD2215 -  Mapeamento de Processos</Name6>
+    <Name6>RAD2215 -  Mapeamento de Processos</Name6>
+    <Name6>RAD1401 -  Marketing I</Name6>
+    <Name6>RAD1401 -  Marketing I</Name6>
+    <Name6>RAD1403 -  Marketing II</Name6>
+    <Name6>RAD1403 -  Marketing II</Name6>
+    <Name6>RAD1505 -  Matemática Aplicada à Administração</Name6>
+    <Name6>RAD1301 -  Matemática Financeira</Name6>
+    <Name6>RAD1301 -  Matemática Financeira</Name6>
+    <Name6>RAD2301 -  Mercado de Capitais II</Name6>
+    <Name6>RAD2301 -  Mercado de Capitais II</Name6>
+    <Name6>RAD1110 -  Modelos de Negociação</Name6>
+    <Name6>RAD1110 -  Modelos de Negociação</Name6>
+    <Name6>RAD1609 -  Orçamento Empresarial</Name6>
+    <Name6>RAD1609 -  Orçamento Empresarial</Name6>
+    <Name6>RAD1510 -  Pesquisa Operacional II</Name6>
+    <Name6>RAD1510 -  Pesquisa Operacional II</Name6>
+    <Name6>RAD2213 -  Planejamento Estratégico nas Organizações</Name6>
+    <Name6>RAD2213 -  Planejamento Estratégico nas Organizações</Name6>
+    <Name6>RAD2202 -  Seminários de Liderança</Name6>
+    <Name6>RAD2202 -  Seminários de Liderança</Name6>
+    <Name6>RAD2221 -  Sistema Brasileiro de Inovação: Estrutura, Características </Name6>
+    <Name6>RAD2221 -  Sistema Brasileiro de Inovação: Estrutura, Características </Name6>
+    <Name6>RAD1603 -  Técnicas de Pesquisa I</Name6>
+    <Name6>RAD1603 -  Técnicas de Pesquisa I</Name6>
+    <Name6>RAD2119 -  Tecnologia da Informação Aplicada à Administração</Name6>
+    <Name6>RAD2119 -  Tecnologia da Informação Aplicada à Administração</Name6>
+    <Name6>RAD2602 -  Tópicos Avançados de Economia de Empresas</Name6>
+    <Name6>RAD2602 -  Tópicos Avançados de Economia de Empresas</Name6>
+    <Name6>RAD2404 -  Tópicos Avançados de Marketing</Name6>
+    <Name6>RAD2404 -  Tópicos Avançados de Marketing</Name6>
+    <Name6>RAD2506 -  Tópicos Avançados de Métodos Quantitativos</Name6>
+    <Name6>RAD2506 -  Tópicos Avançados de Métodos Quantitativos</Name6>
+    <Name6>RAD2604 -  Tópicos Avançados de Sistemas de Informação</Name6>
+    <Name6>RAD2604 -  Tópicos Avançados de Sistemas de Informação</Name6>
+    <Name6>RAD2210 -  Trabalho e Subjetividade na Organização</Name6>
+    <Name6>RAD2210 -  Trabalho e Subjetividade na Organização</Name6>
+    <Name6>RAD1513 - Administração da Produção e Operações</Name6>
+    <Name6>RAD1503 - Administração de Lógística e Cadeia de Suprimentos</Name6>
+    <Name6>RAD1503 - Administração de Lógística e Cadeia de Suprimentos</Name6>
+    <Name6>RAD1503 - Administração de Lógística e Cadeia de Suprimentos</Name6>
+    <Name6>RAD1501 - Administração de Operações I</Name6>
+    <Name6>RAD1501 - Administração de Operações I</Name6>
+    <Name6>RAD1501 - Administração de Operações I</Name6>
+    <Name6>RAD2804 - Administração de Operações II</Name6>
+    <Name6>RAD2804 - Administração de Operações II</Name6>
+    <Name6>RAD1204 - Administração de Recursos Humanos</Name6>
+    <Name6>RAD1204 - Administração de Recursos Humanos</Name6>
+    <Name6>RAD1205 - Administração de Recursos Humanos II</Name6>
+    <Name6>RAD1205 - Administração de Recursos Humanos II</Name6>
+    <Name6>RAD1207 - Administração Financeira I</Name6>
+    <Name6>RAD1207 - Administração Financeira I</Name6>
+    <Name6>RAD1309 - Administração Pública </Name6>
+    <Name6>RAD1309 - Administração Pública </Name6>
+    <Name6>RAD2810 - Análise de Dados para Gestão de Negócios</Name6>
+    <Name6>RAD2810 - Análise de Dados para Gestão de Negócios</Name6>
+    <Name6>RAD2120 - Análise de Mercado do Agro</Name6>
+    <Name6>RAD2120 - Análise de Mercado do Agro</Name6>
+    <Name6>RAD2820 - Atividades Extensionistas em Gestão Organizacional I</Name6>
+    <Name6>RAD2820 - Atividades Extensionistas em Gestão Organizacional I</Name6>
+    <Name6>RAD2830 - Atividades Extensionistas em Gestão Organizacional II</Name6>
+    <Name6>RAD2830 - Atividades Extensionistas em Gestão Organizacional II</Name6>
+    <Name6>RAD2509 - Business Analytics</Name6>
+    <Name6>RAD2509 - Business Analytics</Name6>
+    <Name6>RAD2607 - Ciência de Dados I</Name6>
+    <Name6>RAD2607 - Ciência de Dados I</Name6>
+    <Name6>RAD2608 - Ciência de Dados II</Name6>
+    <Name6>RAD2608 - Ciência de Dados II</Name6>
+    <Name6>PRG0017 - Como Criar Uma Startup</Name6>
+    <Name6>PRG0017 - Como Criar Uma Startup</Name6>
+    <Name6>RAD1307 - Comportamento Organizacional</Name6>
+    <Name6>RAD1307 - Comportamento Organizacional</Name6>
+    <Name6>RCC1921 - Contabilidade de Custos</Name6>
+    <Name6>RCC1921 - Contabilidade de Custos</Name6>
+    <Name6>RCC1911 - Contabilidade Empresarial</Name6>
+    <Name6>RCC1911 - Contabilidade Empresarial</Name6>
+    <Name6>RAD2321 - Cultura e Extensão: práticas de gestão de impacto</Name6>
+    <Name6>RAD2321 - Cultura e Extensão: práticas de gestão de impacto</Name6>
+    <Name6>RAD2201 - Cultura e Poder nas Organizações</Name6>
+    <Name6>RAD2201 - Cultura e Poder nas Organizações</Name6>
+    <Name6>RAD2405 - Decisões de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2405 - Decisões de Marketing em Mercados Organizacionais</Name6>
+    <Name6>8101040 - Desenvolvimento de Competências Interculturais</Name6>
+    <Name6>8101040 - Desenvolvimento de Competências Interculturais</Name6>
+    <Name6>RAD2111 - Desenvolvimento Regional e o Agronegócio </Name6>
+    <Name6>RAD2111 - Desenvolvimento Regional e o Agronegócio </Name6>
+    <Name6>RAD1108 - Design Estratégico de Negócios</Name6>
+    <Name6>RAD1108 - Design Estratégico de Negócios</Name6>
+    <Name6>RAD2701 - Economia e gestão de negócios na América Latina</Name6>
+    <Name6>RAD2701 - Economia e gestão de negócios na América Latina</Name6>
+    <Name6>RAD2310 - Empreendedorismo Social e Finanças Sociais</Name6>
+    <Name6>RAD2310 - Empreendedorismo Social e Finanças Sociais</Name6>
+    <Name6>RAD1408 - Estatística Aplicada à Administração</Name6>
+    <Name6>RAD1408 - Estatística Aplicada à Administração</Name6>
+    <Name6>RAD1509 - Estatística multivariada para a tomada de decisão</Name6>
+    <Name6>RAD1509 - Estatística multivariada para a tomada de decisão</Name6>
+    <Name6>RAD1511 - Estatística não-paramétrica para a tomada de decisão</Name6>
+    <Name6>RAD1511 - Estatística não-paramétrica para a tomada de decisão</Name6>
+    <Name6>RAD2311 - Estratégia e Design Thinking</Name6>
+    <Name6>RAD2311 - Estratégia e Design Thinking</Name6>
+    <Name6>RAD2406 - Estratégias de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2406 - Estratégias de Marketing em Mercados Organizacionais</Name6>
+    <Name6>RAD2402 - Estratégias em Agronegócios</Name6>
+    <Name6>RAD2402 - Estratégias em Agronegócios</Name6>
+    <Name6>RAD2708 - Estrutura Organizacional</Name6>
+    <Name6>RAD2708 - Estrutura Organizacional</Name6>
+    <Name6>RAD2319 - Estudo de Caso em Organizações e Gestão de Operações</Name6>
+    <Name6>RAD2319 - Estudo de Caso em Organizações e Gestão de Operações</Name6>
+    <Name6>RAD2200 - Estudo de Casos no Agronegócio</Name6>
+    <Name6>RAD2200 - Estudo de Casos no Agronegócio</Name6>
+    <Name6>RAD1705 - Estudo de Modelos Aplicados à Economia e Administração</Name6>
+    <Name6>RAD1705 - Estudo de Modelos Aplicados à Economia e Administração</Name6>
+    <Name6>RAD2609 - Estudos em Economia e Estratégia</Name6>
+    <Name6>RAD2609 - Estudos em Economia e Estratégia</Name6>
+    <Name6>RAD2709 - Finanças Internacionais</Name6>
+    <Name6>RAD2709 - Finanças Internacionais</Name6>
+    <Name6>8101050  - Formação de Gestores Responsáveis</Name6>
+    <Name6>8101050 - Formação de Gestores Responsáveis</Name6>
+    <Name6>RAD2706 - Gestão da Inovação</Name6>
+    <Name6>RAD2706 - Gestão da Inovação</Name6>
+    <Name6>RAD2407 - Gestão de competências e carreiras nas organizações</Name6>
+    <Name6>RAD2407 - Gestão de competências e carreiras nas organizações</Name6>
+    <Name6>RAD2300 - Gestão pelo Diálogo</Name6>
+    <Name6>RAD2300 - Gestão pelo Diálogo</Name6>
+    <Name6>RAD2101 - Gestão Tecnológica</Name6>
+    <Name6>RAD2101 - Gestão Tecnológica</Name6>
+    <Name6>RAD2315 - Indicadores para Gestão</Name6>
+    <Name6>RAD2315 - Indicadores para Gestão</Name6>
+    <Name6>RAD2704 - Inovação e Gerenciamento de Projetos em Organizações Pública</Name6>
+    <Name6>RAD2704 - Inovação e Gerenciamento de Projetos em Organizações Pública</Name6>
+    <Name6>DFB1009 - Instituições de Direito</Name6>
+    <Name6>RAD2313 - International Law Applied to Business</Name6>
+    <Name6>RAD2313 - International Law Applied to Business</Name6>
+    <Name6>RAD2605 - Introdução à ciência de dados</Name6>
+    <Name6>RAD2605 - Introdução à ciência de dados</Name6>
+    <Name6>REC2403 - Introdução à Economia Brasileira</Name6>
+    <Name6>REC2403 - Introdução à Economia Brasileira</Name6>
+    <Name6>MED410 - Introdução à Genética Médica</Name6>
+    <Name6>RAD1206 - Introdução ao Comportamento Organizacional</Name6>
+    <Name6>RAD2211 - Introdução aos Agronegócios</Name6>
+    <Name6>RAD2211 - Introdução aos Agronegócios</Name6>
+    <Name6>RAD2400 - Laboratório de Diagnóstico Organizacional</Name6>
+    <Name6>RAD2400 - Laboratório de Diagnóstico Organizacional</Name6>
+    <Name6>RAD1401 - Marketing I</Name6>
+    <Name6>RAD1505 - Matemática Aplicada à Administração</Name6>
+    <Name6>RAD2707 - Meio Ambiente e Sustentabilidade</Name6>
+    <Name6>RAD2707 - Meio Ambiente e Sustentabilidade</Name6>
+    <Name6>RAD2801 - Mercado de Capitais I</Name6>
+    <Name6>RAD2801 - Mercado de Capitais I</Name6>
+    <Name6>RAD2803 - Métodos de votação e teoria da escolha social</Name6>
+    <Name6>RAD2803 - Métodos de votação e teoria da escolha social</Name6>
+    <Name6>RAD2316 - Mindfulness e Teoria U para Projetos Colaborativos</Name6>
+    <Name6>RAD2316 - Mindfulness e Teoria U para Projetos Colaborativos</Name6>
+    <Name6>RAD2314 - Mindfulness para a vida profissional: foco, senso de propósi</Name6>
+    <Name6>RAD2314 - Mindfulness para a vida profissional: foco, senso de propósi</Name6>
+    <Name6>RAD1110 - Modelos de Negociação</Name6>
+    <Name6>RAD1110 - Modelos de Negociação</Name6>
+    <Name6>RAD2102 - Mudança Organizacional</Name6>
+    <Name6>RAD2102 - Mudança Organizacional</Name6>
+    <Name6>RAD2409 - Negócios baseado em Propósito, uma abordagem Integral</Name6>
+    <Name6>RAD2409 - Negócios baseado em Propósito, uma abordagem Integral</Name6>
+    <Name6>RAD2901 - Pesquisa aplicada em administração para a elaboração de trab</Name6>
+    <Name6>RAD2901 - Pesquisa aplicada em administração para a elaboração de trab</Name6>
+    <Name6>RAD1208 - Pesquisa de Marketing</Name6>
+    <Name6>RAD1208 - Pesquisa de Marketing</Name6>
+    <Name6>RAD1508 - Pesquisa Operacional I</Name6>
+    <Name6>RAD1508 - Pesquisa Operacional I</Name6>
+    <Name6>RAD1508 - Pesquisa Operacional I</Name6>
+    <Name6>RAD1510 - Pesquisa Operacional II</Name6>
+    <Name6>RAD1308 - Planejamento e Administração Estratégica</Name6>
+    <Name6>RAD1308 - Planejamento e Administração Estratégica</Name6>
+    <Name6>RAD2802 - Planejamento e Gestão Estratégica de Marketing</Name6>
+    <Name6>RAD2802 - Planejamento e Gestão Estratégica de Marketing</Name6>
+    <Name6>RCC0500 - Planejamento Tributário</Name6>
+    <Name6>RCC0500 - Planejamento Tributário</Name6>
+    <Name6>RAD1109 - Política de Negócios II</Name6>
+    <Name6>RMS0017 - Protótipos em Saúde Digital</Name6>
+    <Name6>RAD2809 - Redes econômicas e sociais</Name6>
+    <Name6>RAD2809 - Redes econômicas e sociais</Name6>
+    <Name6>RAD2318 - Região Metropolitana de Ribeirão Preto: Sociedade, Economia,</Name6>
+    <Name6>RAD2318 - Região Metropolitana de Ribeirão Preto: Sociedade, Economia,</Name6>
+    <Name6>RAD2702 - Remuneração</Name6>
+    <Name6>RAD2702 - Remuneração</Name6>
+    <Name6>RAD2705 - Responsabilidade Social nas Organizações</Name6>
+    <Name6>RAD2705 - Responsabilidade Social nas Organizações</Name6>
+    <Name6>RAD2320 - Seminários de Estudos de Casos em Estratégia</Name6>
+    <Name6>RAD2320 - Seminários de Estudos de Casos em Estratégia</Name6>
+    <Name6>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Name6>
+    <Name6>RAD1608 - Sistemas Integrados e de Apoio a Decisão</Name6>
+    <Name6>RAD1209 - Sociologia das Organizações</Name6>
+    <Name6>RAD1209 - Sociologia das Organizações</Name6>
+    <Name6>RAD2703 - Sociologia do Consumo</Name6>
+    <Name6>RAD2703 - Sociologia do Consumo</Name6>
+    <Name6>RAD0111 - Teoria da Administração</Name6>
+    <Name6>RAD0111 - Teoria da Administração</Name6>
+    <Name6>RAD0111 - Teoria da Administração</Name6>
+    <Name6>RAD1407 - Teoria das Organizações </Name6>
+    <Name6>RAD1407 - Teoria das Organizações </Name6>
+    <Name6>REC3110 - Teoria dos Jogos</Name6>
+    <Name6>REC3110 - Teoria dos Jogos</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2317 - Teoria dos Jogos Aplicada à Administração</Name6>
+    <Name6>RAD2808 - Teoria dos Jogos e Tomada de Decisão em Grupo</Name6>
+    <Name6>RAD2808 - Teoria dos Jogos e Tomada de Decisão em Grupo</Name6>
+    <Name6>REC2104 - Teoria Econômica</Name6>
+    <Name6>REC2104 - Teoria Econômica</Name6>
+    <Name6>RAD2807 - Tomada de Decisão nas Organizações</Name6>
+    <Name6>RAD2807 - Tomada de Decisão nas Organizações</Name6>
+  </Disciplines_List>
+  <Teacher_Subject_List>
+    <TeacherEntry>
+      <Teacher>Usuário de Teste (ADM)</Teacher>
+      <Subject>RAD2104 -  Administração de Organizações da Sociedade Civil</Subject>
+      <Duration>2</Duration>
+      <Total_Duration>2</Total_Duration>
+      <Id>14595547</Id>
+      <Activity_Group_Id>0</Activity_Group_Id>
+      <Active>1</Active>
+      <Weight_Percentage>100</Weight_Percentage>
+    </TeacherEntry>
+  </Teacher_Subject_List>
+  <Restrictions_List/>
+</fet>

@@ -71,10 +71,15 @@ function DashboardPage() {
               <div className="frame-2320">
                 <div className="perfil-de-administrador">Perfil de {perfil}</div>
                 
-                <div className="per-odo-letivo-atual-2025-01">
-                  Período Letivo:
-                  {/* O dropdown é renderizado aqui */}
-                  <select value={periodoSelecionado} onChange={handlePeriodoChange} style={{ marginLeft: '8px', border: '1px solid #ccc', borderRadius: '6px', padding: '4px', color: 'var(--neutral-600, #6c757d)', fontFamily: 'var(--h3-font-family, "Inter-Bold", sans-serif)' }}>
+              <div className="per-odo-letivo-atual-2025-01">
+                Período Letivo:
+                {/* Container do dropdown personalizado */}
+                <div className="custom-select-wrapper" style={{ marginLeft: '8px', display: 'inline-block' }}>
+                  <select 
+                    value={periodoSelecionado} 
+                    onChange={handlePeriodoChange} 
+                    className="modern-select"
+                  >
                     {periodos.length > 0 ? (
                       periodos.map((periodo) => (
                         <option key={periodo} value={periodo}>
@@ -85,24 +90,36 @@ function DashboardPage() {
                       <option>Carregando...</option>
                     )}
                   </select>
+                  <div className="select-arrow">
+                    <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
                 </div>
+              </div>
 
               </div>
             </div>
           </div>
         </div>
 
-        <div className="content-area">
-                  <p style={{
-                    padding: '50px 20px',
-                    textAlign: 'center',
-                    fontSize: '1rem',
-                    lineHeight: '1.6',
-                    color: 'var(--neutral-600, #6c757d)',
-                    fontFamily: 'var(--h3-font-family, "Inter-Bold", sans-serif)'
-                  }}>
-                    Bem vindo! Este é o sistema de gerenciamento de horários do Departamento de Administração (RAD) da FEA-RP.
-                  </p>
+        <div className="content-area desk-welcome-container">
+          <div className="desk-welcome-card">
+            <div className="desk-welcome-illustration">
+              <img 
+                src="/LOGOCINZA.png" 
+                alt="Logo RAD FEA-RP" 
+                className="welcome-logo-img" 
+              />
+            </div>
+            <div className="desk-welcome-content">
+              <h2 className="desk-subtitle">Bem Vindo ao Sistema de Gerenciamento de Horários</h2>
+              <div className="desk-divider"></div>
+              <p className="desk-institution">
+                 Departamento de Administração (RAD) <span className="desk-sep">|</span> FEA-RP
+              </p>
+            </div>
+          </div>
         </div>
 
         <Footer />

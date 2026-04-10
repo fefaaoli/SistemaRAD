@@ -13,17 +13,25 @@ const DAltDocentes = ({ periodo }) => {
   const [error, setError] = useState(null);
   const itemsPerPage = 10;
 
+  // Definição de colunas e linhas para a grade de horários
+  const diasDaSemana = ["segunda-feira", "terça-feira", "quarta-feira", "quinta-feira", "sexta-feira"];
+  const slotsHorario = [
+    { label: "08:00 - 09:40", id: "08:00 às 09:40" },
+    { label: "10:00 - 11:40", id: "10:00 às 11:40" },
+    { label: "19:00 - 20:40", id: "19:00 às 20:40" },
+    { label: "20:50 - 22:30", id: "20:50 às 22:30" }
+  ];
+
   // Buscar docentes da API
   useEffect(() => {
       const fetchDocentes = async () => {
-        if (!periodo) return; // <-- Adicionado: Não faz nada se o período ainda não foi carregado
+        if (!periodo) return; 
 
-        setLoading(true); // <-- Adicionado: Mostra o loading ao trocar de período
+        setLoading(true); 
         try {
           const token = localStorage.getItem('token');
           
-          // Adicionamos o período como um "query parameter" na URL
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes?periodo=${periodo}`, { // <-- MUDANÇA AQUI
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/docentes?periodo=${periodo}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json'
@@ -40,12 +48,12 @@ const DAltDocentes = ({ periodo }) => {
         } catch (err) {
           setError(err.message);
         } finally {
-          setLoading(false); // <-- Movido para o 'finally' para garantir que sempre pare o loading
+          setLoading(false); 
         }
       };
 
       fetchDocentes();
-    }, [periodo]); // <-- MUDANÇA AQUI: O useEffect agora depende do 'periodo'
+    }, [periodo]);
 
   // Buscar detalhes do docente
   const fetchDocenteDetalhes = async (id) => {
@@ -74,7 +82,7 @@ const DAltDocentes = ({ periodo }) => {
   useEffect(() => {
     const results = docentes.filter(docente =>
       docente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      docente.id.toString().includes(searchTerm)
+      (docente.numero_usp && docente.numero_usp.toString().includes(searchTerm))
     );
     setFilteredDocentes(results);
     setCurrentPage(1);
@@ -87,7 +95,6 @@ const DAltDocentes = ({ periodo }) => {
       const detalhes = await fetchDocenteDetalhes(docente.id);
       
       if (detalhes) {
-        // Processa as disciplinas para formatar os campos booleanos e comentários
         const disciplinasFormatadas = detalhes.disciplinas.map(disciplina => ({
           ...disciplina,
           leciona_ingles: disciplina.leciona_ingles ? 'Sim' : 'Não',
@@ -96,7 +103,6 @@ const DAltDocentes = ({ periodo }) => {
           comentario: disciplina.comentario || 'Nenhum comentário'
         }));
 
-        // Extrai o primeiro comentário não vazio das disciplinas (se existir)
         const primeiroComentario = detalhes.disciplinas.find(d => d.comentario && d.comentario.trim() !== '')?.comentario;
 
         setDocenteSelecionado({
@@ -110,7 +116,6 @@ const DAltDocentes = ({ periodo }) => {
       }
     } catch (error) {
       console.error('Erro ao carregar detalhes do docente:', error);
-      // Você pode adicionar um estado de erro aqui se quiser mostrar para o usuário
     } finally {
       setLoading(false);
     }
@@ -124,7 +129,7 @@ const DAltDocentes = ({ periodo }) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    if (loading) {
+  if (loading && !showDetailPopup) {
     const spinnerStyle = {
       border: '6px solid #f3f3f3',
       borderTop: '6px solid #49a0b6',
@@ -135,32 +140,35 @@ const DAltDocentes = ({ periodo }) => {
       margin: '50px auto'
     };
 
-    const loadingContainerStyle = {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '200px'
-    };
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px', fontFamily: '"Inter-SemiBold", sans-serif' }}>
+        <div style={spinnerStyle}></div>
+        <style>
+          {`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}
+        </style>
+      </div>
+    );
+  }
+
+  if (error) return <div className="d-alt-docentes-error" style={{ fontFamily: '"Inter-SemiBold", sans-serif' }}>Erro: {error}</div>;
 
   return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    <div className="d-alt-docentes-container" style={{ fontFamily: '"Inter-SemiBold", sans-serif' }}>
+      {/* CSS adicional para a tabela de horários e fonte global */}
+      <style>{`
+        .d-alt-docentes-container, .d-alt-docentes-popup-overlay {
+            font-family: "Inter-SemiBold", sans-serif !important;
+        }
+        input, button, select, textarea {
+            font-family: "Inter-SemiBold", sans-serif !important;
+        }
+        .schedule-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+        .schedule-table th, .schedule-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        .schedule-table th { background-color: #e9ecef;; color: #6c757d; font-weight: 600; }
+        .has-restriction { background-color: #ffcccc !important; color: #cc0000; font-weight: bold; }
+        .time-label { font-family: "Inter-SemiBold", sans-serif !important; background-color: #ffffff; color: #6c757d; width: 120px; font-weight: 600;}
+      `}</style>
 
-  if (error) return <div className="d-alt-docentes-error">Erro: {error}</div>;
-
-  return (
-    <div className="d-alt-docentes-container">
       <div className="d-alt-docentes-content">
         <div className="d-alt-docentes-header">
           <div className="d-alt-docentes-search-container">
@@ -191,7 +199,7 @@ const DAltDocentes = ({ periodo }) => {
             
             {currentItems.map((docente, index) => (
               <div className="d-alt-docentes-table-row" key={index}>
-                <div className="d-alt-docentes-cell-numero">{docente.id}</div>
+                <div className="d-alt-docentes-cell-numero">{docente.numero_usp}</div>
                 <div 
                   className="d-alt-docentes-cell-nome"
                   onClick={() => handleNomeClick(docente)}
@@ -240,10 +248,9 @@ const DAltDocentes = ({ periodo }) => {
         </div>
       </div>
 
-      {/* Popup de Detalhes */}
       {showDetailPopup && docenteSelecionado && (
         <div className="d-alt-docentes-popup-overlay">
-          <div className="d-alt-docentes-popup-container">
+          <div className="d-alt-docentes-popup-container" style={{ fontFamily: '"Inter-SemiBold", sans-serif' }}>
             <div className="d-alt-docentes-popup-header">
                 <h2 className="d-alt-docentes-popup-title">Detalhes do Docente</h2>
                 <button 
@@ -261,20 +268,16 @@ const DAltDocentes = ({ periodo }) => {
                     docenteSelecionado.disciplinas.map((disciplina, idx) => (
                       <div key={idx} className="d-alt-docentes-popup-item">
                         <div className="d-alt-docentes-popup-item">
-                          <strong>{disciplina.codigo} - {disciplina.nome}</strong> (Turma: {disciplina.turma})
+                          <strong>{disciplina.codigo} - {disciplina.nome}</strong> ({disciplina.turma} {disciplina.turno})
                         </div>
                         <div className="d-alt-docentes-popup-items">
                           <div>
                             <span>Leciona em inglês: </span>
-                            <span className={disciplina.leciona_ingles === 'Sim' ? 'd-alt-docentes-popup-item' : 'd-alt-docentes-popup-item'}>
-                              {disciplina.leciona_ingles}
-                            </span>
+                            <span>{disciplina.leciona_ingles}</span>
                           </div>
                           <div>
                             <span>Precisa de apoio LEIA: </span>
-                            <span className={disciplina.apoio_leia === 'Sim' ? 'd-alt-docentes-popup-item' : 'd-alt-docentes-popup-item'}>
-                              {disciplina.apoio_leia}
-                            </span>
+                            <span>{disciplina.apoio_leia}</span>
                           </div>
                           <div>
                             <span>Máximo de alunos: </span>
@@ -288,27 +291,46 @@ const DAltDocentes = ({ periodo }) => {
                       </div>
                     ))
                   ) : (
-                    <div className="d-alt-docentes-popup-item">
-                      Nenhuma disciplina cadastrada
-                        </div>
-                      )}
-                  </div>
+                    <div className="d-alt-docentes-popup-item">Nenhuma disciplina cadastrada</div>
+                  )}
+                </div>
               </div>
           
               <div className="d-alt-docentes-popup-section">
-                <h3>Restrições de Horário</h3>
+                <h3>Grade de Restrições de Horário</h3>
                 <div className="d-alt-docentes-popup-content">
-                  {docenteSelecionado.restricoes && docenteSelecionado.restricoes.length > 0 ? (
-                    docenteSelecionado.restricoes.map((restricao, idx) => (
-                      <div key={idx} className="d-alt-docentes-popup-item">
-                        {restricao.dia}: {restricao.horario}
-                      </div>
-                    ))
-                  ) : (
-                    <div className="d-alt-docentes-popup-item">
-                      Nenhuma restrição cadastrada
-                    </div>
-                  )}
+                  <table className="schedule-table">
+                    <thead>
+                      <tr>
+                        <th>Horário</th>
+                        <th>Seg</th>
+                        <th>Ter</th>
+                        <th>Qua</th>
+                        <th>Qui</th>
+                        <th>Sex</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {slotsHorario.map((slot, rowIndex) => (
+                        <tr key={rowIndex}>
+                          <td className="time-label">{slot.label}</td>
+                          {diasDaSemana.map((dia) => {
+                            const temRestricao = docenteSelecionado.restricoes.some(
+                              r => r.dia === dia && r.horario === slot.id
+                            );
+                            return (
+                              <td 
+                                key={dia} 
+                                className={`schedule-cell ${temRestricao ? 'has-restriction' : ''}`}
+                              >
+                                {temRestricao ? "x" : ""}
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>

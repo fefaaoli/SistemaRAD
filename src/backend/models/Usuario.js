@@ -2,10 +2,15 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../database');
 
 const Usuario = sequelize.define('usuarios', {
-    id: {
+    id_novo: { // nova PK auto-increment
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: false
+        autoIncrement: true
+    },
+    id: { // número USP
+        type: DataTypes.STRING(15),
+        allowNull: false,
+        unique: true
     },
     nome: {
         type: DataTypes.STRING(100),
@@ -31,11 +36,11 @@ const Usuario = sequelize.define('usuarios', {
     },
     senha: {
         type: DataTypes.STRING(255),
-        allowNull: false,
+        allowNull: false
     }
 }, {
-    timestamps: false, 
-    tableName: 'usuarios' 
+    timestamps: false,
+    tableName: 'usuarios'
 });
 
 module.exports = Usuario;

@@ -26,7 +26,25 @@ const DisciplinasManager = () => {
     return tipos[tipo] || tipo;
   };
 
-  const formatarTurma = (turma) => turma.toLowerCase();
+  const formatarTurma = (turma) => turma ? String(turma).toLowerCase() : 'indefinido';
+
+  // CORREÇÃO: Função blindada com Fallback (Plano B)
+  const formatarTurno = (turnoRaw, turmaRaw) => {
+    // Plano A: Tenta ler o turno exato que vem do banco de dados
+    if (turnoRaw) {
+      const t = String(turnoRaw).toLowerCase().trim();
+      if (t === 'diurno' || t === 'noturno') return t;
+    }
+    
+    // Plano B: Se o banco vier nulo (registros antigos), deduz pela Turma
+    if (turmaRaw) {
+      const tStr = String(turmaRaw).toUpperCase();
+      if (tStr.includes('N')) return 'noturno';
+      if (tStr.includes('D')) return 'diurno';
+    }
+    
+    return 'indefinido';
+  };
 
   useEffect(() => {
     const fetchDisciplinas = async () => {
@@ -40,6 +58,8 @@ const DisciplinasManager = () => {
             nome: d.disciplina,
             turma: formatarTurma(d.turma),
             tipo: formatarTipo(d.tipo),
+            // Passamos tanto o turno quanto a turma para a função blindada decidir
+            turno: formatarTurno(d.turno, d.turma), 
             comentario: d.comentario || '',
             idioma_en: !!d.idioma_en,
             apoio_leia: !!d.apoio_leia,
@@ -103,16 +123,15 @@ const DisciplinasManager = () => {
     try {
       setLoading(true);
 
-      // Monta o payload sem max_alunos por padrão
       const payload = {
         did: docenteId,
         aid: disciplinaEditando.id,
         comentario: disciplinaEditando.comentario,
         idioma_en: disciplinaEditando.idioma_en,
         apoio_leia: disciplinaEditando.apoio_leia,
+        turno: disciplinaEditando.turno 
       };
 
-      // Só adiciona max_alunos se realmente tiver valor
       if (
         disciplinaEditando.max_alunos !== null &&
         disciplinaEditando.max_alunos !== ''
@@ -120,7 +139,6 @@ const DisciplinasManager = () => {
         payload.max_alunos = disciplinaEditando.max_alunos;
       }
 
-      // Chamada ao backend
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/inscricao/comentario`,
         payload
@@ -151,7 +169,7 @@ const DisciplinasManager = () => {
   const totalPages = Math.ceil(filteredDisciplinas.length / itemsPerPage);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    if (loading) {
+  if (loading) {
     const spinnerStyle = {
       border: '6px solid #f3f3f3',
       borderTop: '6px solid #49a0b6',
@@ -169,20 +187,20 @@ const DisciplinasManager = () => {
       height: '200px'
     };
 
-  return (
-    <div style={loadingContainerStyle}>
-      <div style={spinnerStyle}></div>
-      <style>
-        {`
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}
-      </style>
-    </div>
-  );
-}
+    return (
+      <div style={loadingContainerStyle}>
+        <div style={spinnerStyle}></div>
+        <style>
+          {`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}
+        </style>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -217,7 +235,7 @@ const DisciplinasManager = () => {
               <div className="header-nome-frame">Disciplina</div>
               <div className="header-turma-frame">Turma</div>
               <div className="header-tipo-frame">Tipo</div>
-              <div className="header-turno-frame"></div>
+              <div className="header-turno-frame">Turno</div>
               <div className="header-editar-frame">Editar</div>
             </div>
 
@@ -267,7 +285,7 @@ const DisciplinasManager = () => {
             </div>
             <button 
               className="pagination-button-frame" 
-              disabled={currentPage === totalPages}
+              disabled={currentPage === totalPages || totalPages === 0}
               onClick={() => paginate(currentPage + 1)}
             >
               <div className="pagination-text-frame">Próxima</div>
@@ -285,6 +303,19 @@ const DisciplinasManager = () => {
             </div>
             <div className="modal-body-frame">
               <form onSubmit={(e) => { e.preventDefault(); handleSalvarEdicao(); }}>
+                
+                <div className="form-group-frame">
+                  <label>Turno da Disciplina</label>
+                  <select 
+                    value={disciplinaEditando.turno || 'diurno'} 
+                    onChange={(e) => setDisciplinaEditando({ ...disciplinaEditando, turno: e.target.value })}
+                  >
+                    <option value="diurno">Diurno</option>
+                    <option value="noturno">Noturno</option>
+                    <option value="indefinido">Indefinido</option>
+                  </select>
+                </div>
+
                 <div className="form-group-frame">
                   <label>Oferecimento em Inglês</label>
                   <select

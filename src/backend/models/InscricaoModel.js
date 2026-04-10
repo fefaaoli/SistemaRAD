@@ -40,16 +40,25 @@ async function getInscricoesByDocente(did, periodo) {
     ea.cod,
     ea.disciplina,
     ea.turma,
+    ea.turno,
     ea.tipo,
     ea.cred,
     ei.aid,
     ei.did,
-    ei.periodo
+    ei.periodo,
+    /* Campos da tabela de comentários */
+    ec.comentario,
+    ec.idioma_en,
+    ec.apoio_leia,
+    ec.max_alunos
   FROM exp_inscricao ei
   JOIN exp_oferecimento eo 
     ON eo.aid = ei.aid AND eo.periodo = ei.periodo
   JOIN exp_atividade ea 
     ON ea.id = ei.aid
+  /* Unindo com a tabela de comentários usando os IDs e o Período */
+  LEFT JOIN exp_insc_comentario ec
+    ON ec.aid = ei.aid AND ec.did = ei.did AND ec.periodo = ei.periodo
   WHERE ei.did = :did AND ei.periodo = :periodo;
   `, {
     replacements: { did, periodo }

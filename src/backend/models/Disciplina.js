@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: true,
       comment: 'Observações adicionais'
+    },
+    turno: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      comment: 'Turno da disciplina (Diurno, Noturno, Indefinido)'
     }
   }, {
     tableName: 'exp_atividade',
@@ -52,13 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  // MÉTODOS PERSONALIZADOS =========================================
+  // MÉTODO toJSON ==================================================
   Disciplina.prototype.toJSON = function() {
     const values = Object.assign({}, this.get());
-    
-    // Remove campos sensíveis se necessário
-    // delete values.campo_sensivel;
-    
     return values;
   };
 

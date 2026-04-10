@@ -5,28 +5,33 @@ const app = express();
 
 // Configurações básicas
 app.use(cors({
-  origin: ["http://localhost:3000", "http://143.107.158.74:3000"], // Porta padrão do React
+  origin: [
+    "http://localhost:3000", 
+    "http://143.107.158.74:3000",
+    "http://localhost:3001",
+    "http://143.107.158.74:3001"
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE']
-})); // Permite conexão com o frontend
+}));
 
 // Rota de teste
 app.get('/', (req, res) => {
   res.send('Backend da Gestão de Horários está rodando! 🚀');
 });
 
-app.use(express.urlencoded({ extended: true })); // Para parsing de application/x-www-form-urlencoded
+app.use(express.urlencoded({ extended: true })); 
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); // Para forms HTML
+app.use(express.urlencoded({ extended: true })); 
 
 const authRoutes = require('./routes/authRoutes');
 app.use('/api/auth', authRoutes);
 
 const periodoRoutes = require('./routes/periodos');
-app.use('/api/admin/periodos', periodoRoutes); // Cria um novo período e insere os horários padrão
+app.use('/api/admin/periodos', periodoRoutes); 
 
 const configRoutes = require('./routes/configRestricoes');
-app.use('/api/admin/config', configRoutes); // Define ou atualiza a data limite para esse período
+app.use('/api/admin/config', configRoutes); 
 
 const disciplinaRoutes = require('./routes/disciplinas');
 app.use('/api/admin/disciplinas', disciplinaRoutes);
@@ -55,10 +60,8 @@ app.use('/api/docentes', docenteRoutes);
 const exportRoutes = require('./routes/exportRoutes');
 app.use('/api', exportRoutes);
 
-// Importe o agendador
 const { iniciarAgendamento } = require('./services/agendador');
 
-// Inicia o agendador quando o servidor começa
 if (process.env.NODE_ENV !== 'test') {
   iniciarAgendamento();
 }

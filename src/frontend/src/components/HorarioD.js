@@ -144,21 +144,40 @@ function HorarioD() {
   };
 
   const salvarRestricoes = async () => {
-    try {
-      for (const item of selecionados) {
-        await fetch(`${process.env.REACT_APP_API_URL}/indisponibilidades`, {
+      try {
+        // Prepara o payload no formato que o novo controller espera
+        // Precisamos enviar o ID do docente e um array contendo apenas hordem e dordem
+        
+        const payload = {
+          docente: docenteId,
+          restricoes: selecionados.map(item => ({
+            hordem: item.hordem,
+            dordem: item.dordem
+          }))
+        };
+
+        // Faz uma ÚNICA requisição para a nova rota '/lote'
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/indisponibilidades/lote`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item)
+          body: JSON.stringify(payload)
         });
+
+        if (!response.ok) {
+          throw new Error('Falha ao salvar no servidor');
+        }
+
+        toast.success("Restrições atualizadas com sucesso!");
+        setShowModal(false);
+        
+        // Opcional: Recarregar os dados para garantir sincronia visual
+        // carregarDados(); 
+
+      } catch (error) {
+        console.error('Erro:', error);
+        toast.error("Erro ao salvar restrições. Por favor, tente novamente.");
       }
-      toast.success("Restrições salvas com sucesso!");
-      setShowModal(false);
-    } catch (error) {
-      console.error('Erro:', error);
-      toast.error("Erro ao salvar restrições. Por favor, tente novamente.");
-    }
-  };
+    };
 
   return (
     <div className="horario-container">
